@@ -1,6 +1,6 @@
 namespace CLI_Options
 
-	def parse( args:array of string ):bool
+	def parse( args:array of string, ref config:Configuration.Config ):bool
 		var cli = new OptionContext( "<base>" )
 		cli.set_summary( "Builds an OS (Operating System) image" )
 		// cli.set_description( "More to follow" )
@@ -27,4 +27,7 @@ namespace CLI_Options
 			print cli.get_help( true, null )
 			return false
 
+		if device_string != ""
+			config.device_string = device_string
+		
 		return true
