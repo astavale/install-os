@@ -2,5 +2,5 @@
 #valac \
 /home/al/software_projects/vala_source/installed/bin/valac \
 	src/init.gs \
-	src/cli_options.gs \
+	src/CLI_Options.gs \
 	--output build_os_image
