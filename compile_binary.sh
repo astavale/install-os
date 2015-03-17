@@ -9,4 +9,5 @@
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \
 	src/devices/FileAsDevice.gs \
+	--pkg gio-2.0 \
 	--output build_os_image

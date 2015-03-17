@@ -7,7 +7,9 @@ namespace Devices
 		prop other_partitions:array of string = {""}
 		
 		construct( device_string:string ) raises DeviceSetUpError
-			pass
+			var file = File.new_for_path( device_string )
+			if file.query_exists()
+				raise new DeviceSetUpError.FILE_ERROR( "%s already exists", device_string )
 		
 		final
 			pass
