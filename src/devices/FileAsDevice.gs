@@ -9,7 +9,9 @@ namespace Devices
 		construct( device_string:string ) raises DeviceSetUpError
 			var file = File.new_for_path( device_string )
 			if file.query_exists()
-				raise new DeviceSetUpError.FILE_ERROR( "%s already exists", device_string )
+				msg:string = "Failed because " + device_string + " already exists, the program will not overwrite an existing file"
+				message( msg )
+				raise new DeviceSetUpError.FILE_ERROR( msg )
 		
 		final
 			pass

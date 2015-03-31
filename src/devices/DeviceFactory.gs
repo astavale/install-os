@@ -10,6 +10,6 @@ namespace Devices
 			device = new FileAsDevice( device_string )
 			return true
 		except error:DeviceSetUpError
-			print "Failed to set up device because %s", error.message
+			pass
 		
 		return false

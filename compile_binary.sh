@@ -5,6 +5,7 @@
 	src/CLI_Options.gs \
 	src/Configuration.gs \
 	src/Interfaces.gs \
+	src/Logging.gs \
 	src/devices/DeviceFactory.gs \
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \
