@@ -5,4 +5,4 @@ init
 	Logging.set_up()
 	var config = new Config()
 	if not CLI_Options.parse( args, ref config ) do return
-	if not Devices.use_device( config.device_string, out config.device ) do return
+	if not Devices.use_device( config, out config.device ) do return
