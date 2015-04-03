@@ -16,10 +16,14 @@ namespace Devices
 				_create_image( config.device_string, config.filesize )
 			except error:DeviceSetUpError
 				raise error
+			try
+				_add_partitions( config.device_string )
+			except error:DeviceSetUpError
+				raise error
 
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
 			_status:int = 1
-			_output:string
+			_output:string = ""
 			if filesize == ""
 				filesize = "4.0"
 			_size:int = (int)(double.parse( filesize ) * 1024)
@@ -37,6 +41,69 @@ namespace Devices
 			else
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Creation of blank sparse disk image failed" )
+
+		def _add_partitions( device_string:string ) raises DeviceSetUpError
+			_status:int = 1
+			_output:string = ""
+			message( "Adding GPT partition table to disk image" )
+			try
+				Process.spawn_command_line_sync( 
+					"parted --script " + device_string + " mktable gpt",
+					null,
+					out _output,
+					out _status )
+			except
+				pass
+			if _status == 0
+				message( "...done\n" + _output )
+			else
+				message( "...failed\n" + _output )
+				raise new DeviceSetUpError.FILE_ERROR( "Failed to add GPT partition table" )
+
+			message( "Creating GRUB BIOS boot partition" )
+			try
+				Process.spawn_command_line_sync( 
+					"parted --script " + device_string + " mkpart primary 17KiB 1 set 1 bios_grub on name 1 GRUB_BIOS",
+					null,
+					out _output,
+					out _status )
+			except
+				pass
+			if _status == 0
+				message( "...done\n" + _output )
+			else
+				message( "...failed\n" + _output )
+				raise new DeviceSetUpError.FILE_ERROR( "Failed to create GRUB BIOS partition" )
+
+			message( "Creating EFI system boot partition" )
+			try
+				Process.spawn_command_line_sync( 
+					"parted --script " + device_string + " mkpart primary fat32 1 100 set 2 boot on name 2 EFI_System",
+					null,
+					out _output,
+					out _status )
+			except
+				pass
+			if _status == 0
+				message( "...done\n" + _output )
+			else
+				message( "...failed\n" + _output )
+				raise new DeviceSetUpError.FILE_ERROR( "Failed to create EFI system boot partition" )
+
+			message( "Creating root partition" )
+			try
+				Process.spawn_command_line_sync( 
+					"parted --script " + device_string + " mkpart primary ext4 100 100% name 3 root",
+					null,
+					out _output,
+					out _status )
+			except
+				pass
+			if _status == 0
+				message( "...done\n" + _output )
+			else
+				message( "...failed\n" + _output )
+				raise new DeviceSetUpError.FILE_ERROR( "Failed to create root partition" )
 		
 		final
 			pass
