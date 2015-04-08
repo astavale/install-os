@@ -6,6 +6,8 @@ namespace Devices
 		prop root_partition:string = ""
 		prop other_partitions:array of string = {""}
 		
+		_status:int = 1
+		_output:string = ""
 		_loop_device:string = ""
 		
 		construct( config:Configuration.Config ) raises DeviceSetUpError
@@ -28,8 +30,6 @@ namespace Devices
 				raise error
 
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
-			_status:int = 1
-			_output:string = ""
 			if filesize == ""
 				filesize = "4.0"
 			_size:int = (int)(double.parse( filesize ) * 1024)
@@ -49,8 +49,6 @@ namespace Devices
 				raise new DeviceSetUpError.FILE_ERROR( "Creation of blank sparse disk image failed" )
 
 		def _add_partitions( device_string:string ) raises DeviceSetUpError
-			_status:int = 1
-			_output:string = ""
 			message( "Adding GPT partition table to disk image" )
 			try
 				Process.spawn_command_line_sync( 
@@ -112,8 +110,6 @@ namespace Devices
 				raise new DeviceSetUpError.FILE_ERROR( "Failed to create root partition" )
 
 		def _set_up_loopback( device_string:string ) raises DeviceSetUpError
-			_status:int = 1
-			_output:string = ""
 			message( "Creating loopback device" )
 			try
 				Process.spawn_command_line_sync( 
@@ -139,8 +135,6 @@ namespace Devices
 		final
 			if _loop_device == ""
 				return
-			_status:int = 1
-			_output:string = ""
 			message( "Removing loopback device " + _loop_device )
 			try
 				Process.spawn_command_line_sync( 
