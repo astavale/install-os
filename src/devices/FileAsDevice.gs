@@ -6,6 +6,8 @@ namespace Devices
 		prop root_partition:string = ""
 		prop other_partitions:array of string = {""}
 		
+		_loop_device:string = ""
+		
 		construct( config:Configuration.Config ) raises DeviceSetUpError
 			var file = File.new_for_path( config.device_string )
 			if file.query_exists()
@@ -18,6 +20,10 @@ namespace Devices
 				raise error
 			try
 				_add_partitions( config.device_string )
+			except error:DeviceSetUpError
+				raise error
+			try
+				_set_up_loopback( config.device_string )
 			except error:DeviceSetUpError
 				raise error
 
@@ -104,6 +110,49 @@ namespace Devices
 			else
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Failed to create root partition" )
-		
+
+		def _set_up_loopback( device_string:string ) raises DeviceSetUpError
+			_status:int = 1
+			_output:string = ""
+			message( "Creating loopback device" )
+			try
+				Process.spawn_command_line_sync( 
+					"partx --verbose --add " + device_string,
+					out _output,
+					null,
+					out _status )
+			except
+				pass
+			if _status != 0
+				message( "...failed\n" + _output )
+				raise new DeviceSetUpError.FILE_ERROR( "Failed to create loopback device" )
+			// extract loop device allocated from partx output
+			r:Regex = /(?<device>.*):.*$/
+			_results:MatchInfo?
+			if r.match( _output, 0, out _results )
+				_loop_device = _results.fetch_named( "device" )
+			bios_partition = _loop_device + "p1"
+			efi_partition = _loop_device + "p2"
+			root_partition = _loop_device + "p3"
+			message( "...done\n" + _output )
+
 		final
-			pass
+			if _loop_device == ""
+				return
+			_status:int = 1
+			_output:string = ""
+			message( "Removing loopback device " + _loop_device )
+			try
+				Process.spawn_command_line_sync( 
+					"partx --delete " + _loop_device,
+					out _output,
+					null,
+					out _status )
+			except
+				pass
+			if _status == 0
+				message( "...done\n" + _output )
+			else
+				message( "...failed\n" + _output )
+
+				
