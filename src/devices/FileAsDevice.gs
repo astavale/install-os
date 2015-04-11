@@ -1,8 +1,8 @@
 namespace Devices
 
 	class FileAsDevice:Object implements Device
-		prop bios_partition:string = ""
-		prop efi_partition:string = ""
+		prop raw_partition:string = ""
+		prop boot_partition:string = ""
 		prop root_partition:string = ""
 		prop other_partitions:array of string = {""}
 		
@@ -127,8 +127,8 @@ namespace Devices
 			_results:MatchInfo?
 			if r.match( _output, 0, out _results )
 				_loop_device = _results.fetch_named( "device" )
-			bios_partition = _loop_device + "p1"
-			efi_partition = _loop_device + "p2"
+			raw_partition = _loop_device + "p1"
+			boot_partition = _loop_device + "p2"
 			root_partition = _loop_device + "p3"
 			message( "...done\n" + _output )
 
