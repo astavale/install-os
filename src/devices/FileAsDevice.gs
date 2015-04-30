@@ -18,13 +18,7 @@ namespace Devices
 				raise new DeviceSetUpError.FILE_ERROR( msg )
 			try
 				_create_image( config.device_string, config.filesize )
-			except error:DeviceSetUpError
-				raise error
-			try
 				_add_partitions( config.device_string )
-			except error:DeviceSetUpError
-				raise error
-			try
 				_set_up_loopback( config.device_string )
 			except error:DeviceSetUpError
 				raise error
