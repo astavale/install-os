@@ -20,6 +20,7 @@ namespace Devices
 				_create_image( config.device_string, config.filesize )
 				_add_partitions( config.device_string )
 				_set_up_loopback( config.device_string )
+				_format_partitions( )
 			except error:DeviceSetUpError
 				raise error
 
@@ -125,6 +126,40 @@ namespace Devices
 			boot_partition = _loop_device + "p2"
 			root_partition = _loop_device + "p3"
 			message( "...done\n" + _output )
+
+		def _format_partitions( ) raises DeviceSetUpError
+			if boot_partition != ""
+				message( "Formatting boot partition" )
+				try
+					Process.spawn_command_line_sync( 
+						"mkfs -t vfat -F 32 -s 1 " + boot_partition,
+						null,
+						out _output,
+						out _status )
+				except
+					pass
+				if _status == 0
+					message( "...done\n" + _output )
+				else
+					message( "...failed\n" + _output )
+					raise new DeviceSetUpError.FILE_ERROR( "Failed to add filesystem to boot partition" )
+			if root_partition != ""
+				message( "Formatting root partition" )
+				try
+					Process.spawn_command_line_sync( 
+						"mkfs -t ext4 " + root_partition,
+						null,
+						out _output,
+						out _status )
+				except
+					pass
+				Posix.sleep( 1 )
+				if _status == 0
+					message( "...done\n" + _output )
+				else
+					message( "...failed\n" + _output )
+					raise new DeviceSetUpError.FILE_ERROR( "Failed to add filesystem to root partition" )
+				
 
 		final
 			if _loop_device == ""

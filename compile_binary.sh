@@ -11,4 +11,5 @@
 	src/devices/BlockDevice.gs \
 	src/devices/FileAsDevice.gs \
 	--pkg gio-2.0 \
+	--pkg posix \
 	--output build_os_image
