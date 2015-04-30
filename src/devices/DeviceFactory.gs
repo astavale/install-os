@@ -3,9 +3,11 @@ namespace Devices
 	exception DeviceSetUpError
 		FILE_ERROR
 
-	def use_device( config:Configuration.Config, out device:Device ):bool
+	def use_device( config:Configuration.Config, ref device:Device ):bool
 		if config.device_string == ""
-			return false
+			if not (device isa NoDevice)
+				device = new NoDevice()
+			return true
 		try
 			device = new FileAsDevice( config )
 			return true
