@@ -9,13 +9,15 @@ namespace CLI_Options
 		help_message:bool = false
 		device_string:string = ""
 		filesize:string = ""
+		boot:string = ""
 		
-		options:OptionEntry[5]
+		options:OptionEntry[6]
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
-		options[2] = { "device", 0, 0, OptionArg.STRING, ref device_string, "Block device or disk image to install OS on", "filename" }
+		options[2] = { "root", 0, 0, OptionArg.STRING, ref device_string, "Block device, disk image or directory to install OS on", "filename" }
 		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for the disk image file", "gigabytes" }
-		options[4] = { null }
+		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot, "Device file to use as boot partition", "device" }
+		options[5] = { null }
 		cli.add_main_entries( options, null )
 		
 		try
