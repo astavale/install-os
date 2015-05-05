@@ -164,7 +164,6 @@ namespace Devices
 		final
 			if _loop_device == ""
 				return
-			message( "Removing loopback device " + _loop_device )
 			try
 				Process.spawn_command_line_sync( 
 					"partx --delete " + _loop_device,
@@ -174,8 +173,8 @@ namespace Devices
 			except
 				pass
 			if _status == 0
-				message( "...done\n" + _output )
+				message( "Removed loopback device " + _loop_device )
 			else
-				message( "...failed\n" + _output )
+				message( "Failed to remove loopback device " + _loop_device + "\n" + _output )
 
 				
