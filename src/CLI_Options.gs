@@ -7,16 +7,16 @@ namespace CLI_Options
 		cli.set_help_enabled( false )
 		
 		help_message:bool = false
-		device_string:string = ""
+		root_device:string = ""
 		filesize:string = ""
-		boot:string = ""
+		boot_device:string = ""
 		
 		options:OptionEntry[6]
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
-		options[2] = { "root", 0, 0, OptionArg.STRING, ref device_string, "Block device, disk image or directory to install OS on", "filename" }
+		options[2] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install OS in to", "filename" }
 		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for the disk image file", "gigabytes" }
-		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot, "Device file to use as boot partition", "device" }
+		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Device file to use as boot partition", "device" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )
 		
@@ -31,8 +31,8 @@ namespace CLI_Options
 			print cli.get_help( true, null )
 			return false
 
-		if device_string != ""
-			config.device_string = device_string
+		if root_device != ""
+			config.device_string = root_device
 		
 		if filesize != ""
 			config.filesize = filesize
