@@ -1,6 +1,6 @@
 namespace CLI_Options
 
-	def parse( args:array of string, ref config:Configuration.Config ):bool
+	def parse( ref args:unowned array of string, ref config:Configuration.Config ):bool
 		var cli = new OptionContext( "<base>" )
 		cli.set_summary( "Builds an OS (Operating System) image" )
 		// cli.set_description( "More to follow" )
@@ -19,7 +19,6 @@ namespace CLI_Options
 		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Device file to use as boot partition", "device" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )
-		
 		try
 			cli.parse( ref args )
 		except error:OptionError

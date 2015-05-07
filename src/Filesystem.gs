@@ -64,10 +64,10 @@ namespace Filesystem
 		final
 			if _root_mounted
 				_status = Linux.umount( _root_mount )
-			if _status == -1
-				message( "Root unmounted from %s", _root_mount )
-			else
-				message( "Failed to unmount root from %s", _root_mount )
+				if _status == -1
+					message( "Root unmounted from %s", _root_mount )
+				else
+					message( "Failed to unmount root from %s", _root_mount )
 			if _root_mount != ""
 				FileUtils.remove( _root_mount )
 				message( "Mount point %s removed", _root_mount )

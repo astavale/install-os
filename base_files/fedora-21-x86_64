@@ -1,0 +1,15 @@
+[Repository]
+format=rpm
+distribution=fedora
+
+[Target]
+architecture=x86_64
+version=21
+
+[Root]
+packages=@core
+
+[Kernel]
+
+[Boot]
+
