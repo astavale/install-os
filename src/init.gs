@@ -8,7 +8,12 @@ init
 	if not BaseFile.parse( args, ref config ) do return
 	if not Devices.use_device( config, ref config.device ) do return
 
+	filesystem:Filesystem.Filesystem
 	try
-		var filesystem = new Filesystem.Filesystem( config )
+		filesystem = new Filesystem.Filesystem( config )
 	except error:Filesystem.FilesystemSetUpError
 		return
+	
+	package_manager:PackageManager
+	if not PackageManagers.use_package_manager( filesystem, config, out package_manager ) do return
+	

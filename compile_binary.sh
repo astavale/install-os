@@ -12,6 +12,8 @@
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \
 	src/devices/FileAsDevice.gs \
+	src/package_managers/PackageManagerFactory.gs \
+	src/package_managers/RPMPackageManager.gs \
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg linux \
