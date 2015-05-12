@@ -1,7 +1,7 @@
 namespace Configuration
 
 	class Config
-		device_string:string = ""
+		root_path:string = ""
 		device:Device = new Devices.NoDevice()
 		filesize:string = ""
 

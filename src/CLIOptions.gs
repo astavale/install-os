@@ -31,7 +31,7 @@ namespace CLI_Options
 			return false
 
 		if root_device != ""
-			config.device_string = root_device
+			config.root_path = root_device
 		
 		if filesize != ""
 			config.filesize = filesize

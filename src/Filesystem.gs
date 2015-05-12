@@ -21,6 +21,11 @@ namespace Filesystem
 					_mount_root( config.device )
 				except error:FilesystemSetUpError
 					raise error
+			if config.device isa Devices.NoDevice
+				if config.root_path != ""
+					root_dir = config.root_path
+				else
+					root_dir = Environment.get_current_dir()
 		
 		def _create_root_mount_point( ) raises FilesystemSetUpError
 			_mnt_dir:string = Environment.get_tmp_dir() + "/build_os_image-" + Checksum.compute_for_string( ChecksumType.MD5, Random.next_int().to_string() )

@@ -11,15 +11,15 @@ namespace Devices
 		_loop_device:string = ""
 		
 		construct( config:Configuration.Config ) raises DeviceSetUpError
-			var file = File.new_for_path( config.device_string )
+			var file = File.new_for_path( config.root_path )
 			if file.query_exists()
-				msg:string = "Failed: " + config.device_string + " exists, will not overwrite an existing file"
+				msg:string = "Failed: " + config.root_path + " exists, will not overwrite an existing file"
 				message( msg )
 				raise new DeviceSetUpError.FILE_ERROR( msg )
 			try
-				_create_image( config.device_string, config.filesize )
-				_add_partitions( config.device_string )
-				_set_up_loopback( config.device_string )
+				_create_image( config.root_path, config.filesize )
+				_add_partitions( config.root_path )
+				_set_up_loopback( config.root_path )
 				_format_partitions( )
 			except error:DeviceSetUpError
 				raise error
