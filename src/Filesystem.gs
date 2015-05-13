@@ -54,6 +54,7 @@ namespace Filesystem
 			else
 				message( "...failed\n" + _output )
 				raise new FilesystemSetUpError.FILE_ERROR( "Unable to find type of filesystem on root partition" )
+
 			_status = Linux.mount( device.root_partition, _root_mount, _root_fs )
 			if _status == -1
 				_root_mounted = true
