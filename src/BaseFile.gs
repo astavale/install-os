@@ -21,6 +21,9 @@ Use '%s --help' to see command line syntax""", args[ 0 ]
 					config.target_version = keyfile.get_string( "Target", "version" )
 				if keyfile.has_key( "Target", "architecture" )
 					config.target_architecture = keyfile.get_string( "Target", "architecture" )
+			if keyfile.has_group( "Root" )
+				if keyfile.has_key( "Root", "packages" )
+					config.root_packages = keyfile.get_string_list( "Root", "packages" )
 		except
 			return false
 		

@@ -9,4 +9,5 @@ namespace Configuration
 		repository_distribution:string = ""
 		target_version:string = ""
 		target_architecture:string = ""
+		root_packages:array of string = { "" }
 

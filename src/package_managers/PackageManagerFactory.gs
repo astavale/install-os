@@ -8,6 +8,7 @@ namespace PackageManagers
 								out package_manager:PackageManager
 								):bool
 		_outcome:bool = false
+		package_manager = new NoPackageManager()
 		try 
 			case config.repository_format
 				when "rpm"
