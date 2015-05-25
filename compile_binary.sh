@@ -6,6 +6,7 @@
 	src/CLIOptions.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
+	src/InstallKernel.gs \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
