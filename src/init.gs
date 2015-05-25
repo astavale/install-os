@@ -17,6 +17,6 @@ init
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( filesystem, config, out package_manager ) do return
 	if not install_root( config.root_packages, package_manager ) do return
-	kernel_package:array of string = { "kernel" }
+	kernel_package:array of string = { "kernel", "--disableplugin=presto" }
 	if not install_kernel( kernel_package, package_manager ) do return
 
