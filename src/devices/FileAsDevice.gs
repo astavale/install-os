@@ -3,8 +3,17 @@ namespace Devices
 	class FileAsDevice:Object implements Device
 		prop raw_partition:string = ""
 		prop boot_partition:string = ""
+		prop readonly boot_is_mountable:bool
+			get
+				return _boot_is_mountable
 		prop root_partition:string = ""
+		prop readonly root_is_mountable:bool
+			get
+				return _root_is_mountable
 		prop other_partitions:array of string = {""}
+		
+		_boot_is_mountable:bool = false
+		_root_is_mountable:bool = false
 		
 		_status:int = 1
 		_output:string = ""
@@ -42,11 +51,10 @@ namespace Devices
 					out _status )
 			except
 				pass
-			if _status == 0
-				message( "...done\n" + _output )
-			else
+			if _status != 0
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Creation of blank sparse disk image failed" )
+			message( "...done\n" + _output )
 
 		def _add_partitions( device_string:string ) raises DeviceSetUpError
 			message( "Adding GPT partition table to disk image" )
@@ -58,11 +66,10 @@ namespace Devices
 					out _status )
 			except
 				pass
-			if _status == 0
-				message( "...done\n" + _output )
-			else
+			if _status != 0
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Failed to add GPT partition table" )
+			message( "...done\n" + _output )
 
 			message( "Creating GRUB BIOS boot partition" )
 			try
@@ -73,11 +80,10 @@ namespace Devices
 					out _status )
 			except
 				pass
-			if _status == 0
-				message( "...done\n" + _output )
-			else
+			if _status != 0
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Failed to create GRUB BIOS partition" )
+			message( "...done\n" + _output )
 
 			message( "Creating EFI system boot partition" )
 			try
@@ -88,11 +94,10 @@ namespace Devices
 					out _status )
 			except
 				pass
-			if _status == 0
-				message( "...done\n" + _output )
-			else
+			if _status != 0
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Failed to create EFI system boot partition" )
+			message( "...done\n" + _output )
 
 			message( "Creating root partition" )
 			try
@@ -103,11 +108,10 @@ namespace Devices
 					out _status )
 			except
 				pass
-			if _status == 0
-				message( "...done\n" + _output )
-			else
+			if _status != 0
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Failed to create root partition" )
+			message( "...done\n" + _output )
 
 		def _set_up_loopback( device_string:string ) raises DeviceSetUpError
 			message( "Creating loopback device" )
@@ -143,11 +147,12 @@ namespace Devices
 						out _status )
 				except
 					pass
-				if _status == 0
-					message( "...done\n" + _output )
-				else
+				if _status != 0
 					message( "...failed\n" + _output )
 					raise new DeviceSetUpError.FILE_ERROR( "Failed to add filesystem to boot partition" )
+				_boot_is_mountable = true
+				message( "...done\n" + _output )
+
 			if root_partition != ""
 				message( "Formatting root partition" )
 				try
@@ -159,11 +164,11 @@ namespace Devices
 				except
 					pass
 				Posix.sleep( 1 )
-				if _status == 0
-					message( "...done\n" + _output )
-				else
+				if _status != 0
 					message( "...failed\n" + _output )
 					raise new DeviceSetUpError.FILE_ERROR( "Failed to add filesystem to root partition" )
+				_root_is_mountable = true
+				message( "...done\n" + _output )
 				
 
 		final
@@ -177,9 +182,8 @@ namespace Devices
 					out _status )
 			except
 				pass
-			if _status == 0
-				message( "Removed loopback device " + _loop_device )
-			else
+			if _status != 0
 				message( "Failed to remove loopback device " + _loop_device + "\n" + _output )
+			message( "Removed loopback device " + _loop_device )
 
 				

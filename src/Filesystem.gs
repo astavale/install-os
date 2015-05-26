@@ -15,30 +15,29 @@ namespace Filesystem
 		_output:string = ""
 		
 		construct( config:Configuration.Config ) raises FilesystemSetUpError
-			if not (config.device isa Devices.NoDevice)
+			if config.device.root_is_mountable
 				try
-					_create_root_mount_point( )
-					_mount_root( config.device )
+					_root_mount = _create_root_mount_point( )
+					root_dir = _mount_root( config.device, _root_mount )
 				except error:FilesystemSetUpError
 					raise error
-			if config.device isa Devices.NoDevice
+			else
 				if config.root_path != ""
 					root_dir = config.root_path
 				else
 					root_dir = Environment.get_current_dir()
 		
-		def _create_root_mount_point( ) raises FilesystemSetUpError
+		def _create_root_mount_point( ):string raises FilesystemSetUpError
 			_mnt_dir:string = Environment.get_tmp_dir() + "/build_os_image-" + Checksum.compute_for_string( ChecksumType.MD5, Random.next_int().to_string() )
 			message( "Creating mount point " + _mnt_dir + " for root filesystem" )
 			_status = Posix.mkdir( _mnt_dir, 0700 )
-			if _status == 0
-				_root_mount = _mnt_dir
-				message( "...done\n" )
-			else
+			if _status != 0
 				message( "...failed\n" )
 				raise new FilesystemSetUpError.FILE_ERROR( "Failed to create temporary mount point for root" )
+			message( "...done\n" )
+			return _mnt_dir
 
-		def _mount_root( device:Device ) raises FilesystemSetUpError
+		def _mount_root( device:Device, _mount_point:string ):string raises FilesystemSetUpError
 			message( "Mounting root filesystem" )
 			_root_fs:string = ""
 			try
@@ -49,20 +48,18 @@ namespace Filesystem
 					out _status )
 			except
 				pass
-			if _status == 0
-				_root_fs = _output
-			else
+			if _status != 0
 				message( "...failed\n" + _output )
 				raise new FilesystemSetUpError.FILE_ERROR( "Unable to find type of filesystem on root partition" )
+			_root_fs = _output
 
-			_status = Linux.mount( device.root_partition, _root_mount, _root_fs )
-			if _status == -1
-				_root_mounted = true
-				root_dir = _root_mount
-				message( "...done\n" )
-			else
+			_status = Linux.mount( device.root_partition, _mount_point, _root_fs )
+			if _status != -1
 				message( "...failed\n" )
 				raise new FilesystemSetUpError.FILE_ERROR( "Failed to mount root" )
+			_root_mounted = true
+			message( "...done\n" )
+			return _root_mount
 		
 		def use_boot( )
 			pass
