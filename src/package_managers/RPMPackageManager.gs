@@ -16,7 +16,6 @@ namespace PackageManagers
 					architecture:string 
 					) raises PackageManagerSetUpError
 			try
-				_check_root_empty( filesystem.root_dir )
 				_create_db( filesystem.root_dir )
 			except error:PackageManagerSetUpError
 				raise error
@@ -24,18 +23,6 @@ namespace PackageManagers
 			_distribution = distribution
 			_version = version
 			_architecture = architecture
-		
-		def _check_root_empty( root_dir:string ) raises PackageManagerSetUpError
-			_root:Dir
-			try
-				_root = Dir.open( root_dir )
-			except error:FileError
-				message( "Unable to open root directory. \"" + error.message + "\"" )
-				raise new PackageManagerSetUpError.FILE_ERROR( "Unable to open root directory" )
-			entry:string? = _root.read_name()
-			if entry != null
-				message( "Root directory, %s, not empty. Stopping install.", root_dir )
-				raise new PackageManagerSetUpError.FILE_ERROR( "Root directory not empty" )
 		
 		def _create_db( root_dir:string ) raises PackageManagerSetUpError
 			try
