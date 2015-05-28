@@ -53,7 +53,7 @@ namespace PackageManagers
 			except
 				pass
 			if _status == 0
-				message( "...done. RPM packages " + _package_list + " installed" + _output + _error )
+				message( "...done. RPM packages " + _package_list + " installed\n" + _output + _error )
 			else
 				message( "Unable to install packages: " + _package_list + "\n" + _error )
 				return false

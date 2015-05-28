@@ -101,13 +101,25 @@ namespace Filesystem
 				raise error
 
 		def _mount_proc() raises FilesystemSetUpError
-			pass
+			try
+				_proc_mount = _create_mount_point( root_dir, "proc" )
+				_proc_mounted = _mount( "proc", "proc", _proc_mount )
+			except error:FilesystemSetUpError
+				raise error
 
 		def _mount_run() raises FilesystemSetUpError
-			pass
+			try
+				_run_mount = _create_mount_point( root_dir, "run" )
+				_run_mounted = _mount( "tmpfs", "tmpfs", _run_mount )
+			except error:FilesystemSetUpError
+				raise error
 
 		def _mount_dev() raises FilesystemSetUpError
-			pass
+			try
+				_dev_mount = _create_mount_point( root_dir, "dev" )
+				_dev_mounted = _mount( "/dev", "devtmpfs", _dev_mount, Linux.MountFlags.BIND )
+			except error:FilesystemSetUpError
+				raise error
 
 		def _mount_boot() raises FilesystemSetUpError
 			pass
