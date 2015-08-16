@@ -19,6 +19,9 @@ init
 	if not install_root( config.root_packages, package_manager ) do return
 	kernel_package:array of string = { "kernel", "--disableplugin=presto" }
 	if not install_kernel( kernel_package, package_manager ) do return
-	boot_package:array of string = { "grub2", "grub2-efi" }
-	if not install_kernel( boot_package, package_manager ) do return
+
+	boot_loader:BootLoader = new BootLoaders.NoBootLoader()
+	if not BootLoaders.use_boot_loader( filesystem, config, package_manager, ref boot_loader ) do return
+	if not boot_loader.install() do return
+	if not boot_loader.create_menu() do return
 

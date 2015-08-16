@@ -6,11 +6,12 @@
 	src/CLIOptions.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
-	src/InstallBoot.gs \
 	src/InstallKernel.gs \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
+	src/boot_loaders/BootLoaderFactory.gs \
+	src/boot_loaders/NoBootLoader.gs \
 	src/devices/DeviceFactory.gs \
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \

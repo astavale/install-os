@@ -12,4 +12,4 @@ packages=@core --nogpgcheck
 [Kernel]
 
 [Boot]
-
+packages=grub2;grub2-efi;efibootmgr;

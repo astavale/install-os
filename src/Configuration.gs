@@ -10,4 +10,6 @@ namespace Configuration
 		target_version:string = ""
 		target_architecture:string = ""
 		root_packages:array of string = { "" }
+		
+		boot_packages:array of string = { "" }
 

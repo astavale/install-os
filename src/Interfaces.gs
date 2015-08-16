@@ -8,3 +8,7 @@ interface Device:Object
 
 interface PackageManager:Object
 	def abstract install_packages( package_list:array of string ):bool
+
+interface BootLoader:Object
+	def abstract install():bool
+	def abstract create_menu():bool
