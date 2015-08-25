@@ -12,4 +12,5 @@ namespace Configuration
 		root_packages:array of string = { "" }
 		
 		boot_packages:array of string = { "" }
+		boot_loader:string = ""
 

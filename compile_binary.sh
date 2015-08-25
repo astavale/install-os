@@ -12,6 +12,8 @@
 	src/Logging.gs \
 	src/boot_loaders/BootLoaderFactory.gs \
 	src/boot_loaders/NoBootLoader.gs \
+	src/boot_loaders/GRUBBIOS.gs \
+	src/boot_loaders/GRUBUEFI.gs \
 	src/devices/DeviceFactory.gs \
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \

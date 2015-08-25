@@ -27,6 +27,8 @@ Use '%s --help' to see command line syntax""", args[ 0 ]
 			if keyfile.has_group( "Boot" )
 				if keyfile.has_key( "Boot", "packages" )
 					config.boot_packages = keyfile.get_string_list( "Boot", "packages" )
+				if keyfile.has_key( "Boot", "loader" )
+					config.boot_loader = keyfile.get_string( "Boot", "loader" )
 		except
 			return false
 		

@@ -13,3 +13,4 @@ packages=@core --nogpgcheck
 
 [Boot]
 packages=grub2;grub2-efi;efibootmgr;
+loader=grub2-bios
