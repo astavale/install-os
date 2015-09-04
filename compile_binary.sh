@@ -24,4 +24,9 @@
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg linux \
+	--vapi build_os_image.vapi \
+	--header build_os_image.h \
+	-X -pie \
+	-X -fPIE \
+	-X -Wl,-E \
 	--output build_os_image
