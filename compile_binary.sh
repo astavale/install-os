@@ -1,4 +1,9 @@
 #!/bin/sh
+glib-compile-resources \
+	--sourcedir src/resources \
+	--generate-source \
+	--target src/resources/resources.c \
+	src/resources/resources.gresource.xml
 #valac \
 /home/al/software_projects/vala_source/installed/bin/valac \
 	src/init.gs \
@@ -21,6 +26,7 @@
 	src/package_managers/NoPackageManager.gs \
 	src/package_managers/PackageManagerFactory.gs \
 	src/package_managers/RPMPackageManager.gs \
+	src/resources/resources.c \
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg linux \
