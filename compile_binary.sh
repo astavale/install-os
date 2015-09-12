@@ -11,6 +11,7 @@ glib-compile-resources \
 	src/CLIOptions.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
+	src/GMustache.gs \
 	src/InstallKernel.gs \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
@@ -30,6 +31,7 @@ glib-compile-resources \
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg linux \
+	--pkg gee-0.8 \
 	--vapi build_os_image.vapi \
 	--header build_os_image.h \
 	-X -pie \
