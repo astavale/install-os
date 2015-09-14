@@ -18,7 +18,7 @@ init
 	if not PackageManagers.use_package_manager( config, filesystem, out package_manager ) do return
 	if not install_root( config.root_packages, package_manager ) do return
 	kernel_package:array of string = { "kernel", "--disableplugin=presto" }
-	if not install_kernel( kernel_package, package_manager ) do return
+	if not install_kernel( kernel_package, package_manager, config, filesystem ) do return
 
 	boot_loader:BootLoader = new BootLoaders.NoBootLoader()
 	if not BootLoaders.use_boot_loader( config, filesystem, package_manager, ref boot_loader ) do return

@@ -3,10 +3,12 @@ namespace Devices
 	class FileAsDevice:Object implements Device
 		prop raw_partition:string = ""
 		prop boot_partition:string = ""
+		prop boot_uuid:string = ""
 		prop readonly boot_is_mountable:bool
 			get
 				return _boot_is_mountable
 		prop root_partition:string = ""
+		prop root_uuid:string = ""
 		prop readonly root_is_mountable:bool
 			get
 				return _root_is_mountable
@@ -155,6 +157,7 @@ namespace Devices
 					raise new DeviceSetUpError.FILE_ERROR( "Failed to add filesystem to boot partition" )
 				_boot_is_mountable = true
 				message( "...done\n" + _output )
+				boot_uuid = _get_uuid( boot_partition )
 
 			if root_partition != ""
 				message( "Formatting root partition" )
@@ -172,7 +175,24 @@ namespace Devices
 					raise new DeviceSetUpError.FILE_ERROR( "Failed to add filesystem to root partition" )
 				_root_is_mountable = true
 				message( "...done\n" + _output )
-				
+				root_uuid = _get_uuid( root_partition )
+
+		def _get_uuid( device:string ):string raises DeviceSetUpError
+			try
+				Process.spawn_command_line_sync( 
+					"lsblk --output UUID --noheadings " + device,
+					out _output,
+					null,
+					out _status )
+			except
+				pass
+			if _status != 0
+				message( "Failed to find UUID for %s\n" + _output, device )
+				raise new DeviceSetUpError.FILE_ERROR( "Failed to find UUID of %s", device )
+			uuid:string = _output.chomp()
+			message ( "UUID %s found for %s", uuid, device )
+			return uuid
+
 
 		final
 			if _loop_device == ""

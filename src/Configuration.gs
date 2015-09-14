@@ -14,4 +14,6 @@ namespace Configuration
 		boot_packages:array of string = { "" }
 		boot_loader:string = ""
 		boot_device:string = ""
+		boot_kernel_named:string = ""
+		boot_initrd_named:string = ""
 

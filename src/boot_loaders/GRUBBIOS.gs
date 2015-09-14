@@ -4,6 +4,12 @@ namespace BootLoaders
 
 		_boot_device:string = ""
 		_root_dir:string = ""
+
+		_boot_uuid:string = ""
+		_root_uuid:string = ""
+		_kernel:string = ""
+		_initrd:string = ""
+
 		_status:int = 1
 		_output:string = ""
 
@@ -11,6 +17,10 @@ namespace BootLoaders
 			filesystem:Filesystem.Filesystem )
 			_boot_device = config.boot_device
 			_root_dir = filesystem.root_dir
+			_boot_uuid = config.device.boot_uuid
+			_root_uuid = config.device.root_uuid
+			_kernel = config.boot_kernel_named
+			_initrd = config.boot_initrd_named
 
 		def install():bool
 			if _boot_device == ""
@@ -50,5 +60,22 @@ namespace BootLoaders
 			return true
 
 		def create_menu():bool
+			try
+				_template_resource:Bytes = resources_lookup_data( "/templates/grub2/grub.cfg.mustache", ResourceLookupFlags.NONE )
+				_template:string = (string)_template_resource.get_data()
+				var _hash = new dict of string, string
+				_hash[ "boot_uuid" ] = _boot_uuid
+				_hash[ "root_uuid" ] = _root_uuid
+				_hash[ "kernel" ] = _kernel
+				_hash[ "initrd" ] = _initrd
+				_grub_config:string = GMustache.render( _template, _hash )
+				var _file = File.new_for_path( _root_dir + "/boot/grub2/grub.cfg" )
+				var _output = _file.create( FileCreateFlags.NONE )
+				_bytes_written:size_t
+				_output.write_all( _grub_config.data, out _bytes_written )
+				message( "GRUB2 configuration written:\n%s", _grub_config )
+			except
+				message( "Creating or writing GRUB2 configuration file failed" )
+				return false
 			return true
 

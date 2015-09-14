@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/templates/grub2">
     <file>device.map.mustache</file>
+    <file>grub.cfg.mustache</file>
   </gresource>
 </gresources>

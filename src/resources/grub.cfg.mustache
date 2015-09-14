@@ -1,0 +1,9 @@
+set timeout=2
+
+set default=0
+menuentry "Linux" {
+  search --set=root --no-floppy --fs-uuid {{&root_uuid}}
+  linux /{{&kernel}} root=UUID={{&root_uuid}} ro console=ttyS0,115200
+  initrd /{{&initrd}}
+  }
+
