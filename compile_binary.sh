@@ -37,4 +37,5 @@ glib-compile-resources \
 	-X -pie \
 	-X -fPIE \
 	-X -Wl,-E \
+	-X -w \
 	--output build_os_image
