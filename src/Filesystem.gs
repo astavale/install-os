@@ -71,15 +71,14 @@ namespace Filesystem
 			if _status != 0
 				message( "...failed\n" + _output )
 				raise new FilesystemSetUpError.FILE_ERROR( "Unable to find type of filesystem on root partition" )
-			_root_fs = _output
+			_root_fs = _output.chomp()
 
-			_status = Linux.mount( device.root_partition, _mount_point, _root_fs )
-			if _status != -1
-				message( "...failed\n" )
+			try
+				_root_mounted = _mount( device.root_partition, _root_fs, _mount_point )
+			except error:FilesystemSetUpError
 				raise new FilesystemSetUpError.FILE_ERROR( "Failed to mount root" )
-			_root_mounted = true
 			message( "...done\n" )
-			return _root_mount
+			return _mount_point
 		
 		def _check_root_empty( root_dir:string ) raises FilesystemSetUpError
 			_root:Dir
@@ -89,6 +88,8 @@ namespace Filesystem
 				message( "Unable to open root directory. \"" + error.message + "\"" )
 				raise new FilesystemSetUpError.FILE_ERROR( "Unable to open root directory" )
 			entry:string? = _root.read_name()
+			if entry == "lost+found"
+				entry = _root.read_name()
 			if entry != null
 				message( "Root directory, %s, not empty. Stopping install.", root_dir )
 				raise new FilesystemSetUpError.FILE_ERROR( "Root directory not empty" )
@@ -138,9 +139,9 @@ namespace Filesystem
 			return mount_point
 
 		def _mount( device:string, filesystem:string, mount_point:string, flags:Linux.MountFlags = 0 ):bool raises FilesystemSetUpError
-			_status = Linux.mount( device, filesystem, mount_point, flags )
-			if _status != -1
-				message( "Failed to mount " + device + " at " + mount_point )
+			_status = Linux.mount( device, mount_point, filesystem, flags )
+			if _status == -1
+				message( "Failed to mount %s at %s as %s. Error number %i\n", device, mount_point, filesystem, Posix.errno )
 				raise new FilesystemSetUpError.MOUNT_ERROR( "Failed to mount " + device )
 			message( "Mounted " + device + " at " + mount_point )
 			return true
@@ -151,37 +152,37 @@ namespace Filesystem
 		final
 			if _sys_mounted
 				_status = Linux.umount( _sys_mount )
-				if _status == -1
+				if _status == 0
 					message( "Sysfs unmounted from %s", _sys_mount )
 				else
 					message( "Failed to unmount sysfs from %s", _sys_mount )
 			if _proc_mounted
 				_status = Linux.umount( _proc_mount )
-				if _status == -1
+				if _status == 0
 					message( "proc unmounted from %s", _proc_mount )
 				else
 					message( "Failed to unmount proc from %s", _proc_mount )
 			if _run_mounted
 				_status = Linux.umount( _run_mount )
-				if _status == -1
+				if _status == 0
 					message( "run unmounted from %s", _run_mount )
 				else
 					message( "Failed to unmount run from %s", _run_mount )
 			if _dev_mounted
 				_status = Linux.umount( _dev_mount )
-				if _status == -1
+				if _status == 0
 					message( "dev unmounted from %s", _dev_mount )
 				else
 					message( "Failed to unmount dev from %s", _dev_mount )
 			if _boot_mounted
 				_status = Linux.umount( _boot_mount )
-				if _status == -1
+				if _status == 0
 					message( "boot unmounted from %s", _boot_mount )
 				else
 					message( "Failed to unmount boot from %s", _boot_mount )
 			if _root_mounted
 				_status = Linux.umount( _root_mount )
-				if _status == -1
+				if _status == 0
 					message( "Root unmounted from %s", _root_mount )
 				else
 					message( "Failed to unmount root from %s", _root_mount )
