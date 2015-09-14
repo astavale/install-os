@@ -37,6 +37,9 @@ namespace Devices
 				_format_partitions( )
 			except error:DeviceSetUpError
 				raise error
+			if config.boot_device != ""
+				message( "Command line --boot = %s option ignored", config.boot_device )
+			config.boot_device = _loop_device
 
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
 			if filesize == ""

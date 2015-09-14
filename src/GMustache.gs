@@ -3,7 +3,7 @@ namespace GMustache
 	_data:dict of string, string
 
 	def render( template:string, hash:dict of string, string ):string
-		r:Regex = /{{&\s*(?<variable>[a-zA-Z]*)\s*}}/
+		r:Regex = /{{&\s*(?<variable>[a-zA-Z_-]*)\s*}}/
 		_data = hash
 		result:string = ""
 		try

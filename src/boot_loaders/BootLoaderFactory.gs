@@ -1,7 +1,7 @@
 namespace BootLoaders
 
-	def use_boot_loader( filesystem:Filesystem.Filesystem, 
-						config:Configuration.Config,
+	def use_boot_loader( config:Configuration.Config,
+						filesystem:Filesystem.Filesystem, 
 						package_manager:PackageManager,
 						ref boot_loader:BootLoader
 						):bool
@@ -16,7 +16,7 @@ namespace BootLoaders
 		try 
 			case config.boot_loader
 				when "grub2-bios"
-					boot_loader = new GRUBBIOS()
+					boot_loader = new GRUBBIOS( config, filesystem )
 					_outcome = true
 				when "grub2-uefi"
 					boot_loader = new GRUBUEFI()

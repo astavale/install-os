@@ -16,7 +16,7 @@ namespace CLI_Options
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install OS in to", "filename" }
 		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for the disk image file", "gigabytes" }
-		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Device file to use as boot partition", "device" }
+		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )
 		try
@@ -32,6 +32,9 @@ namespace CLI_Options
 
 		if root_device != ""
 			config.root_path = root_device
+		
+		if boot_device != ""
+			config.boot_device = boot_device
 		
 		if filesize != ""
 			config.filesize = filesize

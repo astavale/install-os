@@ -3,10 +3,10 @@ namespace PackageManagers
 	exception PackageManagerSetUpError
 		FILE_ERROR
 
-	def use_package_manager( filesystem:Filesystem.Filesystem, 
-								config:Configuration.Config, 
-								out package_manager:PackageManager
-								):bool
+	def use_package_manager( config:Configuration.Config, 
+							filesystem:Filesystem.Filesystem, 
+							out package_manager:PackageManager
+							):bool
 		_outcome:bool = false
 		package_manager = new NoPackageManager()
 		try 
