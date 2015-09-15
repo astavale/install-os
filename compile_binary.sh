@@ -16,6 +16,7 @@ glib-compile-resources \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
+	src/WriteFstab.gs \
 	src/boot_loaders/BootLoaderFactory.gs \
 	src/boot_loaders/NoBootLoader.gs \
 	src/boot_loaders/GRUBBIOS.gs \

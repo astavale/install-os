@@ -4,4 +4,7 @@
     <file>device.map.mustache</file>
     <file>grub.cfg.mustache</file>
   </gresource>
+  <gresource prefix="/templates/boot">
+    <file>fstab.mustache</file>
+  </gresource>
 </gresources>

@@ -24,4 +24,5 @@ init
 	if not BootLoaders.use_boot_loader( config, filesystem, package_manager, ref boot_loader ) do return
 	if not boot_loader.install() do return
 	if not boot_loader.create_menu() do return
+	if not write_fstab( config, filesystem ) do return
 
