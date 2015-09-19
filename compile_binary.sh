@@ -7,6 +7,7 @@ glib-compile-resources \
 #valac \
 /home/al/software_projects/vala_source/installed/bin/valac \
 	src/init.gs \
+	src/AutoRelabel.gs \
 	src/BaseFile.gs \
 	src/CLIOptions.gs \
 	src/Configuration.gs \
