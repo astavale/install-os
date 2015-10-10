@@ -14,12 +14,12 @@ do
 	--pkg gee-0.8 \
 	--pkg gio-2.0 \
 	--pkg posix \
-	--pkg build_os_image \
+	--pkg build_os \
 	--vapidir . \
 	--main UnitTests$test.run \
 	-X -I. \
 	-X -Wl,-rpath,./ \
-	-X -l:build_os_image \
+	-X -l:build_os \
 	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \

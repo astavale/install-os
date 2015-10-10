@@ -2,7 +2,7 @@ namespace CLI_Options
 
 	def parse( ref args:unowned array of string, ref config:Configuration.Config ):bool
 		var cli = new OptionContext( "<base>" )
-		cli.set_summary( "Builds an OS (Operating System) image" )
+		cli.set_summary( "Builds an operating system image" )
 		// cli.set_description( "More to follow" )
 		cli.set_help_enabled( false )
 		

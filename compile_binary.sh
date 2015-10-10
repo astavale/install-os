@@ -37,12 +37,12 @@ glib-compile-resources \
 	--pkg gee-0.8 \
 	--pkg augeas \
 	--vapidir /home/al/software_projects/vapis/ \
-	--vapi build_os_image.vapi \
-	--header build_os_image.h \
+	--vapi build_os.vapi \
+	--header build_os.h \
 	-X -pie \
 	-X -fPIE \
 	-X -Wl,-E \
 	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
-	--output build_os_image
+	--output build_os

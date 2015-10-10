@@ -1,5 +1,5 @@
-build_os_image
-build_os_image.vapi
-build_os_image.h
+build_os
+build_os.vapi
+build_os.h
 src/resources/resources.c
 build/
