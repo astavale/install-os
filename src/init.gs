@@ -26,4 +26,5 @@ init
 	if not boot_loader.create_menu() do return
 	if not write_fstab( config, filesystem ) do return
 	if not selinux_autorelabel( config, filesystem ) do return
+	if not set_root_password( config, filesystem ) do return
 

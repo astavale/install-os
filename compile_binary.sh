@@ -17,6 +17,7 @@ glib-compile-resources \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
+	src/SetRootPassword.gs \
 	src/WriteFstab.gs \
 	src/boot_loaders/BootLoaderFactory.gs \
 	src/boot_loaders/NoBootLoader.gs \
@@ -34,10 +35,14 @@ glib-compile-resources \
 	--pkg posix \
 	--pkg linux \
 	--pkg gee-0.8 \
+	--pkg augeas \
+	--vapidir /home/al/software_projects/vapis/ \
 	--vapi build_os_image.vapi \
 	--header build_os_image.h \
 	-X -pie \
 	-X -fPIE \
 	-X -Wl,-E \
 	-X -w \
+	-X -lcrypt \
+	-X -D_XOPEN_SOURCE=700 \
 	--output build_os_image
