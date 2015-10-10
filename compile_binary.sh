@@ -44,5 +44,5 @@ glib-compile-resources \
 	-X -Wl,-E \
 	-X -w \
 	-X -lcrypt \
-	-X -D_XOPEN_SOURCE=700 \
+	-X -D_XOPEN_SOURCE \
 	--output build_os_image
