@@ -24,7 +24,7 @@ namespace Filesystem
 		_boot_mounted:bool = false
 		_status:int = 1
 		_output:string = ""
-		
+
 		construct( config:Configuration.Config ) raises FilesystemSetUpError
 			if config.device.root_is_mountable
 				try
@@ -46,7 +46,7 @@ namespace Filesystem
 				_mount_boot()
 			except error:FilesystemSetUpError
 				raise error
-		
+
 		def _create_root_mount_point( ):string raises FilesystemSetUpError
 			_mnt_dir:string = Environment.get_tmp_dir() + "/build_os_image-" + Checksum.compute_for_string( ChecksumType.MD5, Random.next_int().to_string() )
 			message( "Creating mount point " + _mnt_dir + " for root filesystem" )
@@ -79,7 +79,7 @@ namespace Filesystem
 				raise new FilesystemSetUpError.FILE_ERROR( "Failed to mount root" )
 			message( "...done\n" )
 			return _mount_point
-		
+
 		def _check_root_empty( root_dir:string ) raises FilesystemSetUpError
 			_root:Dir
 			try
@@ -93,7 +93,7 @@ namespace Filesystem
 			if entry != null
 				message( "Root directory, %s, not empty. Stopping install.", root_dir )
 				raise new FilesystemSetUpError.FILE_ERROR( "Root directory not empty" )
-		
+
 		def _mount_sys() raises FilesystemSetUpError
 			try
 				_sys_mount = _create_mount_point( root_dir, "sys" )
@@ -148,7 +148,7 @@ namespace Filesystem
 
 		def use_boot( )
 			pass
-		
+
 		final
 			if _sys_mounted
 				_status = Linux.umount( _sys_mount )

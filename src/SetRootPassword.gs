@@ -25,12 +25,12 @@ def set_password_in_shadow_formatted_file( file:string,
 def get_salt_for_sha_512():string
 	var random_numbers = new array of uchar[20]
 	for var a = 0 to 20
-		    random_numbers[a] = (uchar)Random.next_int()
+		random_numbers[a] = (uchar)Random.next_int()
 	salt:string = Base64.encode( random_numbers )
 	try
-		    salt = /\+/.replace( salt, -1, 0, "." )
+		salt = /\+/.replace( salt, -1, 0, "." )
 	except
-		    pass
+		pass
 	salt = salt[0:16]
 	salt = "$6$" + salt
 	return salt

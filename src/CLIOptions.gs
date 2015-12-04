@@ -5,12 +5,12 @@ namespace CLI_Options
 		cli.set_summary( "Builds an operating system image" )
 		// cli.set_description( "More to follow" )
 		cli.set_help_enabled( false )
-		
+
 		help_message:bool = false
 		root_device:string = ""
 		filesize:string = ""
 		boot_device:string = ""
-		
+
 		options:OptionEntry[6]
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
@@ -25,17 +25,17 @@ namespace CLI_Options
 			print "%s", error.message
 			print "Use '%s --help' to see a full list of command line options", args[ 0 ]
 			return false
-							
+
 		if help_message
 			print cli.get_help( true, null )
 			return false
 
 		if root_device != ""
 			config.root_path = root_device
-		
+
 		if boot_device != ""
 			config.boot_device = boot_device
-		
+
 		if filesize != ""
 			config.filesize = filesize
 

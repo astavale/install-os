@@ -23,7 +23,7 @@ namespace PackageManagers
 			_distribution = distribution
 			_version = version
 			_architecture = architecture
-		
+
 		def _create_db( root_dir:string ) raises PackageManagerSetUpError
 			try
 				Process.spawn_command_line_sync( 

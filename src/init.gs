@@ -13,7 +13,7 @@ init
 		filesystem = new Filesystem.Filesystem( config )
 	except error:Filesystem.FilesystemSetUpError
 		return
-	
+
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, filesystem, out package_manager ) do return
 	if not install_root( config.root_packages, package_manager ) do return

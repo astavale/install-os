@@ -13,14 +13,14 @@ namespace Devices
 			get
 				return _root_is_mountable
 		prop other_partitions:array of string = {""}
-		
+
 		_boot_is_mountable:bool = false
 		_root_is_mountable:bool = false
-		
+
 		_status:int = 1
 		_output:string = ""
 		_loop_device:string = ""
-		
+
 		construct( config:Configuration.Config ) raises DeviceSetUpError
 			var file = File.new_for_path( config.root_path )
 			if file.query_exists()
@@ -31,7 +31,7 @@ namespace Devices
 				msg:string = "Failed: " + config.root_path + " is a directory, image must be created as a file"
 				message( msg )
 				raise new DeviceSetUpError.FILE_ERROR( msg )
-				
+
 			try
 				_create_image( config.root_path, config.filesize )
 				_add_partitions( config.root_path )
@@ -209,4 +209,3 @@ namespace Devices
 				message( "Failed to remove loopback device " + _loop_device + "\n" + _output )
 			message( "Removed loopback device " + _loop_device )
 
-				

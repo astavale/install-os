@@ -6,7 +6,7 @@ namespace BaseFile
 
 Use '%s --help' to see command line syntax""", args[ 0 ]
 			return false
-		
+
 		var keyfile = new KeyFile()
 		try
 			keyfile.load_from_file( args[ 1 ], KeyFileFlags.NONE )
@@ -31,5 +31,5 @@ Use '%s --help' to see command line syntax""", args[ 0 ]
 					config.boot_loader = keyfile.get_string( "Boot", "loader" )
 		except
 			return false
-		
+
 		return true
