@@ -9,8 +9,9 @@ namespace Configuration
 		repository_distribution:string = ""
 		target_version:string = ""
 		target_architecture:string = ""
-		root_packages:array of string = { "" }
 
+		install_base:bool = true
+		root_packages:array of string = { "" }
 		boot_packages:array of string = { "" }
 		boot_loader:string = ""
 		boot_device:string = ""
