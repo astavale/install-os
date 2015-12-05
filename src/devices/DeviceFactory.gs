@@ -37,8 +37,8 @@ namespace Devices
 
 			// Test if root_path is a regular file
 			else if ( _result.st_mode & Posix.S_IFMT ) == Posix.S_IFREG
-				message( "Root already exists as a regular file. Stopping build." )
-				return false
+				device = new FileAsDevice( config )
+				return true
 
 		except error:DeviceSetUpError
 			pass

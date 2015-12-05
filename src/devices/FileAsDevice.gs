@@ -23,20 +23,21 @@ namespace Devices
 
 		construct( config:Configuration.Config ) raises DeviceSetUpError
 			var file = File.new_for_path( config.root_path )
-			if file.query_exists()
-				msg:string = "Failed: " + config.root_path + " exists, will not overwrite an existing file"
-				message( msg )
-				raise new DeviceSetUpError.FILE_ERROR( msg )
 			if ( /\/$/.match( config.root_path ))
 				msg:string = "Failed: " + config.root_path + " is a directory, image must be created as a file"
 				message( msg )
 				raise new DeviceSetUpError.FILE_ERROR( msg )
 
 			try
-				_create_image( config.root_path, config.filesize )
-				_add_partitions( config.root_path )
-				_set_up_loopback( config.root_path )
-				_format_partitions( )
+				if file.query_exists()
+					_set_up_loopback( config.root_path )
+					_root_is_mountable = true
+					_boot_is_mountable = true
+				else
+					_create_image( config.root_path, config.filesize )
+					_add_partitions( config.root_path )
+					_set_up_loopback( config.root_path )
+					_format_partitions( )
 			except error:DeviceSetUpError
 				raise error
 			if config.boot_device != ""
