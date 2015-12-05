@@ -10,7 +10,6 @@ namespace Configuration
 		target_version:string = ""
 		target_architecture:string = ""
 
-		install_base:bool = true
 		root_packages:array of string = { "" }
 		boot_packages:array of string = { "" }
 		boot_loader:string = ""

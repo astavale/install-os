@@ -8,6 +8,7 @@ namespace Filesystem
 
 		boot_dir:string = ""
 		root_dir:string = ""
+		root_is_empty:bool = false
 		other_dir:array of string = {""}
 
 		_root_mount:string = ""
@@ -37,15 +38,16 @@ namespace Filesystem
 					root_dir = config.root_path
 				else
 					root_dir = Environment.get_current_dir()
-			try
-				_check_root_empty( root_dir )
-				_mount_sys()
-				_mount_proc()
-				_mount_run()
-				_mount_dev()
-				_mount_boot()
-			except error:FilesystemSetUpError
-				raise error
+			root_is_empty = _check_root_empty( root_dir )
+			if root_is_empty
+				try
+					_mount_sys()
+					_mount_proc()
+					_mount_run()
+					_mount_dev()
+					_mount_boot()
+				except error:FilesystemSetUpError
+					raise error
 
 		def _create_root_mount_point( ):string raises FilesystemSetUpError
 			_mnt_dir:string = Environment.get_tmp_dir() + "/build_os_image-" + Checksum.compute_for_string( ChecksumType.MD5, Random.next_int().to_string() )
@@ -80,7 +82,7 @@ namespace Filesystem
 			message( "...done\n" )
 			return _mount_point
 
-		def _check_root_empty( root_dir:string ) raises FilesystemSetUpError
+		def _check_root_empty( root_dir:string ):bool raises FilesystemSetUpError
 			_root:Dir
 			try
 				_root = Dir.open( root_dir )
@@ -90,9 +92,11 @@ namespace Filesystem
 			entry:string? = _root.read_name()
 			if entry == "lost+found"
 				entry = _root.read_name()
+			root_is_empty:bool = true
 			if entry != null
-				message( "Root directory, %s, not empty. Stopping install.", root_dir )
-				raise new FilesystemSetUpError.FILE_ERROR( "Root directory not empty" )
+				message( "Root directory, %s, not empty.", root_dir )
+				root_is_empty = false
+			return root_is_empty
 
 		def _mount_sys() raises FilesystemSetUpError
 			try

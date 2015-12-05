@@ -15,8 +15,10 @@ init
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, target_filesystem, out package_manager ) do return
 
-	if config.install_base
+	if target_filesystem.root_is_empty
 		if not install_base( config, target_filesystem, package_manager ) do return
+	else
+		message( "Root directory, %s, not empty. Install of base skipped.", target_filesystem.root_dir )
 
 
 def install_base( config:Config, filesystem:Filesystem.Filesystem, package_manager:PackageManager ):bool

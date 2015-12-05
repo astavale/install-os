@@ -34,10 +34,10 @@ namespace PackageManagers
 			except
 				pass
 			if _status == 0
-				message( "RPM database for root " + root_dir + " created" + _output )
+				message( "RPM database for root " + root_dir + " available" + _output )
 			else
-				message( "Unable to create RPM database for root " + root_dir + "\n" + _output )
-				raise new PackageManagerSetUpError.FILE_ERROR( "Unable to create RPM database" )
+				message( "Unable to use RPM database for root " + root_dir + "\n" + _output )
+				raise new PackageManagerSetUpError.FILE_ERROR( "Unable to use RPM database" )
 
 		def install_packages( package_list:array of string ):bool
 			_package_list:string = ""
