@@ -17,3 +17,4 @@ namespace Configuration
 		boot_kernel_named:string = ""
 		boot_initrd_named:string = ""
 
+		script_path:string = ""

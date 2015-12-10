@@ -18,6 +18,7 @@ glib-compile-resources \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
+	src/Script.gs \
 	src/SetRootPassword.gs \
 	src/WriteFstab.gs \
 	src/boot_loaders/BootLoaderFactory.gs \

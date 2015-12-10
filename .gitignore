@@ -3,3 +3,4 @@ build_os.vapi
 build_os.h
 src/resources/resources.c
 build/
+configurations/

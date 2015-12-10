@@ -7,6 +7,8 @@ init
 	var config = new Config()
 	if not CLI_Options.parse( ref args, ref config, commands.get_help() ) do return
 	if not BaseFile.parse( args, ref config ) do return
+	if not Script.find_if_given( args, ref config ) do return
+
 	if not Devices.use_device( config, ref config.device ) do return
 	target_filesystem:Filesystem.Filesystem
 	try
