@@ -1,9 +1,13 @@
 namespace CLI_Options
 
-	def parse( ref args:unowned array of string, ref config:Configuration.Config ):bool
-		var cli = new OptionContext( "<base>" )
-		cli.set_summary( "Builds an operating system image" )
-		// cli.set_description( "More to follow" )
+	def parse( ref args:unowned array of string, 
+				ref config:Configuration.Config,
+				script_commands_help:string = "" ):bool
+		var cli = new OptionContext( "<base> [<script>]" )
+		cli.set_summary( """Builds an operating system image
+  <base>                   Filename of basic configuration file
+  <script>                 Filename of an optional script to customize the image""" )
+		cli.set_description( "Script Commands:\n" + script_commands_help )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
@@ -15,7 +19,7 @@ namespace CLI_Options
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install OS in to", "filename" }
-		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for the disk image file", "gigabytes" }
+		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for a disk image file", "gigabytes" }
 		options[4] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )

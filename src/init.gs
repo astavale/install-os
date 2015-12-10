@@ -3,8 +3,9 @@ uses Configuration
 init
 	Intl.setlocale( LocaleCategory.ALL, "" )
 	Logging.set_up()
+	var commands = new CommandList()
 	var config = new Config()
-	if not CLI_Options.parse( ref args, ref config ) do return
+	if not CLI_Options.parse( ref args, ref config, commands.get_help() ) do return
 	if not BaseFile.parse( args, ref config ) do return
 	if not Devices.use_device( config, ref config.device ) do return
 	target_filesystem:Filesystem.Filesystem

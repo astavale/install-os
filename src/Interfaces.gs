@@ -14,3 +14,8 @@ interface PackageManager:Object
 interface BootLoader:Object
 	def abstract install():bool
 	def abstract create_menu():bool
+
+interface ScriptCommand:Object
+	def abstract get_command():string
+	def abstract get_description():string
+

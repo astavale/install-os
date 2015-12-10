@@ -10,6 +10,7 @@ glib-compile-resources \
 	src/AutoRelabel.gs \
 	src/BaseFile.gs \
 	src/CLIOptions.gs \
+	src/Commands.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
 	src/GMustache.gs \
@@ -23,6 +24,7 @@ glib-compile-resources \
 	src/boot_loaders/NoBootLoader.gs \
 	src/boot_loaders/GRUBBIOS.gs \
 	src/boot_loaders/GRUBUEFI.gs \
+	src/commands/Include.gs \
 	src/devices/DeviceFactory.gs \
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \
