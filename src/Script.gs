@@ -14,10 +14,13 @@ namespace Script
 		return true
 
 	def load( commands:CommandList, ref config:Configuration.Config ):bool
+		original_cwd:string = Environment.get_current_dir()
+		Environment.set_current_dir( Path.get_dirname( config.script_path ) )
 		var script = new Json.Array
 		command:Include = (Include)commands.get_command( "include" )
-		script = _load_script( command, config.script_path )
+		script = _load_script( command, Path.get_basename( config.script_path ) )
 		config.script.set_array( script )
+		Environment.set_current_dir( original_cwd )
 		message( "Script %s loaded", config.script_path )
 		return true
 
