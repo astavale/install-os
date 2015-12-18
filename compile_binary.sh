@@ -38,6 +38,7 @@ glib-compile-resources \
 	--pkg posix \
 	--pkg linux \
 	--pkg gee-0.8 \
+	--pkg json-glib-1.0 \
 	--pkg augeas \
 	--vapidir /home/al/software_projects/vapis/ \
 	--vapi build_os.vapi \

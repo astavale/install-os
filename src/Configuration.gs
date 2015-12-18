@@ -18,3 +18,4 @@ namespace Configuration
 		boot_initrd_named:string = ""
 
 		script_path:string = ""
+		script:Json.Node = new Json.Node( Json.NodeType.ARRAY )

@@ -16,6 +16,7 @@ interface BootLoader:Object
 	def abstract create_menu():bool
 
 interface ScriptCommand:Object
-	def abstract get_command():string
-	def abstract get_description():string
+	prop abstract readonly name:string
+	prop abstract readonly description:string
+	def abstract run( data:Variant ):bool
 
