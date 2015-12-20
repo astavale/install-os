@@ -1,12 +1,21 @@
 uses
 	ConfigurationScriptCommands
 	Gee
+	Configuration
 
 class CommandList
 
 	_list:TreeMap of string, ScriptCommand
+	_config:Config
+	_package_manager:PackageManager
 
-	construct()
+	construct( config:Config, 
+			package_manager:PackageManager
+			)
+
+		_config = config
+		_package_manager = package_manager
+
 		var temp = new ArrayList of ScriptCommand
 		// Add commands available to configuration scripts below
 		temp.add( new Include() )

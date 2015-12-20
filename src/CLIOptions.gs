@@ -1,13 +1,14 @@
 namespace CLI_Options
 
 	def parse( ref args:unowned array of string, 
-				ref config:Configuration.Config,
-				script_commands_help:string = "" ):bool
+				ref config:Configuration.Config
+				):bool
 		var cli = new OptionContext( "<base> [<script>]" )
 		cli.set_summary( """Builds an operating system image
   <base>                   Filename of basic configuration file
   <script>                 Filename of an optional script to customize the image""" )
-		cli.set_description( "Script Commands:\n" + script_commands_help )
+		var commands = new CommandList( config, new PackageManagers.NoPackageManager() )
+		cli.set_description( "Script Commands:\n" + commands.get_help() )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false

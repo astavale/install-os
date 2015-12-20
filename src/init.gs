@@ -3,13 +3,10 @@ uses Configuration
 init
 	Intl.setlocale( LocaleCategory.ALL, "" )
 	Logging.set_up()
-	var commands = new CommandList()
 	var config = new Config()
-	if not CLI_Options.parse( ref args, ref config, commands.get_help() ) do return
+	if not CLI_Options.parse( ref args, ref config ) do return
 	if not BaseFile.parse( args, ref config ) do return
 	if not Script.find_if_given( args, ref config ) do return
-	if not Script.load( commands, ref config ) do return
-	if not Script.validate( commands, ref config ) do return
 
 	if not Devices.use_device( config, ref config.device ) do return
 	target_filesystem:Filesystem.Filesystem
@@ -19,6 +16,10 @@ init
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, target_filesystem, out package_manager ) do return
+
+	var commands = new CommandList( config, package_manager )
+	if not Script.load( commands, ref config ) do return
+	if not Script.validate( commands, ref config ) do return
 
 	if target_filesystem.root_is_empty
 		if not install_base( config, target_filesystem, package_manager ) do return
