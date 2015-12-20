@@ -5,6 +5,11 @@ namespace ConfigurationScriptCommands
 		prop readonly name:string = "packages"
 		prop readonly description:string = "Install listed packages"
 
+		_package_manager:PackageManager
+
+		construct( package_manager:PackageManager )
+			_package_manager = package_manager
+
 		def validate( package_list:Variant ):bool
 			if not package_list.is_of_type( VariantType.ARRAY )
 				return false
@@ -20,6 +25,22 @@ namespace ConfigurationScriptCommands
 				value = iterator.next_value()
 			return result
 
-		def run( filename:Variant ):bool
-			return false
+		def run( package_list:Variant ):bool
+			var iterator = package_list.iterator()
+			value:Variant? = iterator.next_value()
+			result:bool = false
+			packages:array of string = new array of string[ package_list.n_children() ]
+			count:int = 0
+			while ( value != null )
+				if value.get_child_value(0).is_of_type( VariantType.STRING )
+					packages[ count ] = value.get_child_value(0).get_string()
+					count ++
+					result = true
+				else
+					result = false
+					break
+				value = iterator.next_value()
+			if result
+				_package_manager.install_packages( packages )
+			return result
 

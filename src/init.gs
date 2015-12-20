@@ -26,6 +26,8 @@ init
 	else
 		message( "Root directory, %s, not empty. Install of base skipped.", target_filesystem.root_dir )
 
+	if not Script.run( commands, ref config ) do return
+
 
 def install_base( config:Config, filesystem:Filesystem.Filesystem, package_manager:PackageManager ):bool
 	if not install_root( config.root_packages, package_manager ) do return false

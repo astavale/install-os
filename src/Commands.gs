@@ -19,7 +19,7 @@ class CommandList
 		var temp = new ArrayList of ScriptCommand
 		// Add commands available to configuration scripts below
 		temp.add( new Include() )
-		temp.add( new Packages() )
+		temp.add( new Packages( _package_manager ) )
 
 		_list = new TreeMap of string, ScriptCommand
 		for var command in temp

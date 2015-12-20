@@ -71,6 +71,22 @@ namespace Script
 				break
 		return result
 
+	def run( commands:CommandList, ref config:Configuration.Config ):bool
+		result:bool = false
+		for element:Json.Node in config.script.get_array().get_elements()
+			command:string = element.get_object().get_members().first().data
+			action:ScriptCommand = commands.get_command( command )
+			data:Json.Node = element.get_object().get_member( command )
+			try
+				data_variant:Variant = Json.gvariant_deserialize( data, null )
+				result = action.run( data_variant )
+			except
+				pass
+			if not result
+				message( "Command '%s' failed to run", command )
+				break
+		return result
+
 	def print_script( script:Json.Node )
 		print "about to create JSON generator"
 		var test = new Json.Generator
