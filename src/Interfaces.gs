@@ -18,5 +18,6 @@ interface BootLoader:Object
 interface ScriptCommand:Object
 	prop abstract readonly name:string
 	prop abstract readonly description:string
+	def abstract validate( data:Variant ):bool
 	def abstract run( data:Variant ):bool
 

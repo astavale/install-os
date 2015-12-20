@@ -9,6 +9,7 @@ init
 	if not BaseFile.parse( args, ref config ) do return
 	if not Script.find_if_given( args, ref config ) do return
 	if not Script.load( commands, ref config ) do return
+	if not Script.validate( commands, ref config ) do return
 
 	if not Devices.use_device( config, ref config.device ) do return
 	target_filesystem:Filesystem.Filesystem

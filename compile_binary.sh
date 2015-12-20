@@ -26,6 +26,7 @@ glib-compile-resources \
 	src/boot_loaders/GRUBBIOS.gs \
 	src/boot_loaders/GRUBUEFI.gs \
 	src/commands/Include.gs \
+	src/commands/Packages.gs \
 	src/devices/DeviceFactory.gs \
 	src/devices/NoDevice.gs \
 	src/devices/BlockDevice.gs \

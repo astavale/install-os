@@ -5,6 +5,12 @@ namespace ConfigurationScriptCommands
 		prop readonly name:string = "include"
 		prop readonly description:string = "Reads another script"
 
+		def validate( filename:Variant ):bool
+			result:bool = false
+			if filename.is_of_type( VariantType.STRING )
+				result = true
+			return result
+
 		def run( filename:Variant ):bool
 			message( "'include' command is the exception, use 'load_script' method instead of 'run'" )
 			return true

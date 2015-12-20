@@ -10,6 +10,7 @@ class CommandList
 		var temp = new ArrayList of ScriptCommand
 		// Add commands available to configuration scripts below
 		temp.add( new Include() )
+		temp.add( new Packages() )
 
 		_list = new TreeMap of string, ScriptCommand
 		for var command in temp
@@ -32,3 +33,9 @@ class CommandList
 
 	def get_command( command:string ):ScriptCommand
 		return _list.get( command )
+
+	def contains( command:string ):bool
+		result:bool = false
+		if _list.has_key( command )
+			result = true
+		return result
