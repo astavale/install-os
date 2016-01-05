@@ -14,11 +14,13 @@ do
 	--pkg gee-0.8 \
 	--pkg gio-2.0 \
 	--pkg posix \
+	--pkg json-glib-1.0 \
 	--pkg build_os \
 	--vapidir . \
 	--main UnitTests$test.run \
 	-X -I. \
 	-X -Wl,-rpath,./ \
+	-X -L./ \
 	-X -l:build_os \
 	-X -w \
 	-X -lcrypt \
