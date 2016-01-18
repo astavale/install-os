@@ -4,7 +4,7 @@ distribution=fedora
 
 [Target]
 architecture=x86_64
-version=21
+version=23
 
 [Root]
 packages=@core;nano;less;passwd;net-tools --nogpgcheck
