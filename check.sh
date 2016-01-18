@@ -15,13 +15,13 @@ do
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg json-glib-1.0 \
-	--pkg build_os \
+	--pkg install_os \
 	--vapidir . \
 	--main UnitTests$test.run \
 	-X -I. \
 	-X -Wl,-rpath,./ \
 	-X -L./ \
-	-X -l:build_os \
+	-X -l:install_os \
 	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \

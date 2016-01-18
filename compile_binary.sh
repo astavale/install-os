@@ -42,12 +42,12 @@ glib-compile-resources \
 	--pkg json-glib-1.0 \
 	--pkg augeas \
 	--vapidir /home/al/software_projects/vapis/ \
-	--vapi build_os.vapi \
-	--header build_os.h \
+	--vapi install_os.vapi \
+	--header install_os.h \
 	-X -pie \
 	-X -fPIE \
 	-X -Wl,-E \
 	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
-	--output build_os
+	--output install_os
