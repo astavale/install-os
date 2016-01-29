@@ -21,19 +21,19 @@ glib-compile-resources \
 	src/Script.gs \
 	src/SetRootPassword.gs \
 	src/WriteFstab.gs \
-	src/boot_loaders/BootLoaderFactory.gs \
-	src/boot_loaders/NoBootLoader.gs \
-	src/boot_loaders/GRUBBIOS.gs \
-	src/boot_loaders/GRUBUEFI.gs \
-	src/commands/Include.gs \
-	src/commands/Packages.gs \
-	src/devices/DeviceFactory.gs \
-	src/devices/NoDevice.gs \
-	src/devices/BlockDevice.gs \
-	src/devices/FileAsDevice.gs \
-	src/package_managers/NoPackageManager.gs \
-	src/package_managers/PackageManagerFactory.gs \
-	src/package_managers/RPMPackageManager.gs \
+	src/BootLoaders/BootLoaderFactory.gs \
+	src/BootLoaders/NoBootLoader.gs \
+	src/BootLoaders/GRUBBIOS.gs \
+	src/BootLoaders/GRUBUEFI.gs \
+	src/ConfigurationScriptCommands/Include.gs \
+	src/ConfigurationScriptCommands/Packages.gs \
+	src/Devices/DeviceFactory.gs \
+	src/Devices/NoDevice.gs \
+	src/Devices/BlockDevice.gs \
+	src/Devices/FileAsDevice.gs \
+	src/PackageManagers/NoPackageManager.gs \
+	src/PackageManagers/PackageManagerFactory.gs \
+	src/PackageManagers/RPMPackageManager.gs \
 	src/resources/resources.c \
 	--pkg gio-2.0 \
 	--pkg posix \
