@@ -1,4 +1,6 @@
-namespace UnitTestsGMustache
+uses GMustache
+
+namespace UnitTests.GMustache
 
 	def run( args:array of string? ):void
 		Test.init( ref args )
@@ -14,7 +16,7 @@ namespace UnitTestsGMustache
 		template:string = "this is a {{& variable }}"
 		var hash = new dict of string,string
 		hash[ "variable" ] = "test"
-		result:string = GMustache.render( template, hash )
+		result:string = render( template, hash )
 		assert( result == "this is a test" )
 
 	def multiline_test()
@@ -26,7 +28,7 @@ namespace UnitTestsGMustache
 		hash[ "b" ] = "two"
 		hash[ "c" ] = "three"
 		hash[ "variable" ] = "line"
-		result:string = GMustache.render( template, hash )
+		result:string = render( template, hash )
 		assert( result == """line one
 	line two
 	line three""" )

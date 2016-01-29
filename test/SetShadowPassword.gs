@@ -1,4 +1,4 @@
-namespace UnitTestsSetShadowPassword
+namespace UnitTests.SetShadowPassword
 
 	def run(args:array of string?)
 		Test.init(ref args)
@@ -9,9 +9,6 @@ namespace UnitTestsSetShadowPassword
 		suite.add( new TestCase ( "SetRootPasswordWithoutSaltArgument", fixture.set_up, (TestFunc)test_set_root_password_without_salt_argument, fixture.tear_down ))
 		Test.run()
 		Posix._exit( 0 )
-
-	def register()
-		pass
 
 	def test_set_root_password( fixture:AugeasShadowFixture )
 		file:string = fixture.tmp_file

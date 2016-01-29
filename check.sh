@@ -1,6 +1,6 @@
 #!/bin/sh
 tests="GMustache
-		SetShadowPassword"
+	SetShadowPassword"
 
 # Remove old test binaries
 rm build/test/* -f
@@ -17,7 +17,7 @@ do
 	--pkg json-glib-1.0 \
 	--pkg install_os \
 	--vapidir . \
-	--main UnitTests$test.run \
+	--main UnitTests.$test.run \
 	-X -I. \
 	-X -Wl,-rpath,./ \
 	-X -L./ \
