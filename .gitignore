@@ -1,6 +1,5 @@
 install_os
 install_os.vapi
 install_os.h
-src/resources/resources.c
 build/
 configurations/

@@ -1,9 +1,12 @@
 #!/bin/sh
+
+mkdir build/src/resources --parents
 glib-compile-resources \
 	--sourcedir src/resources \
 	--generate-source \
-	--target src/resources/resources.c \
+	--target build/src/resources/resources.c \
 	src/resources/resources.gresource.xml
+
 #valac \
 /home/al/software_projects/vala_source/installed/bin/valac \
 	src/init.gs \
@@ -34,20 +37,22 @@ glib-compile-resources \
 	src/PackageManagers/NoPackageManager.gs \
 	src/PackageManagers/PackageManagerFactory.gs \
 	src/PackageManagers/RPMPackageManager.gs \
-	src/resources/resources.c \
+	build/src/resources/resources.c \
+	--vapidir /home/al/software_projects/vapis/ \
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg linux \
 	--pkg gee-0.8 \
 	--pkg json-glib-1.0 \
 	--pkg augeas \
-	--vapidir /home/al/software_projects/vapis/ \
-	--vapi install_os.vapi \
-	--header install_os.h \
 	-X -pie \
 	-X -fPIE \
 	-X -Wl,-E \
 	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
-	--output install_os
+	--header install_os.h \
+	--basedir src \
+	--directory build/src \
+	--vapi ../../install_os.vapi \
+	--output ../../install_os
