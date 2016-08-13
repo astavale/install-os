@@ -19,3 +19,6 @@ namespace Configuration
 
 		script_path:string = ""
 		script:Json.Node = new Json.Node( Json.NodeType.ARRAY )
+
+		construct()
+			script.set_array( new Json.Array() )

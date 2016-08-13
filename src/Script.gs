@@ -14,6 +14,7 @@ namespace Script
 		return true
 
 	def load( commands:CommandList, ref config:Configuration.Config ):bool
+		if config.script_path == "" do return true
 		original_cwd:string = Environment.get_current_dir()
 		Environment.set_current_dir( Path.get_dirname( config.script_path ) )
 		var script = new Json.Array
@@ -51,7 +52,7 @@ namespace Script
 		return result
 
 	def validate( commands:CommandList, ref config:Configuration.Config ):bool
-		result:bool = false
+		result:bool = true
 		for element:Json.Node in config.script.get_array().get_elements()
 			command:string = element.get_object().get_members().first().data
 			if command in commands
