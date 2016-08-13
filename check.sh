@@ -3,11 +3,21 @@ tests="GMustache
 	SetShadowPassword"
 
 # Remove old test binaries
-rm build/test/* -f
+rm build/test/* -rf
+
+# Create any directories for tests
+for test in $tests
+do
+dir=$(dirname $test)
+if [ "$dir" != "." ]; then
+	mkdir build/test/$dir --parents --verbose
+fi
+done
 
 # Build test binaries
 for test in $tests
 do
+namespace=${test//\//.}
 #valac \
 /home/al/software_projects/vala_source/installed/bin/valac \
 	--debug \
@@ -17,16 +27,17 @@ do
 	--pkg json-glib-1.0 \
 	--pkg install_os \
 	--vapidir . \
-	--main UnitTests.$test.run \
+	--main UnitTests.$namespace.run \
 	-X -I. \
 	-X -Wl,-rpath,./ \
 	-X -L./ \
 	-X -l:install_os \
-	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
+	-X -w \
 	test/$test.gs \
-	--output build/test/$test
+	--output build/test/$test \
+	--target-glib=2.46
 done
 
 # Run test binaries
