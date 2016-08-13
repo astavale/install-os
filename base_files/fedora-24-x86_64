@@ -1,0 +1,16 @@
+[Repository]
+format=rpm
+distribution=fedora
+
+[Target]
+architecture=x86_64
+version=24
+
+[Root]
+packages=@core;nano;less;passwd;net-tools --nogpgcheck
+
+[Kernel]
+
+[Boot]
+packages=grub2;grub2-efi;efibootmgr;
+loader=grub2-bios
