@@ -1,5 +1,5 @@
-install_os
-install_os.vapi
-install_os.h
+install-os
+install-os.vapi
+install-os.h
 build/
 configurations/

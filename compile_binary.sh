@@ -51,8 +51,8 @@ glib-compile-resources \
 	-X -w \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
-	--header install_os.h \
+	--header install-os.h \
 	--basedir src \
 	--directory build/src \
-	--vapi ../../install_os.vapi \
-	--output ../../install_os
+	--vapi ../../install-os.vapi \
+	--output ../../install-os

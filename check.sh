@@ -25,13 +25,13 @@ namespace=${test//\//.}
 	--pkg gio-2.0 \
 	--pkg posix \
 	--pkg json-glib-1.0 \
-	--pkg install_os \
+	--pkg install-os \
 	--vapidir . \
 	--main UnitTests.$namespace.run \
 	-X -I. \
 	-X -Wl,-rpath,./ \
 	-X -L./ \
-	-X -l:install_os \
+	-X -l:install-os \
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
 	-X -w \
