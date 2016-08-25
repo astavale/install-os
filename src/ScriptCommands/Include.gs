@@ -1,4 +1,4 @@
-namespace ConfigurationScriptCommands
+namespace ScriptCommands
 
 	class Include:Object implements ScriptCommand
 

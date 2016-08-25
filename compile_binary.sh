@@ -28,8 +28,8 @@ glib-compile-resources \
 	src/BootLoaders/NoBootLoader.gs \
 	src/BootLoaders/GRUBBIOS.gs \
 	src/BootLoaders/GRUBUEFI.gs \
-	src/ConfigurationScriptCommands/Include.gs \
-	src/ConfigurationScriptCommands/Packages.gs \
+	src/ScriptCommands/Include.gs \
+	src/ScriptCommands/Packages.gs \
 	src/Devices/DeviceFactory.gs \
 	src/Devices/NoDevice.gs \
 	src/Devices/BlockDevice.gs \

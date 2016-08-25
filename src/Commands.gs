@@ -1,5 +1,5 @@
 uses
-	ConfigurationScriptCommands
+	ScriptCommands
 	Gee
 	Configuration
 

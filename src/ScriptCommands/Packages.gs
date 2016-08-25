@@ -1,4 +1,4 @@
-namespace ConfigurationScriptCommands
+namespace ScriptCommands
 
 	class Packages:Object implements ScriptCommand
 
