@@ -35,7 +35,7 @@ class CommandList
 				script_command:ScriptCommand = iterator.get_value()
 				if !iterator.has_next() do eol = ""
 				message += "  %-25s%-s%s".printf( script_command.name, 
-											script_command.description,
+											script_command.short_description,
 											eol
 											)
 		return message

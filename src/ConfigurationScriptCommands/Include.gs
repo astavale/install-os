@@ -3,7 +3,8 @@ namespace ConfigurationScriptCommands
 	class Include:Object implements ScriptCommand
 
 		prop readonly name:string = "include"
-		prop readonly description:string = "Reads another script"
+		prop readonly short_description:string = "Reads another script"
+		prop readonly long_description:string = ""
 
 		def validate( filename:Variant ):bool
 			result:bool = false

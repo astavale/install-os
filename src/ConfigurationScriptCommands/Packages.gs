@@ -3,7 +3,8 @@ namespace ConfigurationScriptCommands
 	class Packages:Object implements ScriptCommand
 
 		prop readonly name:string = "packages"
-		prop readonly description:string = "Install listed packages"
+		prop readonly short_description:string = "Install listed packages"
+		prop readonly long_description:string = ""
 
 		_package_manager:PackageManager
 
