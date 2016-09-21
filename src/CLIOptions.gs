@@ -7,7 +7,8 @@ namespace CLI_Options
 		cli.set_summary( """Builds an operating system image
   <base>                   Filename of basic configuration file
   <script>                 Filename of an optional script to customize the image""" )
-		var commands = new CommandList( config, new PackageManagers.NoPackageManager() )
+		var commands = new CommandBuilderList( config,
+											new PackageManagers.NoPackageManager() )
 		cli.set_description( "Script Commands:\n" + commands.get_help() )
 		cli.set_help_enabled( false )
 

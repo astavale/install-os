@@ -15,10 +15,13 @@ interface BootLoader:Object
 	def abstract install():bool
 	def abstract create_menu():bool
 
-interface ScriptCommand:Object
+interface ScriptCommandBuilder:Object
 	prop abstract readonly name:string
 	prop abstract readonly short_description:string
 	prop abstract readonly long_description:string
-	def abstract validate( data:Variant ):bool
-	def abstract run( data:Variant ):bool
+	def abstract get_command_with_data( data:Variant ):ScriptCommand
+
+interface ScriptCommand:Object
+	def abstract validate():bool
+	def abstract run():bool
 

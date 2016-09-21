@@ -3,9 +3,9 @@ uses
 	Gee
 	Configuration
 
-class CommandList
+class CommandBuilderList
 
-	_list:TreeMap of string, ScriptCommand
+	_list:TreeMap of string, ScriptCommandBuilder
 	_config:Config
 	_package_manager:PackageManager
 
@@ -16,12 +16,12 @@ class CommandList
 		_config = config
 		_package_manager = package_manager
 
-		var temp = new ArrayList of ScriptCommand
+		var temp = new ArrayList of ScriptCommandBuilder
 		// Add commands available to configuration scripts below
-		temp.add( new Include() )
-		temp.add( new Packages( _package_manager ) )
+		temp.add( new IncludeBuilder() )
+		temp.add( new PackagesBuilder( _package_manager ) )
 
-		_list = new TreeMap of string, ScriptCommand
+		_list = new TreeMap of string, ScriptCommandBuilder
 		for var command in temp
 			_list.set( command.name, command )
 
@@ -32,7 +32,7 @@ class CommandList
 			var iterator = _list.map_iterator()
 			while iterator.has_next()
 				iterator.next()
-				script_command:ScriptCommand = iterator.get_value()
+				script_command:ScriptCommandBuilder = iterator.get_value()
 				if !iterator.has_next() do eol = ""
 				message += "  %-25s%-s%s".printf( script_command.name, 
 											script_command.short_description,
@@ -40,7 +40,7 @@ class CommandList
 											)
 		return message
 
-	def get_command( command:string ):ScriptCommand
+	def get_builder( command:string ):ScriptCommandBuilder
 		return _list.get( command )
 
 	def contains( command:string ):bool
