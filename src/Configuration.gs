@@ -1,3 +1,6 @@
+uses
+	Gee
+
 namespace Configuration
 
 	class Config
@@ -18,7 +21,5 @@ namespace Configuration
 		boot_initrd_named:string = ""
 
 		script_path:string = ""
-		script:Json.Node = new Json.Node( Json.NodeType.ARRAY )
+		script:ArrayList of ScriptCommand = new ArrayList of ScriptCommand()
 
-		construct()
-			script.set_array( new Json.Array() )

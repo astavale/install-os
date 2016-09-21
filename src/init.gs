@@ -19,14 +19,14 @@ init
 
 	var commands = new CommandBuilderList( config, package_manager )
 	if not Script.load( commands, ref config ) do return
-	if not Script.validate( commands, ref config ) do return
+	if not Script.validate( ref config ) do return
 
 	if target_filesystem.root_is_empty
 		if not install_base( config, target_filesystem, package_manager ) do return
 	else
 		message( "Root directory, %s, not empty. Install of base skipped.", target_filesystem.root_dir )
 
-	if not Script.run( commands, ref config ) do return
+	if not Script.run( ref config ) do return
 
 
 def install_base( config:Config, filesystem:Filesystem.Filesystem, package_manager:PackageManager ):bool

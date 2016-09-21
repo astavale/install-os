@@ -1,5 +1,6 @@
 uses
 	ScriptCommands
+	Gee
 
 namespace Script
 
@@ -19,83 +20,72 @@ namespace Script
 		if config.script_path == "" do return true
 		original_cwd:string = Environment.get_current_dir()
 		Environment.set_current_dir( Path.get_dirname( config.script_path ) )
-		var script = new Json.Array
-		command:IncludeBuilder = (IncludeBuilder)commands.get_builder( "include" )
-		script = _load_script( command, Path.get_basename( config.script_path ) )
-		config.script.set_array( script )
+		var script = _load_script( commands, Path.get_basename( config.script_path ) )
+		config.script.add_all( script )
 		Environment.set_current_dir( original_cwd )
 		message( "Script %s loaded", config.script_path )
 		return true
 
-	def _load_script( command_builder:IncludeBuilder, script_path:string ):Json.Array
+	def _load_script( commands:CommandBuilderList,
+						script_path:string
+						):ArrayList of ScriptCommand
+		command_builder:IncludeBuilder = (IncludeBuilder)commands.get_builder( "include" )
 		command:Include = (Include)command_builder.get_command_with_data( script_path )
 		command.validate()
 		failed_to_load:bool = command.run()
 		if failed_to_load
 			message( "Failed to load script %s", script_path )
-			var empty_script = new Json.Array
-			empty_script.add_null_element()
-			return empty_script
-		return _expand_includes( command_builder,
+			return new ArrayList of ScriptCommand
+		return _expand_includes( commands,
 								command.get_script().get_elements()
 								)
 
-	def _expand_includes( command_builder:IncludeBuilder,
-							elements:List of Json.Node
-							):Json.Array
-		var script_without_includes = new Json.Array
+	def _expand_includes( commands:CommandBuilderList,
+							elements:GLib.List of Json.Node
+							):ArrayList of ScriptCommand
+		var script_without_includes = new ArrayList of ScriptCommand
+		include_builder:IncludeBuilder = (IncludeBuilder)commands.get_builder( "include" )
 		for var element in elements
 			if not (element.get_node_type() == Json.NodeType.OBJECT)
 				message( "Element of script array is not an object" )
-				script_without_includes.add_null_element()
 				return script_without_includes
 			object:Json.Object = element.get_object()
 			if object.get_size() != 1
 				message( "There should only be one member for each object in the script" )
-				script_without_includes.add_null_element()
 				return script_without_includes
-			if object.has_member( command_builder.name )
-				include_result:Json.Array = _load_script( command_builder, object.get_string_member( command_builder.name ) )
-				for var item in include_result.get_elements()
-					script_without_includes.add_element( item )
+			if object.has_member( include_builder.name )
+				include_result:ArrayList of ScriptCommand = _load_script( commands,
+						object.get_string_member( include_builder.name )
+						)
+				script_without_includes.add_all( include_result )
 			else
-				script_without_includes.add_element( element )
-		return script_without_includes
-
-	def validate( commands:CommandBuilderList, ref config:Configuration.Config ):bool
-		result:bool = true
-		for element:Json.Node in config.script.get_array().get_elements()
-			command:string = element.get_object().get_members().first().data
-			if command in commands
-				data:Json.Node = element.get_object().get_member( command )
-				action:ScriptCommand = commands.get_builder( command ).get_command_with_data( data )
+				command_builder:ScriptCommandBuilder = commands.get_builder( element.get_object().get_members().first().data )
+				data:Json.Node = element.get_object().get_member( command_builder.name )
 				try
 					data_variant:Variant = Json.gvariant_deserialize( data, null )
-					result = action.validate( data_variant )
+					var command = command_builder.get_command_with_data ( data_variant )
+					script_without_includes.add( command )
 				except
 					pass
-				if not result
-					message( "Command '%s' failed to validate data", command )
-					break
-			else
-				message( "Command '%s' not found", command )
-				result = false
+		return script_without_includes
+
+	def validate( ref config:Configuration.Config ):bool
+		result:bool = true
+		for command in config.script
+			result = command.validate()
+			if not result
+				message( "Command '%s' failed to validate data",
+						command.get_type().name()
+						)
 				break
 		return result
 
-	def run( commands:CommandBuilderList, ref config:Configuration.Config ):bool
+	def run( ref config:Configuration.Config ):bool
 		result:bool = false
-		for element:Json.Node in config.script.get_array().get_elements()
-			command:string = element.get_object().get_members().first().data
-			action:ScriptCommandBuilder = commands.get_builder( command )
-			data:Json.Node = element.get_object().get_member( command )
-			try
-				data_variant:Variant = Json.gvariant_deserialize( data, null )
-				result = action.run( data_variant )
-			except
-				pass
+		for command in config.script
+			result = command.run()
 			if not result
-				message( "Command '%s' failed to run", command )
+				message( "Command '%s' failed to run", command.get_type().name() )
 				break
 		return result
 
