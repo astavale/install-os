@@ -41,6 +41,8 @@ Commands args:
 			print "Use '%s --help' to see a full list of command line options", args[ 0 ]
 			return false
 
+		if ( args[1] == "help" and args.length == 2 )
+			help_message = true
 		if help_message
 			print cli.get_help( true, null )
 			return false
