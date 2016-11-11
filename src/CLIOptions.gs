@@ -3,8 +3,17 @@ namespace CLI_Options
 	def parse( ref args:unowned array of string, 
 				ref config:Configuration.Config
 				):bool
-		var cli = new OptionContext( "<base> [<script>]" )
-		cli.set_summary( """Builds an operating system image
+		var cli = new OptionContext( "<command> [<args>]" )
+		cli.set_summary( """A tool to build configured operating system images
+
+Commands:
+  build <base> [<script>]  Build image from <base> with optional customization
+  help [<script command>]  Show this help message or help for a script command
+  list                     Show a list of script commands
+  mount [<mount point>]    Mount disk image at tmp or specified <mount point>
+                           The image will be unmounted when SIGTERM is received
+
+Commands args:
   <base>                   Filename of basic configuration file
   <script>                 Filename of an optional script to customize the image""" )
 		var commands = new CommandBuilderList( config,
