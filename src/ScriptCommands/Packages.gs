@@ -3,7 +3,18 @@ namespace ScriptCommands
 	class PackagesBuilder:Object implements ScriptCommandBuilder
 		prop readonly name:string = "packages"
 		prop readonly short_description:string = "Install listed packages"
-		prop readonly long_description:string = ""
+		prop readonly long_description:string = """"packages" - install a list of packages
+
+The package manager specified in the base configuration file is used to install
+the packages.
+
+An example:
+{ "script" : [
+  { "packages" : [
+      "vala",
+      "vala-devel"
+  ]}
+]}"""
 
 		_package_manager:PackageManager
 

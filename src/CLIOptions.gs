@@ -14,7 +14,7 @@ Commands:
                            The image will be unmounted when SIGTERM is received
 
 Commands args:
-  <base>                   Filename of basic configuration file
+  <base>                   Filename of base configuration file
   <script>                 Filename of an optional script to customize the image""" )
 		cli.set_help_enabled( false )
 
@@ -28,7 +28,7 @@ Commands args:
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
 		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for a disk image file", "gigabytes" }
-		options[4] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install OS in to", "filename" }
+		options[4] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install to", "filename" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )
 		try
@@ -38,16 +38,21 @@ Commands args:
 			print "Use '%s --help' to see a full list of command line options", args[ 0 ]
 			return false
 
-		if ( args[1] == "help" and args.length == 2 )
+		if ( args[1] == "help" )
 			help_message = true
-		if help_message
+		if help_message and args.length < 3
 			print cli.get_help( true, null )
 			return false
 
+		var commands = new CommandBuilderList( config,
+										new PackageManagers.NoPackageManager()
+										)
+
+		if help_message and args.length >=3
+			print( commands.get_help( args[2] ))
+			return false
+
 		if ( args[1] == "list" )
-			var commands = new CommandBuilderList( config,
-											new PackageManagers.NoPackageManager()
-											)
 			print( "Script Commands:\n" + commands.get_help () )
 
 		if root_device != ""

@@ -3,7 +3,15 @@ namespace ScriptCommands
 	class IncludeBuilder:Object implements ScriptCommandBuilder
 		prop readonly name:string = "include"
 		prop readonly short_description:string = "Reads another script"
-		prop readonly long_description:string = ""
+		prop readonly long_description:string = """"include" - include an additional configuration script
+
+The additional script's filename is relative to the main script's file path.
+The include command allows scripts to be split and re-used.
+
+An example:
+{ "script" : [
+  { "include" : "server/monitoring.json" }
+]}"""
 
 		construct()
 			pass

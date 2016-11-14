@@ -9,7 +9,7 @@ class CommandBuilderList
 	_config:Config
 	_package_manager:PackageManager
 
-	construct( config:Config, 
+	construct( config:Config,
 			package_manager:PackageManager
 			)
 
@@ -27,17 +27,22 @@ class CommandBuilderList
 
 	def get_help( command:string = "" ):string
 		message:string = ""
-		if command == ""
+		if _list.has_key( command )
+			message = _list.get( command ).long_description
+		else if command == ""
 			eol:string = "\n"
 			var iterator = _list.map_iterator()
 			while iterator.has_next()
 				iterator.next()
 				script_command:ScriptCommandBuilder = iterator.get_value()
-				if !iterator.has_next() do eol = ""
+				if !iterator.has_next()
+					eol = ""
 				message += "  %-25s%-s%s".printf( script_command.name, 
 											script_command.short_description,
 											eol
 											)
+		else
+			message = "Unknown command: %s".printf( command )
 		return message
 
 	def get_builder( command:string ):ScriptCommandBuilder
