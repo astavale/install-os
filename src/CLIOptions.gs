@@ -16,9 +16,6 @@ Commands:
 Commands args:
   <base>                   Filename of basic configuration file
   <script>                 Filename of an optional script to customize the image""" )
-		var commands = new CommandBuilderList( config,
-											new PackageManagers.NoPackageManager() )
-		cli.set_description( "Script Commands:\n" + commands.get_help() )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
@@ -46,6 +43,12 @@ Commands args:
 		if help_message
 			print cli.get_help( true, null )
 			return false
+
+		if ( args[1] == "list" )
+			var commands = new CommandBuilderList( config,
+											new PackageManagers.NoPackageManager()
+											)
+			print( "Script Commands:\n" + commands.get_help () )
 
 		if root_device != ""
 			config.root_path = root_device
