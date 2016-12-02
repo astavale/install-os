@@ -34,7 +34,7 @@ namespace Devices
 					_root_is_mountable = true
 					_boot_is_mountable = true
 				else
-					_create_image( config.root_path, config.filesize )
+					_create_image( config.root_path, config.imagesize )
 					_add_partitions( config.root_path )
 					_set_up_loopback( config.root_path )
 					_format_partitions( )
@@ -46,7 +46,7 @@ namespace Devices
 
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
 			if filesize == ""
-				filesize = "4.0"
+				filesize = "2.5"
 			_size:int = (int)(double.parse( filesize ) * 1024)
 			message( "Creating blank sparse disk image of size " + _size.to_string() + "MiB" )
 			try

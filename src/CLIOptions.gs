@@ -10,7 +10,7 @@ Commands:
   build <base> [<script>]  Build image from <base> with optional customization
   help [<script command>]  Show this help message or help for a script command
   list                     Show a list of script commands
-  mount [<mount point>]    Mount disk image at tmp or specified <mount point>
+  mount [<mount point>]    Mount raw disk image at /tmp or <mount point>
                            The image will be unmounted when SIGTERM is received
 
 Commands args:
@@ -20,14 +20,14 @@ Commands args:
 
 		help_message:bool = false
 		root_device:string = ""
-		filesize:string = ""
+		imagesize:string = ""
 		boot_device:string = ""
 
 		options:OptionEntry[6]
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
-		options[3] = { "filesize", 0, 0, OptionArg.STRING, ref filesize, "Number of gigabytes for a disk image file", "gigabytes" }
+		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.5", "gigabytes" }
 		options[4] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install to", "filename" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )
@@ -61,7 +61,7 @@ Commands args:
 		if boot_device != ""
 			config.boot_device = boot_device
 
-		if filesize != ""
-			config.filesize = filesize
+		if imagesize != ""
+			config.imagesize = imagesize
 
 		return true
