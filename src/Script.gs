@@ -7,13 +7,13 @@ namespace Script
 	def find_from_cli_argument( args:array of string,
 								ref config:Configuration.Config
 								):bool
-		if args.length < 3
+		if args.length < 4
 			return true
-		var file = File.new_for_path( args[2] )
+		var file = File.new_for_path( args[3] )
 		if not file.query_exists()
-			message( "Script, %s, does not exist", args[2] )
+			message( "Script, %s, does not exist", args[3] )
 			return false
-		config.script_path = args[2]
+		config.script_path = args[3]
 		return true
 
 	def load( commands:CommandBuilderList, ref config:Configuration.Config ):bool

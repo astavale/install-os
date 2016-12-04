@@ -9,7 +9,7 @@ Use '%s --help' to see command line syntax""", args[ 0 ]
 
 		var keyfile = new KeyFile()
 		try
-			keyfile.load_from_file( args[ 1 ], KeyFileFlags.NONE )
+			keyfile.load_from_file( args[ 2 ], KeyFileFlags.NONE )
 
 			if keyfile.has_group( "Repository" )
 				if keyfile.has_key( "Repository", "format" )

@@ -54,6 +54,7 @@ Commands args:
 
 		if ( args[1] == "list" )
 			print( "Script Commands:\n" + commands.get_help () )
+			return false
 
 		if root_device != ""
 			config.root_path = root_device
