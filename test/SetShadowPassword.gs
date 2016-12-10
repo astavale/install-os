@@ -2,15 +2,15 @@ namespace UnitTests.SetShadowPassword
 
 	def run(args:array of string?)
 		Test.init(ref args)
-		var suite = new TestSuite( "ShadowFileShould" )
+		var suite = new TestSuite( "GivenAShadowFile" )
 		TestSuite.get_root ().add_suite (suite)
 		fixture:AugeasShadowFixture = new AugeasShadowFixture()
-		suite.add( new TestCase( "HaveRootUserPasswordSet",
+		suite.add( new TestCase( "WhenPasswordAndSaltPassed_ThenRootUserPasswordSet",
 								fixture.set_up,
 								(TestFixtureFunc)test_set_root_password,
 								fixture.tear_down )
 								)
-		suite.add( new TestCase( "HaveRootUserPasswordSetWhenNoSaltArgumentIsGiven",
+		suite.add( new TestCase( "WhenPasswordButNoSaltPassed_ThenRootUserPasswordSet",
 								fixture.set_up,
 								(TestFixtureFunc)test_set_root_password_without_salt_argument,
 								fixture.tear_down )
