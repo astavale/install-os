@@ -2,7 +2,7 @@ def write_fstab( config:Configuration.Config,
 				filesystem:Filesystem.Filesystem
 				):bool
 	if config.device.root_uuid == ""
-		message( "/etc/fstab not written beause root filesystem UUID is blank" )
+		message( "/etc/fstab not written because root filesystem UUID is blank" )
 		return true
 	try
 		_template_resource:Bytes = resources_lookup_data( "/templates/boot/fstab.mustache", ResourceLookupFlags.NONE )
