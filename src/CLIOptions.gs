@@ -38,22 +38,11 @@ Commands args:
 			print( "Use '%s --help' to see a full list of command line options", args[ 0 ] )
 			return false
 
-		if ( args[1] == "help" )
+		if args.length == 1
 			help_message = true
+
 		if help_message and args.length < 3
-			print cli.get_help( true, null )
-			return false
-
-		var commands = new CommandBuilderList( config,
-										new PackageManagers.NoPackageManager()
-										)
-
-		if help_message and args.length >=3
-			print( commands.get_help( args[2] ))
-			return false
-
-		if ( args[1] == "list" )
-			print( "Script Commands:\n" + commands.get_help () )
+			print( cli.get_help( true, null ))
 			return false
 
 		if root_device != ""

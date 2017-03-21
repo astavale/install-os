@@ -33,6 +33,8 @@ An example:
 			if _data.is_of_type( VariantType.STRING )
 				_filename = _data.get_string()
 				result = true
+			if result == false
+				message( "Include command failed to validate" )
 			return result
 
 		def run():bool

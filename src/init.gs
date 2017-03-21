@@ -1,14 +1,34 @@
-uses Configuration
+uses
+	Configuration
+	CLICommands
 
 init
 	Intl.setlocale()
 	Logging.set_up()
 	var config = new Config()
+	var cli = new CLI()
 	if not CLI_Options.parse( ref args, ref config ) do return
+	cli.command = CLICommands.parse( ref args, ref config )
+
+	var commands = new CommandBuilderList( config, new PackageManagers.NoPackageManager() )
+	case cli.command
+		when Command.HELP
+			CLICommands.show_help( args )
+		when Command.COMMAND_HELP
+			print( commands.get_help( args[0] ))
+		when Command.LIST
+			print( "Script Commands:\n" + commands.get_help () )
+
+	if ( cli.command == Command.HELP |
+		cli.command == Command.COMMAND_HELP |
+		cli.command == Command.LIST )
+		return
+
 	if not Devices.use_device( config, ref config.device ) do return
 
 	if not BaseFile.parse( args, ref config ) do return
 	if not Script.find_from_cli_argument( args, ref config ) do return
+
 	target_filesystem:Filesystem.Filesystem
 	try
 		target_filesystem = new Filesystem.Filesystem( config )
@@ -16,8 +36,8 @@ init
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, target_filesystem, out package_manager ) do return
+	commands = new CommandBuilderList( config, package_manager )
 
-	var commands = new CommandBuilderList( config, package_manager )
 	if not Script.load( commands, ref config ) do return
 	if not Script.validate( ref config ) do return
 

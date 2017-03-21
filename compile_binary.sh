@@ -12,6 +12,8 @@ glib-compile-resources \
 	src/init.gs \
 	src/AutoRelabel.gs \
 	src/BaseFile.gs \
+	src/CLI.gs \
+	src/CLICommands.gs \
 	src/CLIOptions.gs \
 	src/Commands.gs \
 	src/Configuration.gs \

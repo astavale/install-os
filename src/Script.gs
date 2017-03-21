@@ -7,13 +7,13 @@ namespace Script
 	def find_from_cli_argument( args:array of string,
 								ref config:Configuration.Config
 								):bool
-		if args.length < 4
+		if args.length < 2
 			return true
-		var file = File.new_for_path( args[3] )
+		var file = File.new_for_path( args[1] )
 		if not file.query_exists()
-			message( "Script, %s, does not exist", args[3] )
+			message( "Script, %s, does not exist", args[1] )
 			return false
-		config.script_path = args[3]
+		config.script_path = args[1]
 		return true
 
 	def load( commands:CommandBuilderList, ref config:Configuration.Config ):bool
@@ -30,10 +30,12 @@ namespace Script
 						script_path:string
 						):ArrayList of ScriptCommand
 		command_builder:IncludeBuilder = (IncludeBuilder)commands.get_builder( "include" )
-		command:Include = (Include)command_builder.get_command_with_data( script_path )
+		command:Include = (Include)command_builder.get_command_with_data(
+											new Variant.string( script_path )
+											)
 		command.validate()
-		failed_to_load:bool = command.run()
-		if failed_to_load
+		loaded:bool = command.run()
+		if !loaded
 			message( "Failed to load script %s", script_path )
 			return new ArrayList of ScriptCommand
 		return _expand_includes( commands,
