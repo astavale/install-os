@@ -1,21 +1,21 @@
 namespace CLI_Options
 
-	def parse( ref args:unowned array of string, 
+	def parse( ref args:unowned array of string,
 				ref config:Configuration.Config
 				):bool
 		var cli = new OptionContext( "<command> [<args>]" )
 		cli.set_summary( """A tool to build configured operating system images
 
 Commands:
-  build <base> [<script>]  Build image from <base> with optional customization
-  help [<script command>]  Show this help message or help for a script command
-  list                     Show a list of script commands
-  mount [<mount point>]    Mount raw disk image at /tmp or <mount point>
-                           The image will be unmounted when SIGTERM is received
+  build <base> [<script>]   Build image from <base> with optional customization
+  help [<script command>]   Show this help message or help for a script command
+  list                      Show a list of script commands
+  mount [<mount point>]     Mount raw disk image at /tmp or <mount point>
+                            The image will be unmounted when SIGTERM is received
 
 Commands args:
-  <base>                   Filename of base configuration file
-  <script>                 Filename of an optional script to customize the image""" )
+  <base>                    Filename of base configuration file
+  <script>                  Filename of an optional script to customize the image""" )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
@@ -34,8 +34,8 @@ Commands args:
 		try
 			cli.parse( ref args )
 		except error:OptionError
-			print "%s", error.message
-			print "Use '%s --help' to see a full list of command line options", args[ 0 ]
+			print( "%s", error.message )
+			print( "Use '%s --help' to see a full list of command line options", args[ 0 ] )
 			return false
 
 		if ( args[1] == "help" )
