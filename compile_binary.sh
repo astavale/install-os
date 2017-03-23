@@ -12,9 +12,9 @@ glib-compile-resources \
 	src/init.gs \
 	src/AutoRelabel.gs \
 	src/BaseFile.gs \
-	src/CLI.gs \
-	src/CLICommands.gs \
-	src/CLIOptions.gs \
+	src/CLI/CLI.gs \
+	src/CLI/CLICommands.gs \
+	src/CLI/CLIOptions.gs \
 	src/Commands.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
@@ -24,7 +24,6 @@ glib-compile-resources \
 	src/Interfaces.gs \
 	src/Logging.gs \
 	src/Script.gs \
-	src/SetRootPassword.gs \
 	src/WriteFstab.gs \
 	src/BootLoaders/BootLoaderFactory.gs \
 	src/BootLoaders/NoBootLoader.gs \
@@ -32,6 +31,7 @@ glib-compile-resources \
 	src/BootLoaders/GRUBUEFI.gs \
 	src/ScriptCommands/Include.gs \
 	src/ScriptCommands/Packages.gs \
+	src/ScriptCommands/SetRootPassword.gs \
 	src/Devices/DeviceFactory.gs \
 	src/Devices/NoDevice.gs \
 	src/Devices/BlockDevice.gs \
