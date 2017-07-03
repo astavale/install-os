@@ -6,16 +6,18 @@ namespace CLI_Options
 		var cli = new OptionContext( "<command> [<args>]" )
 		cli.set_summary( """A tool to build configured operating system images
 
-Commands:
+<command> can be one of:
   build <base> [<script>]   Build image from <base> with optional customization
   help [<script command>]   Show this help message or help for a script command
   list                      Show a list of script commands
   mount [<mount point>]     Mount raw disk image at /tmp or <mount point>
                             The image will be unmounted when SIGTERM is received
 
-Commands args:
-  <base>                    Filename of base configuration file
-  <script>                  Filename of an optional script to customize the image""" )
+<args>:
+  <base>                    Filename of basic options, e.g. package manager
+  <mount point>             Directory or filename to mount disk image at
+  <script>                  Filename of an optional script to customize the image
+  <script command>          A command available in a configuration script""" )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
@@ -27,7 +29,7 @@ Commands args:
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
-		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.5", "gigabytes" }
+		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.5GiB", "gigabytes" }
 		options[4] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install to", "filename" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )
