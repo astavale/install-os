@@ -6,6 +6,7 @@ tests="GMustache
 rm build/tests/* -rf
 
 # Create any directories for tests
+mkdir build/tests --parents
 for test in $tests
 do
 dir=$(dirname $test)
