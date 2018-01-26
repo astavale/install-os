@@ -3,14 +3,14 @@ tests="GMustache
 	SetShadowPassword"
 
 # Remove old test binaries
-rm build/test/* -rf
+rm build/tests/* -rf
 
 # Create any directories for tests
 for test in $tests
 do
 dir=$(dirname $test)
 if [ "$dir" != "." ]; then
-	mkdir build/test/$dir --parents --verbose
+	mkdir build/tests/$dir --parents --verbose
 fi
 done
 
@@ -35,13 +35,13 @@ namespace=${test//\//.}
 	-X -lcrypt \
 	-X -D_XOPEN_SOURCE \
 	-X -w \
-	test/$test.gs \
-	--output build/test/$test \
+	tests/$test.gs \
+	--output build/tests/$test \
 	--target-glib=2.46
 done
 
 # Run test binaries
 for test in $tests
 do
-gtester --keep-going --verbose build/test/$test
+gtester --keep-going --verbose build/tests/$test
 done
