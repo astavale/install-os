@@ -2,7 +2,7 @@ namespace CLICommands
 
 	enum Command
 		NONE
-		BUILD
+		INSTALL
 		HELP
 		COMMAND_HELP
 		LIST
@@ -16,8 +16,8 @@ namespace CLICommands
 		command:Command = Command.NONE
 		arg:string = args[1].down()
 		case arg
-			when "build"
-				command = Command.BUILD
+			when "install"
+				command = Command.INSTALL
 			when "help"
 				if args.length > 2
 					command = Command.COMMAND_HELP

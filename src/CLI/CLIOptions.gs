@@ -7,17 +7,17 @@ namespace CLI_Options
 		cli.set_summary( """A tool to build configured operating system images
 
 <command> can be one of:
-  build <base> [<script>]   Build image from <base> with optional customization
+  install <base> [<script>] Build image from <base> with optional customization
   help [<script command>]   Show this help message or help for a script command
   list                      Show a list of script commands
   mount [<mount point>]     Mount raw disk image at /tmp or <mount point>
                             The image will be unmounted when SIGTERM is received
 
-<args>:
+<command> arguments:
   <base>                    Filename of basic options, e.g. package manager
   <mount point>             Directory or filename to mount disk image at
   <script>                  Filename of an optional script to customize the image
-  <script command>          A command available in a configuration script""" )
+  <script command>          A command available to use in a configuration script""" )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
