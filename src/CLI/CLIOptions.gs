@@ -29,7 +29,7 @@ namespace CLI_Options
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
-		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.5GiB", "gigabytes" }
+		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.0GiB", "gigabytes" }
 		options[4] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install to", "filename" }
 		options[5] = { null }
 		cli.add_main_entries( options, null )

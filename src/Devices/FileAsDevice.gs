@@ -46,7 +46,7 @@ namespace Devices
 
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
 			if filesize == ""
-				filesize = "2.5"
+				filesize = "2.0"
 			_size:int = (int)(double.parse( filesize ) * 1024)
 			message( "Creating blank sparse disk image of size " + _size.to_string() + "MiB" )
 			try
