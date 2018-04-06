@@ -6,28 +6,37 @@ init
 	Intl.setlocale()
 	Logging.set_up()
 	var config = new Config()
+
 	var cli = new CLI()
 	if not CLI_Options.parse( ref args, ref config ) do return
 	cli.command = CLICommands.parse( ref args, ref config )
 
 	var commands = new CommandBuilderList( config, new PackageManagers.NoPackageManager() )
+
 	case cli.command
-		when Command.HELP
+		when Command.HELP, Command.NONE
 			CLICommands.show_help( args )
 		when Command.COMMAND_HELP
-			print( commands.get_help( args[0] ))
+			print( commands.get_help( args[2] ))
 		when Command.LIST
 			print( "Script Commands:\n" + commands.get_help () )
+		when Command.UNKNOWN
+			print( "Unknown command: %s", args[1] )
+			CLICommands.show_help( args )
 
 	if ( cli.command == Command.HELP |
 		cli.command == Command.COMMAND_HELP |
-		cli.command == Command.LIST )
+		cli.command == Command.LIST |
+		cli.command == Command.NONE |
+		cli.command == Command.UNKNOWN
+		)
 		return
 
-	if not Devices.use_device( config, ref config.device ) do return
-
 	if not BaseFile.parse( args, ref config ) do return
+	if not RootPath.parse( args, ref config ) do return
 	if not Script.find_from_cli_argument( args, ref config ) do return
+
+	if not Devices.use_device( config, ref config.device ) do return
 
 	target_filesystem:Filesystem.Filesystem
 	try

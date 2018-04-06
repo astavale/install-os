@@ -23,6 +23,7 @@ glib-compile-resources \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
+	src/RootPath.gs \
 	src/Script.gs \
 	src/WriteFstab.gs \
 	src/BootLoaders/BootLoaderFactory.gs \

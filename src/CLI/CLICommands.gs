@@ -2,8 +2,9 @@ namespace CLICommands
 
 	enum Command
 		NONE
-		INSTALL
+		UNKNOWN
 		HELP
+		INSTALL
 		COMMAND_HELP
 		LIST
 		MOUNT
@@ -27,8 +28,8 @@ namespace CLICommands
 				command = Command.LIST
 			when "mount"
 				command = Command.MOUNT
-		if command != Command.NONE
-			args = args[2:args.length]
+			default
+				command = Command.UNKNOWN
 		return command
 
 	def show_help( args:array of string )

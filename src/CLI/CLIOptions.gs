@@ -7,31 +7,30 @@ namespace CLI_Options
 		cli.set_summary( """A tool to build configured operating system images
 
 <command> can be one of:
-  install <base> [<script>] Build image from <base> with optional customization
-  help [<script command>]   Show this help message or help for a script command
-  list                      Show a list of script commands
-  mount [<mount point>]     Mount raw disk image at /tmp or <mount point>
-                            The image will be unmounted when SIGTERM is received
+  install <base> <root> [<script>] Use <base> configuration to install to <root>
+  help [<script command>]          Show this message or a script command's help
+  list                             Show a list of script commands
+  mount <root> [<mount point>]     Mount raw disk image at /tmp or <mount point>
+                                   The image will be unmounted when SIGTERM is received
 
 <command> arguments:
   <base>                    Filename of basic options, e.g. package manager
   <mount point>             Directory or filename to mount disk image at
+  <root>                    Block device, disk image or directory to install to
   <script>                  Filename of an optional script to customize the image
   <script command>          A command available to use in a configuration script""" )
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
-		root_device:string = ""
 		imagesize:string = ""
 		boot_device:string = ""
 
-		options:OptionEntry[6]
+		options:OptionEntry[5]
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[2] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
 		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.0GiB", "gigabytes" }
-		options[4] = { "root", 0, 0, OptionArg.STRING, ref root_device, "Block device, disk image or directory to install to", "filename" }
-		options[5] = { null }
+		options[4] = { null }
 		cli.add_main_entries( options, null )
 		try
 			cli.parse( ref args )
@@ -46,9 +45,6 @@ namespace CLI_Options
 		if help_message and args.length < 3
 			print( cli.get_help( true, null ))
 			return false
-
-		if root_device != ""
-			config.root_path = root_device
 
 		if boot_device != ""
 			config.boot_device = boot_device
