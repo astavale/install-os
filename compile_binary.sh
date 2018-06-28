@@ -7,8 +7,11 @@ glib-compile-resources \
 	--target build/src/resources/resources.c \
 	src/resources/resources.gresource.xml
 
-#valac \
-/home/al/software_projects/vala_source/installed/bin/valac \
+if [ ! -v VALAC ]
+then VALAC=valac
+fi
+
+$VALAC \
 	src/init.gs \
 	src/AutoRelabel.gs \
 	src/BaseFile.gs \
