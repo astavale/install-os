@@ -17,7 +17,6 @@ $VALAC \
 	src/BaseFile.gs \
 	src/CLI/CLI.gs \
 	src/CLI/CLICommands.gs \
-	src/CLI/CLIOptions.gs \
 	src/Commands.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
