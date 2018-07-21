@@ -1,8 +1,6 @@
 namespace CLICommands
 
-	def parse( ref args:unowned array of string,
-				ref config:Configuration.Config
-				):CLI.Command
+	def parse( ref args:unowned array of string	):CLI.Command
 		if args.length == 1
 			return CLI.Command.NONE
 		command:CLI.Command = CLI.Command.NONE

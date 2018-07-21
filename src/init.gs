@@ -9,7 +9,7 @@ init
 
 	var cli = new CLI()
 	if not cli.parse_options( ref args, ref config ) do return
-	cli.command = CLICommands.parse( ref args, ref config )
+	cli.command = CLICommands.parse( ref args )
 
 	var commands = new CommandBuilderList( config, new PackageManagers.NoPackageManager() )
 
