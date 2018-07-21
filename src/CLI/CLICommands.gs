@@ -1,35 +1,26 @@
 namespace CLICommands
 
-	enum Command
-		NONE
-		UNKNOWN
-		HELP
-		INSTALL
-		COMMAND_HELP
-		LIST
-		MOUNT
-
 	def parse( ref args:unowned array of string,
 				ref config:Configuration.Config
-				):Command
+				):CLI.Command
 		if args.length == 1
-			return Command.NONE
-		command:Command = Command.NONE
+			return CLI.Command.NONE
+		command:CLI.Command = CLI.Command.NONE
 		arg:string = args[1].down()
 		case arg
 			when "install"
-				command = Command.INSTALL
+				command = CLI.Command.INSTALL
 			when "help"
 				if args.length > 2
-					command = Command.COMMAND_HELP
+					command = CLI.Command.COMMAND_HELP
 				else
-					command = Command.HELP
+					command = CLI.Command.HELP
 			when "list"
-				command = Command.LIST
+				command = CLI.Command.LIST
 			when "mount"
-				command = Command.MOUNT
+				command = CLI.Command.MOUNT
 			default
-				command = Command.UNKNOWN
+				command = CLI.Command.UNKNOWN
 		return command
 
 	def show_help( args:array of string )

@@ -14,21 +14,21 @@ init
 	var commands = new CommandBuilderList( config, new PackageManagers.NoPackageManager() )
 
 	case cli.command
-		when Command.HELP, Command.NONE
+		when CLI.Command.HELP, CLI.Command.NONE
 			CLICommands.show_help( args )
-		when Command.COMMAND_HELP
+		when CLI.Command.COMMAND_HELP
 			print( commands.get_help( args[2] ))
-		when Command.LIST
+		when CLI.Command.LIST
 			print( "Script Commands:\n" + commands.get_help () )
-		when Command.UNKNOWN
+		when CLI.Command.UNKNOWN
 			print( "Unknown command: %s", args[1] )
 			CLICommands.show_help( args )
 
-	if ( cli.command == Command.HELP |
-		cli.command == Command.COMMAND_HELP |
-		cli.command == Command.LIST |
-		cli.command == Command.NONE |
-		cli.command == Command.UNKNOWN
+	if ( cli.command == CLI.Command.HELP |
+		cli.command == CLI.Command.COMMAND_HELP |
+		cli.command == CLI.Command.LIST |
+		cli.command == CLI.Command.NONE |
+		cli.command == CLI.Command.UNKNOWN
 		)
 		return
 
