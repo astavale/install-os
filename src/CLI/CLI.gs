@@ -68,3 +68,26 @@ class CLI
 			config.imagesize = imagesize
 
 		return true
+
+	def parse_command( ref args:unowned array of string ):Command
+		if args.length == 1
+			return Command.NONE
+		command:Command = Command.NONE
+		arg:string = args[1].down()
+		case arg
+			when "install"
+				command = Command.INSTALL
+			when "help"
+				if args.length > 2
+					command = Command.COMMAND_HELP
+				else
+					command = Command.HELP
+			when "list"
+				command = Command.LIST
+			when "mount"
+				command = Command.MOUNT
+			default
+				command = Command.UNKNOWN
+		return command
+
+
