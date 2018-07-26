@@ -6,14 +6,9 @@ uses
 class CommandBuilderList
 
 	_list:TreeMap of string, ScriptCommandBuilder
-	_config:Config
 	_package_manager:PackageManager
 
-	construct( config:Config,
-			package_manager:PackageManager
-			)
-
-		_config = config
+	construct( package_manager:PackageManager )
 		_package_manager = package_manager
 
 		var temp = new ArrayList of ScriptCommandBuilder

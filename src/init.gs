@@ -11,7 +11,7 @@ init
 	if not cli.parse_options( ref args, ref config ) do return
 	cli.command = cli.parse_command( ref args )
 
-	var commands = new CommandBuilderList( config, new PackageManagers.NoPackageManager() )
+	var commands = new CommandBuilderList( new PackageManagers.NoPackageManager() )
 
 	case cli.command
 		when CLI.Command.HELP, CLI.Command.NONE
@@ -45,7 +45,7 @@ init
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, target_filesystem, out package_manager ) do return
-	commands = new CommandBuilderList( config, package_manager )
+	commands = new CommandBuilderList( package_manager )
 
 	if not Script.load( commands, ref config ) do return
 	if not Script.validate( ref config ) do return
