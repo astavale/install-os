@@ -6,7 +6,7 @@ namespace Configuration
 	class Config
 		root_path:string = ""
 		device:Device = new Devices.NoDevice()
-		imagesize:string = ""
+		image_size:string = ""
 
 		repository_format:string = ""
 		repository_distribution:string = ""

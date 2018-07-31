@@ -34,7 +34,7 @@ namespace Devices
 					_root_is_mountable = true
 					_boot_is_mountable = true
 				else
-					_create_image( config.root_path, config.imagesize )
+					_create_image( config.root_path, config.image_size )
 					_add_partitions( config.root_path )
 					_set_up_loopback( config.root_path )
 					_format_partitions( )

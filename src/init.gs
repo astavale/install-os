@@ -5,10 +5,9 @@ uses
 init
 	Intl.setlocale()
 	Logging.set_up()
-	var config = new Config()
 
 	var cli = new CLI()
-	if not cli.parse_options( ref args, ref config ) do return
+	if not cli.parse_options( ref args ) do return
 	cli.command = cli.parse_command( ref args )
 
 	var commands = new CommandBuilderList( new PackageManagers.NoPackageManager() )
@@ -31,6 +30,12 @@ init
 		cli.command == CLI.Command.UNKNOWN
 		)
 		return
+
+	var config = new Config()
+	if cli.boot_device != ""
+		config.boot_device = cli.boot_device
+	if cli.image_size != ""
+		config.image_size = cli.image_size
 
 	if not BaseFile.parse( args, ref config ) do return
 	if not RootPath.parse( args, ref config ) do return

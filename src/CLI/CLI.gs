@@ -8,16 +8,11 @@ class CLI
 		LIST
 		MOUNT
 
-	_command:Command = Command.NONE
-	prop command:Command
-		get
-			return _command
-		set
-			_command = value
+	prop command:Command = Command.NONE
+	prop readonly boot_device:string = ""
+	prop readonly image_size:string = ""
 
-	def parse_options( ref args:unowned array of string,
-				ref config:Configuration.Config
-				):bool
+	def parse_options( ref args:unowned array of string ):bool
 		var cli = new OptionContext( "<command> [<args>]" )
 		cli.set_summary( """A tool to build configured operating system images
 
@@ -37,14 +32,12 @@ class CLI
 		cli.set_help_enabled( false )
 
 		help_message:bool = false
-		imagesize:string = ""
-		boot_device:string = ""
 
 		options:OptionEntry[5]
 		options[0] = { "help", 'h', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
 		options[1] = { "?", '?', OptionFlags.HIDDEN, OptionArg.NONE, ref help_message, "help", null }
-		options[2] = { "boot", 0, 0, OptionArg.STRING, ref boot_device, "Block device to install bootloader in to", "device" }
-		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref imagesize, "File size for a new raw disk image, default is 2.0GiB", "gigabytes" }
+		options[2] = { "boot", 0, 0, OptionArg.STRING, ref _boot_device, "Block device to install bootloader in to", "device" }
+		options[3] = { "imagesize", 0, 0, OptionArg.STRING, ref _image_size, "File size for a new raw disk image, default is 2.0GiB", "gigabytes" }
 		options[4] = { null }
 		cli.add_main_entries( options, null )
 		try
@@ -60,12 +53,6 @@ class CLI
 		if help_message and args.length < 3
 			print( cli.get_help( true, null ))
 			return false
-
-		if boot_device != ""
-			config.boot_device = boot_device
-
-		if imagesize != ""
-			config.imagesize = imagesize
 
 		return true
 
