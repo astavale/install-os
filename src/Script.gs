@@ -4,20 +4,12 @@ uses
 
 namespace Script
 
-	def find_from_cli_argument( args:array of string,
-								ref config:Configuration.Config
-								):bool
-		if args.length < 5
-			return true
-		var file = File.new_for_path( args[4] )
-		if not file.query_exists()
-			message( "Script, %s, does not exist", args[4] )
-			return false
-		config.script_path = args[4]
-		return true
-
 	def load( commands:CommandBuilderList, ref config:Configuration.Config ):bool
 		if config.script_path == "" do return true
+		var file = File.new_for_path( config.script_path )
+		if not file.query_exists()
+			message( "Script, %s, does not exist", config.script_path )
+			return false
 		original_cwd:string = Environment.get_current_dir()
 		Environment.set_current_dir( Path.get_dirname( config.script_path ) )
 		var script = _load_script( commands, Path.get_basename( config.script_path ) )

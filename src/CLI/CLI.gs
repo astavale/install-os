@@ -11,6 +11,7 @@ class CLI
 	prop command:Command = Command.NONE
 	prop readonly boot_device:string = ""
 	prop readonly image_size:string = ""
+	prop readonly script_path:string = ""
 
 	def parse_options( ref args:unowned array of string ):bool
 		var cli = new OptionContext( "<command> [<args>]" )
@@ -64,6 +65,7 @@ class CLI
 		case arg
 			when "install"
 				command = Command.INSTALL
+				parse_install_command( ref args )
 			when "help"
 				if args.length > 2
 					command = Command.COMMAND_HELP
@@ -77,4 +79,7 @@ class CLI
 				command = Command.UNKNOWN
 		return command
 
+	def private parse_install_command( ref args:unowned array of string )
+		if args.length >= 5
+			_script_path = args[4]
 
