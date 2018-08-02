@@ -1,36 +1,12 @@
 uses
 	Configuration
-	CLICommands
 
 init
 	Intl.setlocale()
 	Logging.set_up()
 
-	var cli = new CLI()
-	if not cli.parse_options( ref args ) do return
-	cli.parse_command( ref args )
-
-	var commands = new CommandBuilderList( new PackageManagers.NoPackageManager() )
-
-	case cli.command
-		when CLI.Command.HELP, CLI.Command.NONE
-			CLICommands.show_help( args )
-		when CLI.Command.COMMAND_HELP
-			print( commands.get_help( args[2] ))
-		when CLI.Command.LIST
-			print( "Script Commands:\n" + commands.get_help () )
-		when CLI.Command.UNKNOWN
-			print( "Unknown command: %s", args[1] )
-			CLICommands.show_help( args )
-
-	if ( cli.command == CLI.Command.HELP |
-		cli.command == CLI.Command.COMMAND_HELP |
-		cli.command == CLI.Command.LIST |
-		cli.command == CLI.Command.NONE |
-		cli.command == CLI.Command.ERROR |
-		cli.command == CLI.Command.UNKNOWN
-		)
-		return
+	var cli = new CLI( args.copy(), new CommandBuilderList( new PackageManagers.NoPackageManager()))
+	if cli.command != CLI.Command.INSTALL do return
 
 	var config = new Config()
 	if cli.base_file != "" do config.base_file = cli.base_file
@@ -49,7 +25,7 @@ init
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, target_filesystem, out package_manager ) do return
-	commands = new CommandBuilderList( package_manager )
+	var commands = new CommandBuilderList( package_manager )
 
 	if not Script.load( commands, ref config ) do return
 	if not Script.validate( ref config ) do return

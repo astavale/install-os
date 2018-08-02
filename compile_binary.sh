@@ -16,7 +16,6 @@ $VALAC \
 	src/AutoRelabel.gs \
 	src/BaseFile.gs \
 	src/CLI/CLI.gs \
-	src/CLI/CLICommands.gs \
 	src/Commands.gs \
 	src/Configuration.gs \
 	src/Filesystem.gs \
