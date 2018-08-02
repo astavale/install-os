@@ -3,11 +3,11 @@ class CommandLineInterface
 		NONE
 		ERROR
 		UNKNOWN
-		HELP
+		HELP_ON_COMMAND_LINE_INTERFACE
 		INSTALL
-		COMMAND_HELP
-		LIST
-		MOUNT
+		HELP_ON_SCRIPT_COMMAND
+		LIST_SCRIPT_COMMANDS
+		MOUNT_RAW_IMAGE
 
 	prop readonly command:Command = Command.NONE
 	prop readonly base_file:string = ""
@@ -41,11 +41,11 @@ class CommandLineInterface
 		this.parse_command()
 
 		case command
-			when Command.HELP, Command.NONE
+			when Command.HELP_ON_COMMAND_LINE_INTERFACE, Command.NONE
 				this.show_help()
-			when Command.COMMAND_HELP
+			when Command.HELP_ON_SCRIPT_COMMAND
 				print( commands.get_help( _args[2] ))
-			when Command.LIST
+			when Command.LIST_SCRIPT_COMMANDS
 				print( "Script Commands:\n" + commands.get_help () )
 			when Command.UNKNOWN
 				print( "Unknown command: %s", _args[1] )
@@ -96,13 +96,13 @@ class CommandLineInterface
 				parse_install_command()
 			when "help"
 				if _args.length > 2
-					_command = Command.COMMAND_HELP
+					_command = Command.HELP_ON_SCRIPT_COMMAND
 				else
-					_command = Command.HELP
+					_command = Command.HELP_ON_COMMAND_LINE_INTERFACE
 			when "list"
-				_command = Command.LIST
+				_command = Command.LIST_SCRIPT_COMMANDS
 			when "mount"
-				_command = Command.MOUNT
+				_command = Command.MOUNT_RAW_IMAGE
 			default
 				_command = Command.UNKNOWN
 		return
