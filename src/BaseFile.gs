@@ -1,16 +1,11 @@
 namespace BaseFile
 
-	def parse( args: array of string, ref config:Configuration.Config ):bool
-		if not ( args.length > 2 )
-			print """A base file parameter is needed.
-
-Use '%s --help' to see command line syntax""", args[ 0 ]
-			return false
+	def parse( ref config:Configuration.Config ):bool
 
 		var keyfile = new KeyFile()
 		try
-			message( "Base file: %s", args[ 2 ] )
-			keyfile.load_from_file( args[ 2 ], KeyFileFlags.NONE )
+			message( "Base file: %s", config.base_file )
+			keyfile.load_from_file( config.base_file, KeyFileFlags.NONE )
 
 			if keyfile.has_group( "Repository" )
 				if keyfile.has_key( "Repository", "format" )

@@ -4,6 +4,7 @@ uses
 namespace Configuration
 
 	class Config
+		base_file:string = ""
 		root_path:string = ""
 		device:Device = new Devices.NoDevice()
 		image_size:string = ""

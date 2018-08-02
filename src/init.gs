@@ -8,7 +8,7 @@ init
 
 	var cli = new CLI()
 	if not cli.parse_options( ref args ) do return
-	cli.command = cli.parse_command( ref args )
+	cli.parse_command( ref args )
 
 	var commands = new CommandBuilderList( new PackageManagers.NoPackageManager() )
 
@@ -27,16 +27,18 @@ init
 		cli.command == CLI.Command.COMMAND_HELP |
 		cli.command == CLI.Command.LIST |
 		cli.command == CLI.Command.NONE |
+		cli.command == CLI.Command.ERROR |
 		cli.command == CLI.Command.UNKNOWN
 		)
 		return
 
 	var config = new Config()
+	if cli.base_file != "" do config.base_file = cli.base_file
+	if cli.script_path != "" do config.script_path = cli.script_path
 	if cli.boot_device != "" do config.boot_device = cli.boot_device
 	if cli.image_size != "" do config.image_size = cli.image_size
-	if cli.script_path != "" do config.script_path = cli.script_path
 
-	if not BaseFile.parse( args, ref config ) do return
+	if not BaseFile.parse( ref config ) do return
 	if not RootPath.parse( args, ref config ) do return
 
 	if not Devices.use_device( config, ref config.device ) do return

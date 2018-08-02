@@ -1,6 +1,7 @@
 class CLI
 	enum Command
 		NONE
+		ERROR
 		UNKNOWN
 		HELP
 		INSTALL
@@ -9,9 +10,10 @@ class CLI
 		MOUNT
 
 	prop command:Command = Command.NONE
+	prop readonly base_file:string = ""
+	prop readonly script_path:string = ""
 	prop readonly boot_device:string = ""
 	prop readonly image_size:string = ""
-	prop readonly script_path:string = ""
 
 	def parse_options( ref args:unowned array of string ):bool
 		var cli = new OptionContext( "<command> [<args>]" )
@@ -57,29 +59,36 @@ class CLI
 
 		return true
 
-	def parse_command( ref args:unowned array of string ):Command
+	def parse_command( ref args:unowned array of string )
 		if args.length == 1
-			return Command.NONE
-		command:Command = Command.NONE
+			_command = Command.NONE
+			return
 		arg:string = args[1].down()
 		case arg
 			when "install"
-				command = Command.INSTALL
+				_command = Command.INSTALL
 				parse_install_command( ref args )
 			when "help"
 				if args.length > 2
-					command = Command.COMMAND_HELP
+					_command = Command.COMMAND_HELP
 				else
-					command = Command.HELP
+					_command = Command.HELP
 			when "list"
-				command = Command.LIST
+				_command = Command.LIST
 			when "mount"
-				command = Command.MOUNT
+				_command = Command.MOUNT
 			default
-				command = Command.UNKNOWN
-		return command
+				_command = Command.UNKNOWN
+		return
 
 	def private parse_install_command( ref args:unowned array of string )
+		if not ( args.length > 2 )
+			print """A base file parameter is needed.
+
+Use '%s --help' to see command line syntax""", args[ 0 ]
+			_command = Command.ERROR
+			return
+		_base_file = args[ 2 ]
 		if args.length >= 5
-			_script_path = args[4]
+			_script_path = args[ 4 ]
 
