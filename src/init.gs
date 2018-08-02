@@ -5,8 +5,8 @@ init
 	Intl.setlocale()
 	Logging.set_up()
 
-	var cli = new CLI( args.copy(), new CommandBuilderList( new PackageManagers.NoPackageManager()))
-	if cli.command != CLI.Command.INSTALL do return
+	var cli = new CommandLineInterface( args.copy(), new CommandBuilderList( new PackageManagers.NoPackageManager()))
+	if cli.command != CommandLineInterface.Command.INSTALL do return
 
 	var config = new Config()
 	if cli.base_file != "" do config.base_file = cli.base_file

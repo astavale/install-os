@@ -1,4 +1,4 @@
-class CLI
+class CommandLineInterface
 	enum Command
 		NONE
 		ERROR
