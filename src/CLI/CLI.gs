@@ -11,6 +11,7 @@ class CLI
 
 	prop command:Command = Command.NONE
 	prop readonly base_file:string = ""
+	prop readonly root_path:string = ""
 	prop readonly script_path:string = ""
 	prop readonly boot_device:string = ""
 	prop readonly image_size:string = ""
@@ -89,6 +90,15 @@ Use '%s --help' to see command line syntax""", args[ 0 ]
 			_command = Command.ERROR
 			return
 		_base_file = args[ 2 ]
-		if args.length >= 5
+
+		if not ( args.length > 3 )
+			print """A root path parameter is needed.
+
+Use '%s --help' to see command line syntax""", args[ 0 ]
+			_command = Command.ERROR
+			return
+		_root_path = args[ 3 ]
+
+		if args.length >= 4
 			_script_path = args[ 4 ]
 

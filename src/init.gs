@@ -34,12 +34,11 @@ init
 
 	var config = new Config()
 	if cli.base_file != "" do config.base_file = cli.base_file
+	if cli.root_path != "" do config.root_path = cli.root_path
 	if cli.script_path != "" do config.script_path = cli.script_path
 	if cli.boot_device != "" do config.boot_device = cli.boot_device
 	if cli.image_size != "" do config.image_size = cli.image_size
-
 	if not BaseFile.parse( ref config ) do return
-	if not RootPath.parse( args, ref config ) do return
 
 	if not Devices.use_device( config, ref config.device ) do return
 
