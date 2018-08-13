@@ -18,12 +18,12 @@ $VALAC \
 	src/CommandLineInterface/CommandLineInterface.gs \
 	src/Commands.gs \
 	src/Configuration.gs \
-	src/Filesystem.gs \
 	src/GMustache.gs \
 	src/InstallKernel.gs \
 	src/InstallRoot.gs \
 	src/Interfaces.gs \
 	src/Logging.gs \
+	src/RootFilesystem.gs \
 	src/Script.gs \
 	src/WriteFstab.gs \
 	src/BootLoaders/BootLoaderFactory.gs \
