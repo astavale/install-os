@@ -14,7 +14,7 @@ namespace BootLoaders
 		_output:string = ""
 
 		construct( config:Configuration.Config,
-			filesystem:Filesystem.Filesystem )
+			filesystem:RootFilesystem )
 			_boot_device = config.boot_device
 			_root_dir = filesystem.root_dir
 			_boot_uuid = config.device.boot_uuid

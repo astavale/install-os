@@ -1,7 +1,7 @@
-def install_kernel( package_list:array of string, 
+def install_kernel( package_list:array of string,
 					package_manager:PackageManager,
 					config:Configuration.Config,
-					filesystem:Filesystem.Filesystem
+					filesystem:RootFilesystem
 					):bool
 	result:bool = false
 	message( "Installing kernel..." )

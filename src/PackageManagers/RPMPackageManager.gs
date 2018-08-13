@@ -2,7 +2,7 @@ namespace PackageManagers
 
 	class RPMPackageManager:Object implements PackageManager
 
-		_filesystem:Filesystem.Filesystem
+		_filesystem:RootFilesystem
 		_distribution:string = ""
 		_version:string = ""
 		_architecture:string = ""
@@ -10,10 +10,10 @@ namespace PackageManagers
 		_output:string = ""
 		_error:string = ""
 
-		construct( filesystem:Filesystem.Filesystem, 
-					distribution:string, 
-					version:string, 
-					architecture:string 
+		construct( filesystem:RootFilesystem,
+					distribution:string,
+					version:string,
+					architecture:string
 					) raises PackageManagerSetUpError
 			try
 				_create_db( filesystem.root_dir )
@@ -26,7 +26,7 @@ namespace PackageManagers
 
 		def _create_db( root_dir:string ) raises PackageManagerSetUpError
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"rpm --root " + root_dir + " -qa",
 					out _output,
 					null,

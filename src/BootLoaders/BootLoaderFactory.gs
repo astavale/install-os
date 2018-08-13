@@ -1,7 +1,7 @@
 namespace BootLoaders
 
 	def use_boot_loader( config:Configuration.Config,
-						filesystem:Filesystem.Filesystem, 
+						filesystem:RootFilesystem,
 						package_manager:PackageManager,
 						ref boot_loader:BootLoader
 						):bool

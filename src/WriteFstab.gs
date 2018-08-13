@@ -1,5 +1,5 @@
 def write_fstab( config:Configuration.Config,
-				filesystem:Filesystem.Filesystem
+				filesystem:RootFilesystem
 				):bool
 	if config.device.root_uuid == ""
 		message( "/etc/fstab not written because root filesystem UUID is blank" )

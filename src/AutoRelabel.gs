@@ -1,5 +1,5 @@
 def selinux_autorelabel( config:Configuration.Config,
-				filesystem:Filesystem.Filesystem
+				filesystem:RootFilesystem
 				):bool
 	try
 		_template:string = ""

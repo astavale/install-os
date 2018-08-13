@@ -1,5 +1,5 @@
 def set_root_password( config:Configuration.Config,
-				filesystem:Filesystem.Filesystem
+				filesystem:RootFilesystem
 				):bool
 	set_password_in_shadow_formatted_file( filesystem.root_dir + "/etc/shadow", "root", "test" )
 	message( "Root password set to \"test\"\n" )

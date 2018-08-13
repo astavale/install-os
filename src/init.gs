@@ -18,10 +18,11 @@ init
 
 	if not Devices.use_device( config, ref config.device ) do return
 
-	root_filesystem:Filesystem.Filesystem
+	root_filesystem:RootFilesystem
 	try
-		root_filesystem = new Filesystem.Filesystem( config )
-	except error:Filesystem.FilesystemSetUpError
+		root_filesystem = new RootFilesystem( config )
+	except error:RootFilesystemSetUpError
+		message( error.message )
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( config, root_filesystem, out package_manager ) do return
@@ -38,7 +39,7 @@ init
 	if not Script.run( ref config ) do return
 
 
-def install_base( config:Config, filesystem:Filesystem.Filesystem, package_manager:PackageManager ):bool
+def install_base( config:Config, filesystem:RootFilesystem, package_manager:PackageManager ):bool
 	if not install_root( config.root_packages, package_manager ) do return false
 	kernel_package:array of string = { "kernel", "--disableplugin=presto" }
 	if not install_kernel( kernel_package, package_manager, config, filesystem ) do return false
