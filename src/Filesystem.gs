@@ -8,7 +8,7 @@ namespace Filesystem
 
 		boot_dir:string = ""
 		root_dir:string = ""
-		root_is_empty:bool = false
+		prop readonly empty_at_start:bool = false
 		other_dir:array of string = {""}
 
 		_root_mount:string = ""
@@ -38,8 +38,8 @@ namespace Filesystem
 					root_dir = config.root_path
 				else
 					root_dir = Environment.get_current_dir()
-			root_is_empty = _check_root_empty( root_dir )
-			if root_is_empty
+			this._empty_at_start = _check_root_empty( root_dir )
+			if empty_at_start
 				try
 					_mount_sys()
 					_mount_proc()

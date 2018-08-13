@@ -30,10 +30,10 @@ init
 	if not Script.load( commands, ref config ) do return
 	if not Script.validate( ref config ) do return
 
-	if root_filesystem.root_is_empty
+	if root_filesystem.empty_at_start
 		if not install_base( config, root_filesystem, package_manager ) do return
 	else
-		message( "Root directory, %s, not empty. Install of base skipped.", root_filesystem.root_dir )
+		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.root_dir )
 
 	if not Script.run( ref config ) do return
 
