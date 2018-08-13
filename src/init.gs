@@ -18,22 +18,22 @@ init
 
 	if not Devices.use_device( config, ref config.device ) do return
 
-	target_filesystem:Filesystem.Filesystem
+	root_filesystem:Filesystem.Filesystem
 	try
-		target_filesystem = new Filesystem.Filesystem( config )
+		root_filesystem = new Filesystem.Filesystem( config )
 	except error:Filesystem.FilesystemSetUpError
 		return
 	package_manager:PackageManager
-	if not PackageManagers.use_package_manager( config, target_filesystem, out package_manager ) do return
+	if not PackageManagers.use_package_manager( config, root_filesystem, out package_manager ) do return
 	var commands = new CommandBuilderList( package_manager )
 
 	if not Script.load( commands, ref config ) do return
 	if not Script.validate( ref config ) do return
 
-	if target_filesystem.root_is_empty
-		if not install_base( config, target_filesystem, package_manager ) do return
+	if root_filesystem.root_is_empty
+		if not install_base( config, root_filesystem, package_manager ) do return
 	else
-		message( "Root directory, %s, not empty. Install of base skipped.", target_filesystem.root_dir )
+		message( "Root directory, %s, not empty. Install of base skipped.", root_filesystem.root_dir )
 
 	if not Script.run( ref config ) do return
 
