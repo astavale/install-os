@@ -13,7 +13,7 @@ def install_kernel( package_list:array of string,
 
 	_boot:Dir
 	try
-		_boot = Dir.open( filesystem.root_dir + "/boot" )
+		_boot = Dir.open( filesystem.path_on_host + "/boot" )
 	except error:FileError
 		message( "Unable to read boot directory. \"" + error.message + "\"" )
 		return false

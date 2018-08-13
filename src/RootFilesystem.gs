@@ -6,7 +6,7 @@ exception RootFilesystemSetUpError
 class RootFilesystem
 
 	boot_dir:string = ""
-	prop readonly root_dir:string = ""
+	prop readonly path_on_host:string = ""
 	prop readonly empty_at_start:bool = false
 
 	_root_mount:string = ""
@@ -29,14 +29,15 @@ class RootFilesystem
 		if config.device.root_is_mountable
 			try
 				_root_mount = _create_root_mount_point( )
-				_root_dir = _mount_root( config.device, _root_mount )
+				_path_on_host = _mount_root( config.device, _root_mount )
 			except error:RootFilesystemSetUpError
 				raise error
 		else if config.root_path != ""
-			_root_dir = config.root_path
+			_path_on_host = config.root_path
 		else
 			raise new RootFilesystemSetUpError.HOST_PATH( "File path on host, %s, for target root file system is not usable", config.root_path )
-		this._empty_at_start = _check_root_empty( root_dir )
+
+		this._empty_at_start = _check_root_empty()
 		if empty_at_start
 			try
 				_mount_sys()
@@ -83,10 +84,10 @@ class RootFilesystem
 		return _mount_point
 
 
-	def _check_root_empty( root_dir:string ):bool raises RootFilesystemSetUpError
+	def _check_root_empty():bool raises RootFilesystemSetUpError
 		_root:Dir
 		try
-			_root = Dir.open( root_dir )
+			_root = Dir.open( path_on_host )
 		except error:FileError
 			message( "Unable to open root directory. \"" + error.message + "\"" )
 			raise new RootFilesystemSetUpError.FILE( "Unable to open root directory" )
@@ -95,14 +96,14 @@ class RootFilesystem
 			entry = _root.read_name()
 		root_is_empty:bool = true
 		if entry != null
-			message( "Root directory, %s, not empty.", root_dir )
+			message( "Root filesystem is not empty, path on host to root is %s", path_on_host )
 			root_is_empty = false
 		return root_is_empty
 
 
 	def _mount_sys() raises RootFilesystemSetUpError
 		try
-			_sys_mount = _create_mount_point( root_dir, "sys" )
+			_sys_mount = _create_mount_point( path_on_host, "sys" )
 			_sys_mounted = _mount( "sysfs", "sysfs", _sys_mount )
 		except error:RootFilesystemSetUpError
 			raise error
@@ -110,7 +111,7 @@ class RootFilesystem
 
 	def _mount_proc() raises RootFilesystemSetUpError
 		try
-			_proc_mount = _create_mount_point( root_dir, "proc" )
+			_proc_mount = _create_mount_point( path_on_host, "proc" )
 			_proc_mounted = _mount( "proc", "proc", _proc_mount )
 		except error:RootFilesystemSetUpError
 			raise error
@@ -118,7 +119,7 @@ class RootFilesystem
 
 	def _mount_run() raises RootFilesystemSetUpError
 		try
-			_run_mount = _create_mount_point( root_dir, "run" )
+			_run_mount = _create_mount_point( path_on_host, "run" )
 			_run_mounted = _mount( "tmpfs", "tmpfs", _run_mount )
 		except error:RootFilesystemSetUpError
 			raise error
@@ -126,7 +127,7 @@ class RootFilesystem
 
 	def _mount_dev() raises RootFilesystemSetUpError
 		try
-			_dev_mount = _create_mount_point( root_dir, "dev" )
+			_dev_mount = _create_mount_point( path_on_host, "dev" )
 			_dev_mounted = _mount( "/dev", "devtmpfs", _dev_mount, Linux.MountFlags.BIND )
 		except error:RootFilesystemSetUpError
 			raise error

@@ -16,7 +16,7 @@ namespace BootLoaders
 		construct( config:Configuration.Config,
 			filesystem:RootFilesystem )
 			_boot_device = config.boot_device
-			_root_dir = filesystem.root_dir
+			_root_dir = filesystem.path_on_host
 			_boot_uuid = config.device.boot_uuid
 			_root_uuid = config.device.root_uuid
 			_kernel = config.boot_kernel_named

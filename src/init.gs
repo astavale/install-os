@@ -34,7 +34,7 @@ init
 	if root_filesystem.empty_at_start
 		if not install_base( config, root_filesystem, package_manager ) do return
 	else
-		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.root_dir )
+		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.path_on_host )
 
 	if not Script.run( ref config ) do return
 
