@@ -11,7 +11,7 @@ init
 	var config = new Config()
 	if cli.base_file != "" do config.base_file = cli.base_file
 	if cli.root_path != "" do config.root_path = cli.root_path
-	if cli.script_path != "" do config.script_path = cli.script_path
+	if cli.script_path != "" do config.script_paths.append( cli.script_path )
 	if cli.boot_device != "" do config.boot_device = cli.boot_device
 	if cli.image_size != "" do config.image_size = cli.image_size
 	if not BaseFile.parse( ref config ) do return
@@ -28,15 +28,19 @@ init
 	if not PackageManagers.use_package_manager( config, root_filesystem, out package_manager ) do return
 	var commands = new CommandBuilderList( package_manager )
 
-	var script = new Script( config.script_path, commands )
-	if not script.validate() do return
+	scripts:List of Script = new List of Script()
+	for script_path in config.script_paths
+		var script = new Script( script_path, commands )
+		if not script.validate() do return
+		scripts.append( script )
 
 	if root_filesystem.empty_at_start
 		if not install_base( config, root_filesystem, package_manager ) do return
 	else
 		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.path_on_host )
 
-	if not script.run() do return
+	for script in scripts
+		if not script.run() do return
 
 
 def install_base( config:Config, filesystem:RootFilesystem, package_manager:PackageManager ):bool

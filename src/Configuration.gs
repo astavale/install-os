@@ -11,12 +11,12 @@ namespace Configuration
 		target_version:string = ""
 		target_architecture:string = ""
 
-		root_packages:array of string = { "" }
-		boot_packages:array of string = { "" }
+		root_packages:array of string = { null }
+		boot_packages:array of string = { null }
 		boot_loader:string = ""
 		boot_device:string = ""
 		boot_kernel_named:string = ""
 		boot_initrd_named:string = ""
 
-		script_path:string = ""
+		script_paths:List of string = new List of string()
 
