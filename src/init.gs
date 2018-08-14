@@ -11,7 +11,7 @@ init
 	var config = new Config()
 	if cli.base_file != "" do config.base_file = cli.base_file
 	if cli.root_path != "" do config.root_path = cli.root_path
-	if cli.script_path != "" do config.script_paths.append( cli.script_path )
+	config.script_paths.concat( cli.script_paths.copy() )
 	if cli.boot_device != "" do config.boot_device = cli.boot_device
 	if cli.image_size != "" do config.image_size = cli.image_size
 	if not BaseFile.parse( ref config ) do return
@@ -28,7 +28,7 @@ init
 	if not PackageManagers.use_package_manager( config, root_filesystem, out package_manager ) do return
 	var commands = new CommandBuilderList( package_manager )
 
-	scripts:List of Script = new List of Script()
+	var scripts = new List of Script()
 	for script_path in config.script_paths
 		var script = new Script( script_path, commands )
 		if not script.validate() do return

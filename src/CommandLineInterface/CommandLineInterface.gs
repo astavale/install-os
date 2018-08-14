@@ -12,7 +12,7 @@ class CommandLineInterface
 	prop readonly command:Command = Command.NONE
 	prop readonly base_file:string = ""
 	prop readonly root_path:string = ""
-	prop readonly script_path:string = ""
+	prop readonly script_paths:List of string = new List of string()
 	prop readonly boot_device:string = ""
 	prop readonly image_size:string = ""
 
@@ -125,8 +125,10 @@ Use '%s --help' to see command line syntax""", _args[ 0 ]
 			return
 		_root_path = _args[ 3 ]
 
-		if _args.length >= 4
-			_script_path = _args[ 4 ]
+		position:int = 4
+		while position < _args.length
+			_script_paths.append( _args[ position ] )
+			position++
 
 	def show_help()
 		print( this.help_message )
