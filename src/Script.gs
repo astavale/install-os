@@ -4,28 +4,33 @@ uses
 
 class Script
 
+	script_path:private string = ""
 	script:private ArrayList of ScriptCommand = new ArrayList of ScriptCommand()
+	commands:private CommandBuilderList
 
 
-	def load( commands:CommandBuilderList, ref config:Configuration.Config ):bool
-		if config.script_path == "" do return true
-		var file = File.new_for_path( config.script_path )
+	construct( script_path:string, commands:CommandBuilderList )
+		if script_path == "" do return
+		this.script_path = script_path
+		this.commands = commands
+
+
+	def load():bool
+		var file = File.new_for_path( this.script_path )
 		if not file.query_exists()
-			message( "Script, %s, does not exist", config.script_path )
+			message( "Script, %s, does not exist", this.script_path )
 			return false
 		original_cwd:string = Environment.get_current_dir()
-		Environment.set_current_dir( Path.get_dirname( config.script_path ) )
-		var script = _load_script( commands, Path.get_basename( config.script_path ) )
-		script.add_all( script )
+		Environment.set_current_dir( Path.get_dirname( this.script_path ) )
+		var temp_script = _load_script( Path.get_basename( this.script_path ) )
+		script.add_all( temp_script )
 		Environment.set_current_dir( original_cwd )
-		message( "Script %s loaded", config.script_path )
+		message( "Script %s loaded", this.script_path )
 		return true
 
 
-	def _load_script( commands:CommandBuilderList,
-						script_path:string
-						):ArrayList of ScriptCommand
-		command_builder:IncludeBuilder = (IncludeBuilder)commands.get_builder( "include" )
+	def _load_script( script_path:string ):ArrayList of ScriptCommand
+		command_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
 		command:Include = (Include)command_builder.get_command_with_data(
 											new Variant.string( script_path )
 											)
@@ -34,16 +39,12 @@ class Script
 		if !loaded
 			message( "Failed to load script %s", script_path )
 			return new ArrayList of ScriptCommand
-		return _expand_includes( commands,
-								command.get_script().get_elements()
-								)
+		return _expand_includes( command.get_script().get_elements() )
 
 
-	def _expand_includes( commands:CommandBuilderList,
-							elements:GLib.List of Json.Node
-							):ArrayList of ScriptCommand
+	def _expand_includes( elements:GLib.List of Json.Node ):ArrayList of ScriptCommand
 		var script_without_includes = new ArrayList of ScriptCommand
-		include_builder:IncludeBuilder = (IncludeBuilder)commands.get_builder( "include" )
+		include_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
 		for var element in elements
 			if not (element.get_node_type() == Json.NodeType.OBJECT)
 				message( "Element of script array is not an object" )
@@ -53,12 +54,12 @@ class Script
 				message( "There should only be one member for each object in the script" )
 				return script_without_includes
 			if object.has_member( include_builder.name )
-				include_result:ArrayList of ScriptCommand = _load_script( commands,
+				include_result:ArrayList of ScriptCommand = _load_script(
 						object.get_string_member( include_builder.name )
 						)
 				script_without_includes.add_all( include_result )
 			else
-				command_builder:ScriptCommandBuilder = commands.get_builder( element.get_object().get_members().first().data )
+				command_builder:ScriptCommandBuilder = this.commands.get_builder( element.get_object().get_members().first().data )
 				data:Json.Node = element.get_object().get_member( command_builder.name )
 				try
 					data_variant:Variant = Json.gvariant_deserialize( data, null )
@@ -68,7 +69,8 @@ class Script
 					pass
 		return script_without_includes
 
-	def validate( ref config:Configuration.Config ):bool
+
+	def validate():bool
 		result:bool = true
 		for command in script
 			result = command.validate()
@@ -80,7 +82,7 @@ class Script
 		return result
 
 
-	def run( ref config:Configuration.Config ):bool
+	def run():bool
 		result:bool = false
 		for command in script
 			result = command.run()
