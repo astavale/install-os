@@ -13,9 +13,10 @@ class Script
 		if script_path == "" do return
 		this.script_path = script_path
 		this.commands = commands
+		this.load()
 
 
-	def load():bool
+	def private load():bool
 		var file = File.new_for_path( this.script_path )
 		if not file.query_exists()
 			message( "Script, %s, does not exist", this.script_path )
@@ -29,7 +30,7 @@ class Script
 		return true
 
 
-	def _load_script( script_path:string ):ArrayList of ScriptCommand
+	def private _load_script( script_path:string ):ArrayList of ScriptCommand
 		command_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
 		command:Include = (Include)command_builder.get_command_with_data(
 											new Variant.string( script_path )
@@ -42,7 +43,7 @@ class Script
 		return _expand_includes( command.get_script().get_elements() )
 
 
-	def _expand_includes( elements:GLib.List of Json.Node ):ArrayList of ScriptCommand
+	def private _expand_includes( elements:GLib.List of Json.Node ):ArrayList of ScriptCommand
 		var script_without_includes = new ArrayList of ScriptCommand
 		include_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
 		for var element in elements

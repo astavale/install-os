@@ -29,7 +29,6 @@ init
 	var commands = new CommandBuilderList( package_manager )
 
 	var script = new Script( config.script_path, commands )
-	if not script.load() do return
 	if not script.validate() do return
 
 	if root_filesystem.empty_at_start
