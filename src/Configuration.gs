@@ -22,5 +22,4 @@ namespace Configuration
 		boot_initrd_named:string = ""
 
 		script_path:string = ""
-		script:ArrayList of ScriptCommand = new ArrayList of ScriptCommand()
 

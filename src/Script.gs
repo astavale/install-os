@@ -2,7 +2,10 @@ uses
 	ScriptCommands
 	Gee
 
-namespace Script
+class Script
+
+	script:private ArrayList of ScriptCommand = new ArrayList of ScriptCommand()
+
 
 	def load( commands:CommandBuilderList, ref config:Configuration.Config ):bool
 		if config.script_path == "" do return true
@@ -13,10 +16,11 @@ namespace Script
 		original_cwd:string = Environment.get_current_dir()
 		Environment.set_current_dir( Path.get_dirname( config.script_path ) )
 		var script = _load_script( commands, Path.get_basename( config.script_path ) )
-		config.script.add_all( script )
+		script.add_all( script )
 		Environment.set_current_dir( original_cwd )
 		message( "Script %s loaded", config.script_path )
 		return true
+
 
 	def _load_script( commands:CommandBuilderList,
 						script_path:string
@@ -33,6 +37,7 @@ namespace Script
 		return _expand_includes( commands,
 								command.get_script().get_elements()
 								)
+
 
 	def _expand_includes( commands:CommandBuilderList,
 							elements:GLib.List of Json.Node
@@ -65,7 +70,7 @@ namespace Script
 
 	def validate( ref config:Configuration.Config ):bool
 		result:bool = true
-		for command in config.script
+		for command in script
 			result = command.validate()
 			if not result
 				message( "Command '%s' failed to validate data",
@@ -74,14 +79,16 @@ namespace Script
 				break
 		return result
 
+
 	def run( ref config:Configuration.Config ):bool
 		result:bool = false
-		for command in config.script
+		for command in script
 			result = command.run()
 			if not result
 				message( "Command '%s' failed to run", command.get_type().name() )
 				break
 		return result
+
 
 	def print_script( script:Json.Node )
 		print "about to create JSON generator"
