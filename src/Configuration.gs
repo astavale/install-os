@@ -1,6 +1,3 @@
-uses
-	Gee
-
 namespace Configuration
 
 	class Config
