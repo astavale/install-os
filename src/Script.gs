@@ -43,7 +43,7 @@ class Script
 		return _expand_includes( command.get_script().get_elements() )
 
 
-	def private _expand_includes( elements:GLib.List of Json.Node ):ArrayList of ScriptCommand
+	def private _expand_includes( elements:GLib.List of unowned Json.Node ):ArrayList of ScriptCommand
 		var script_without_includes = new ArrayList of ScriptCommand
 		include_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
 		for var element in elements
