@@ -11,7 +11,7 @@ init
 	var config = new Config()
 	if cli.base_file != "" do config.base_file = cli.base_file
 	if cli.root_path != "" do config.root_path = cli.root_path
-	config.script_paths.concat( cli.script_paths.copy() )
+	config.script_paths.concat( cli.script_paths.copy_deep(strdup) )
 	if cli.boot_device != "" do config.boot_device = cli.boot_device
 	if cli.image_size != "" do config.image_size = cli.image_size
 	if not BaseFile.parse( ref config ) do return
