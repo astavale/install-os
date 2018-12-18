@@ -1,0 +1,17 @@
+[Repository]
+format=rpm
+distribution=fedora
+
+[Target]
+architecture=x86_64
+version=28
+
+[Root]
+packages=@core;nano;less;passwd;net-tools --nogpgcheck
+
+[Kernel]
+
+[Boot]
+packages=grub2;
+loader=grub2-bios
+esp_mount_point=/boot/efi
