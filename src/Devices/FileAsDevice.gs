@@ -1,3 +1,22 @@
+/*
+ *   install-os - a tool to build configured raw disk images
+ *
+ *   Copyright (C) 2018  Alistair Thomas <opensource @ astavale.co.uk>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 namespace Devices
 
 	class FileAsDevice:Object implements Device
@@ -44,6 +63,7 @@ namespace Devices
 				message( "Command line --boot = %s option ignored", config.boot_device )
 			config.boot_device = _loop_device
 
+
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
 			if filesize == ""
 				filesize = "2.0"
@@ -61,6 +81,7 @@ namespace Devices
 				message( "...failed\n" + _output )
 				raise new DeviceSetUpError.FILE_ERROR( "Creation of blank sparse disk image failed" )
 			message( "...done\n" + _output )
+
 
 		def _add_partitions( device_string:string ) raises DeviceSetUpError
 			message( "Adding GPT partition table to disk image" )
@@ -142,6 +163,7 @@ namespace Devices
 			root_partition = _loop_device + "p3"
 			message( "...done\n" + _output )
 
+
 		def _format_partitions( ) raises DeviceSetUpError
 			if boot_partition != ""
 				message( "Formatting boot partition" )
@@ -178,6 +200,7 @@ namespace Devices
 				message( "...done\n" + _output )
 				root_uuid = _get_uuid( root_partition )
 
+
 		def _get_uuid( device:string ):string raises DeviceSetUpError
 			try
 				Process.spawn_command_line_sync( 
@@ -209,4 +232,3 @@ namespace Devices
 			if _status != 0
 				message( "Failed to remove loopback device " + _loop_device + "\n" + _output )
 			message( "Removed loopback device " + _loop_device )
-

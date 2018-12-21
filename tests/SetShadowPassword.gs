@@ -1,3 +1,22 @@
+/*
+ *   install-os - a tool to build configured raw disk images
+ *
+ *   Copyright (C) 2018  Alistair Thomas <opensource @ astavale.co.uk>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 namespace UnitTests.SetShadowPassword
 
 	def run(args:array of string?)
@@ -18,6 +37,7 @@ namespace UnitTests.SetShadowPassword
 		Test.run()
 		Posix._exit( 0 )
 
+
 	def test_set_root_password( fixture:AugeasShadowFixture )
 		file:string = fixture.tmp_file
 		user:string = "root"
@@ -34,6 +54,7 @@ namespace UnitTests.SetShadowPassword
 				Test.message( "Test match failed\n#Pattern: %s\n#Did not match: %s", expected.get_pattern(), fixture.get_contents() )
 		except error:Error
 			print error.message
+
 
 	def test_set_root_password_without_salt_argument( fixture:AugeasShadowFixture )
 		file:string = fixture.tmp_file
@@ -60,11 +81,13 @@ namespace UnitTests.SetShadowPassword
 		except error:Error
 			print error.message
 
+
 	class AugeasShadowFixture
 		tmp_file:string = ""
 	
 		_file:File
 		_iostream:FileIOStream
+
 
 		def set_up()
 			try
@@ -76,11 +99,13 @@ namespace UnitTests.SetShadowPassword
 			except error:Error
 				print error.message
 
+
 		def tear_down()
 			try
 				_file.delete()
 			except error:Error
 				print error.message
+
 
 		def get_contents():string
 			var contents = new array of uint8[256]
@@ -93,4 +118,3 @@ namespace UnitTests.SetShadowPassword
 			except error:Error
 				print "Failed to read fixture file contents: %s", error.message
 			return (string)contents
-
