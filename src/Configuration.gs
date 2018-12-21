@@ -8,6 +8,9 @@ namespace Configuration
 
 		repository_format:string = ""
 		repository_distribution:string = ""
+		repository_uri:string = ""
+		repository_package:string = ""
+		repository_key:string = ""
 		target_version:string = ""
 		target_architecture:string = ""
 

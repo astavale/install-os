@@ -1,17 +1,19 @@
 [Repository]
 format=rpm
 distribution=fedora
+uri=https://download.fedoraproject.org/pub/fedora/linux/releases/28/Everything/x86_64/os/
+package=fedora-release
+key=RPM-GPG-KEY-fedora-28-primary
 
 [Target]
 architecture=x86_64
 version=28
 
 [Root]
-packages=@core;nano;less;passwd;net-tools --nogpgcheck
+packages=@core;nano;less;passwd;net-tools
 
 [Kernel]
 
 [Boot]
 packages=grub2;
 loader=grub2-bios
-esp_mount_point=/boot/efi

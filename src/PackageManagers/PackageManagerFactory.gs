@@ -15,7 +15,10 @@ namespace PackageManagers
 					package_manager = new RPMPackageManager( filesystem,
 														config.repository_distribution,
 														config.target_version,
-														config.target_architecture )
+														config.target_architecture,
+														config.repository_uri,
+														config.repository_package,
+														config.repository_key )
 					_outcome = true
 		except
 			return false
