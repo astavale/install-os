@@ -1,7 +1,7 @@
 project( 'install-os', 'vala', 'c' )
 
-if not meson.get_compiler('vala').version().version_compare('>=0.43.0')
-    error( 'Vala version needs to be >= 0.43.0' )
+if not meson.get_compiler('vala').version().version_compare('>=0.40.0')
+    error( 'Vala version needs to be >= 0.40.0' )
 endif
 
 add_project_arguments( ['--vapidir', join_paths(meson.current_source_dir(), 'vapi')],
