@@ -1,7 +1,7 @@
 `install-os` - a tool for system builders and DevOps to build configured raw
 disk images
 
-## ## WARNING ## ##
+### -- WARNING -- ###
 This software requires root privileges to create loopback devices, mount
 partitions and install software in the mounted partitions.
 
