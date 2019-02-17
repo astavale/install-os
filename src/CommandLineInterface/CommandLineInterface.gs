@@ -24,8 +24,8 @@ class CommandLineInterface
 		UNKNOWN
 		HELP_ON_COMMAND_LINE_INTERFACE
 		INSTALL
-		HELP_ON_SCRIPT_COMMAND
-		LIST_SCRIPT_COMMANDS
+		HELP_ON_CONFIGURATION_SUBJECT
+		LIST_CONFIGURATION_SUBJECTS
 		MOUNT_RAW_IMAGE
 
 	prop readonly command:Command = Command.NONE
@@ -38,18 +38,19 @@ class CommandLineInterface
 	description:private string = "A tool to build configured operating system images"
 	syntax_description:private string = "<command> [<args>]"
 	syntax_help:private string = """<command> can be one of:
-  install <base> <root> [<script>] Use <base> configuration to install to <root>
-  help [<script command>]          Show this message or a script command's help
-  list                             Show a list of script commands
-  mount <root> [<mount point>]     Mount raw disk image at /tmp or <mount point>
-                                   The image will be unmounted when SIGTERM is received
+  install <base> <root> [<configs>] Use parameters from <base> file and install to <root>
+  help                              Show this message
+  list                              Show a list of configuration subjects
+  help <subject>                    Show help on a configuration subject
+  mount <root> [<mount point>]      Mount raw disk image at /tmp or <mount point>
+                                    The image will be unmounted when SIGTERM is received
 
 <command> arguments:
-  <base>                    Filename of basic options, e.g. package manager
+  <base>                    Filename of basic parameters file
+  <configs>                 Filename(s) of configuration(s) to customize the image
   <mount point>             Directory or filename to mount disk image at
-  <root>                    Block device, disk image or directory to install to
-  <script>                  Filename of an optional script to customize the image
-  <script command>          A command available to use in a configuration script"""
+  <root>                    A block device, disk image or directory to install to
+  <subject>                 A subject used in a declarative JSON configuration file"""
 	help_message:private string = ""
 
 	_args:unowned array of string
@@ -62,9 +63,9 @@ class CommandLineInterface
 		case command
 			when Command.HELP_ON_COMMAND_LINE_INTERFACE, Command.NONE
 				this.show_help()
-			when Command.HELP_ON_SCRIPT_COMMAND
+			when Command.HELP_ON_CONFIGURATION_SUBJECT
 				print( commands.get_help( _args[2] ))
-			when Command.LIST_SCRIPT_COMMANDS
+			when Command.LIST_CONFIGURATION_SUBJECTS
 				print( "Script Commands:\n" + commands.get_help () )
 			when Command.UNKNOWN
 				print( "Unknown command: %s", _args[1] )
@@ -115,11 +116,11 @@ class CommandLineInterface
 				parse_install_command()
 			when "help"
 				if _args.length > 2
-					_command = Command.HELP_ON_SCRIPT_COMMAND
+					_command = Command.HELP_ON_CONFIGURATION_SUBJECT
 				else
 					_command = Command.HELP_ON_COMMAND_LINE_INTERFACE
 			when "list"
-				_command = Command.LIST_SCRIPT_COMMANDS
+				_command = Command.LIST_CONFIGURATION_SUBJECTS
 			when "mount"
 				_command = Command.MOUNT_RAW_IMAGE
 			default
