@@ -8,7 +8,7 @@ sources += files(
     'AutoRelabel.gs',
     'BaseFile.gs',
     'Commands.gs',
-    'Configuration.gs',
+    'BaseParameters.gs',
     'GMustache.gs',
     'init.gs',
     'InstallKernel.gs',
