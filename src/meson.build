@@ -2,12 +2,13 @@ subdir( 'BootLoaders' )
 subdir( 'CommandLineInterface' )
 subdir( 'Devices' )
 subdir( 'PackageManagers' )
-subdir( 'ScriptCommands' )
+subdir( 'ConfigurationSubjects' )
 
 sources += files(
     'AutoRelabel.gs',
     'BaseParameters.gs',
     'Commands.gs',
+    'Configuration.gs',
     'GMustache.gs',
     'init.gs',
     'InstallKernel.gs',
@@ -15,6 +16,5 @@ sources += files(
     'Interfaces.gs',
     'Logging.gs',
     'RootFilesystem.gs',
-    'Script.gs',
     'WriteFstab.gs',
 )
