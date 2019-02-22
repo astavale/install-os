@@ -20,7 +20,6 @@
 namespace Base
 
 	class Parameters
-		base_file:string = ""
 		root_path:string = ""
 		device:Device = new Devices.NoDevice()
 		image_size:string = ""
@@ -41,3 +40,39 @@ namespace Base
 		boot_initrd_named:string = ""
 
 		script_paths:List of string = new List of string()
+
+		def parse_file( base_file:string ):bool
+
+			var keyfile = new KeyFile()
+			try
+				message( "Base file: %s", base_file )
+				keyfile.load_from_file( base_file, KeyFileFlags.NONE )
+
+				if keyfile.has_group( "Repository" )
+					if keyfile.has_key( "Repository", "format" )
+						this.repository_format = keyfile.get_string( "Repository", "format" )
+					if keyfile.has_key( "Repository", "distribution" )
+						this.repository_distribution = keyfile.get_string( "Repository", "distribution" )
+					if keyfile.has_key( "Repository", "uri" )
+						this.repository_uri = keyfile.get_string( "Repository", "uri" )
+					if keyfile.has_key( "Repository", "package" )
+						this.repository_package = keyfile.get_string( "Repository", "package" )
+					if keyfile.has_key( "Repository", "key" )
+						this.repository_key = keyfile.get_string( "Repository", "key" )
+				if keyfile.has_group( "Target" )
+					if keyfile.has_key( "Target", "version" )
+						this.target_version = keyfile.get_string( "Target", "version" )
+					if keyfile.has_key( "Target", "architecture" )
+						this.target_architecture = keyfile.get_string( "Target", "architecture" )
+				if keyfile.has_group( "Root" )
+					if keyfile.has_key( "Root", "packages" )
+						this.root_packages = keyfile.get_string_list( "Root", "packages" )
+				if keyfile.has_group( "Boot" )
+					if keyfile.has_key( "Boot", "packages" )
+						this.boot_packages = keyfile.get_string_list( "Boot", "packages" )
+					if keyfile.has_key( "Boot", "loader" )
+						this.boot_loader = keyfile.get_string( "Boot", "loader" )
+			except
+				return false
+
+			return true

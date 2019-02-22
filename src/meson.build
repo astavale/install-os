@@ -6,9 +6,8 @@ subdir( 'ScriptCommands' )
 
 sources += files(
     'AutoRelabel.gs',
-    'BaseFile.gs',
-    'Commands.gs',
     'BaseParameters.gs',
+    'Commands.gs',
     'GMustache.gs',
     'init.gs',
     'InstallKernel.gs',

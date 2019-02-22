@@ -25,12 +25,12 @@ init
 	if cli.command != CommandLineInterface.Command.INSTALL do return
 
 	var parameters = new Base.Parameters()
-	if cli.base_file != "" do parameters.base_file = cli.base_file
+	if cli.base_file != ""
+		if not parameters.parse_file( cli.base_file ) do return
 	if cli.root_path != "" do parameters.root_path = cli.root_path
 	parameters.script_paths.concat( cli.script_paths.copy_deep(strdup) )
 	if cli.boot_device != "" do parameters.boot_device = cli.boot_device
 	if cli.image_size != "" do parameters.image_size = cli.image_size
-	if not BaseFile.parse( ref parameters ) do return
 
 	if not Devices.use_device( parameters, ref parameters.device ) do return
 
