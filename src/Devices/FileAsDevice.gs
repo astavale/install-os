@@ -70,7 +70,7 @@ namespace Devices
 			_size:int = (int)(double.parse( filesize ) * 1024)
 			message( "Creating blank sparse disk image of size " + _size.to_string() + "MiB" )
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"dd if=/dev/zero of=" + device_string + " oflag=direct bs=1M seek=" + _size.to_string() + " count=1",
 					null,
 					out _output,
@@ -86,7 +86,7 @@ namespace Devices
 		def _add_partitions( device_string:string ) raises DeviceSetUpError
 			message( "Adding GPT partition table to disk image" )
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"parted --script " + device_string + " mktable gpt",
 					null,
 					out _output,
@@ -100,7 +100,7 @@ namespace Devices
 
 			message( "Creating GRUB BIOS boot partition" )
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"parted --script " + device_string + " mkpart primary 17KiB 1 set 1 bios_grub on name 1 GRUB_BIOS",
 					null,
 					out _output,
@@ -114,7 +114,7 @@ namespace Devices
 
 			message( "Creating EFI system boot partition" )
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"parted --script " + device_string + " mkpart primary fat32 1 100 set 2 boot on name 2 EFI_System",
 					null,
 					out _output,
@@ -128,7 +128,7 @@ namespace Devices
 
 			message( "Creating root partition" )
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"parted --script " + device_string + " mkpart primary ext4 100 100% name 3 root",
 					null,
 					out _output,
@@ -143,7 +143,7 @@ namespace Devices
 		def _set_up_loopback( device_string:string ) raises DeviceSetUpError
 			message( "Creating loopback device" )
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"partx --verbose --add " + device_string,
 					out _output,
 					null,
@@ -168,7 +168,7 @@ namespace Devices
 			if boot_partition != ""
 				message( "Formatting boot partition" )
 				try
-					Process.spawn_command_line_sync( 
+					Process.spawn_command_line_sync(
 						"mkfs -t vfat -F 32 -s 1 " + boot_partition,
 						null,
 						out _output,
@@ -185,7 +185,7 @@ namespace Devices
 			if root_partition != ""
 				message( "Formatting root partition" )
 				try
-					Process.spawn_command_line_sync( 
+					Process.spawn_command_line_sync(
 						"mkfs -t ext4 " + root_partition,
 						null,
 						out _output,
@@ -203,7 +203,7 @@ namespace Devices
 
 		def _get_uuid( device:string ):string raises DeviceSetUpError
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"lsblk --output UUID --noheadings " + device,
 					out _output,
 					null,
@@ -222,7 +222,7 @@ namespace Devices
 			if _loop_device == ""
 				return
 			try
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"partx --delete " + _loop_device,
 					out _output,
 					null,
