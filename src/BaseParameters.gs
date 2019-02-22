@@ -17,9 +17,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Configuration
+namespace Base
 
-	class Config
+	class Parameters
 		base_file:string = ""
 		root_path:string = ""
 		device:Device = new Devices.NoDevice()

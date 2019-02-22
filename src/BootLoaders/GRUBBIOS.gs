@@ -32,14 +32,14 @@ namespace BootLoaders
 		_status:int = 1
 		_output:string = ""
 
-		construct( config:Configuration.Config,
+		construct( parameters:Base.Parameters,
 			filesystem:RootFilesystem )
-			_boot_device = config.boot_device
+			_boot_device = parameters.boot_device
 			_root_dir = filesystem.path_on_host
-			_boot_uuid = config.device.boot_uuid
-			_root_uuid = config.device.root_uuid
-			_kernel = config.boot_kernel_named
-			_initrd = config.boot_initrd_named
+			_boot_uuid = parameters.device.boot_uuid
+			_root_uuid = parameters.device.root_uuid
+			_kernel = parameters.boot_kernel_named
+			_initrd = parameters.boot_initrd_named
 
 		def install():bool
 			if _boot_device == ""

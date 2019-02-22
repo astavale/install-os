@@ -17,9 +17,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-def selinux_autorelabel( config:Configuration.Config,
-				filesystem:RootFilesystem
-				):bool
+def selinux_autorelabel( filesystem:RootFilesystem ):bool
 	try
 		_template:string = ""
 		var _file = File.new_for_path( filesystem.path_on_host + "/.autorelabel" )

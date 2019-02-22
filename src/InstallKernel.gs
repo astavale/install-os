@@ -19,7 +19,7 @@
 
 def install_kernel( package_list:array of string,
 					package_manager:PackageManager,
-					config:Configuration.Config,
+					parameters:Base.Parameters,
 					filesystem:RootFilesystem
 					):bool
 	result:bool = false
@@ -40,8 +40,8 @@ def install_kernel( package_list:array of string,
 	match:MatchInfo
 	while entry != null
 		if (/^vmlinuz.*x86_64$/.match( entry, 0, out match ))
-			config.boot_kernel_named = "/boot/" + match.fetch( 0 )
+			parameters.boot_kernel_named = "/boot/" + match.fetch( 0 )
 		if (/^initramfs-0.*\.img$/.match( entry, 0, out match ))
-			config.boot_initrd_named = "/boot/" + match.fetch( 0 )
+			parameters.boot_initrd_named = "/boot/" + match.fetch( 0 )
 		entry = _boot.read_name()
 	return result

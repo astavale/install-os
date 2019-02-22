@@ -19,37 +19,37 @@
 
 namespace BaseFile
 
-	def parse( ref config:Configuration.Config ):bool
+	def parse( ref parameters:Base.Parameters ):bool
 
 		var keyfile = new KeyFile()
 		try
-			message( "Base file: %s", config.base_file )
-			keyfile.load_from_file( config.base_file, KeyFileFlags.NONE )
+			message( "Base file: %s", parameters.base_file )
+			keyfile.load_from_file( parameters.base_file, KeyFileFlags.NONE )
 
 			if keyfile.has_group( "Repository" )
 				if keyfile.has_key( "Repository", "format" )
-					config.repository_format = keyfile.get_string( "Repository", "format" )
+					parameters.repository_format = keyfile.get_string( "Repository", "format" )
 				if keyfile.has_key( "Repository", "distribution" )
-					config.repository_distribution = keyfile.get_string( "Repository", "distribution" )
+					parameters.repository_distribution = keyfile.get_string( "Repository", "distribution" )
 				if keyfile.has_key( "Repository", "uri" )
-					config.repository_uri = keyfile.get_string( "Repository", "uri" )
+					parameters.repository_uri = keyfile.get_string( "Repository", "uri" )
 				if keyfile.has_key( "Repository", "package" )
-					config.repository_package = keyfile.get_string( "Repository", "package" )
+					parameters.repository_package = keyfile.get_string( "Repository", "package" )
 				if keyfile.has_key( "Repository", "key" )
-					config.repository_key = keyfile.get_string( "Repository", "key" )
+					parameters.repository_key = keyfile.get_string( "Repository", "key" )
 			if keyfile.has_group( "Target" )
 				if keyfile.has_key( "Target", "version" )
-					config.target_version = keyfile.get_string( "Target", "version" )
+					parameters.target_version = keyfile.get_string( "Target", "version" )
 				if keyfile.has_key( "Target", "architecture" )
-					config.target_architecture = keyfile.get_string( "Target", "architecture" )
+					parameters.target_architecture = keyfile.get_string( "Target", "architecture" )
 			if keyfile.has_group( "Root" )
 				if keyfile.has_key( "Root", "packages" )
-					config.root_packages = keyfile.get_string_list( "Root", "packages" )
+					parameters.root_packages = keyfile.get_string_list( "Root", "packages" )
 			if keyfile.has_group( "Boot" )
 				if keyfile.has_key( "Boot", "packages" )
-					config.boot_packages = keyfile.get_string_list( "Boot", "packages" )
+					parameters.boot_packages = keyfile.get_string_list( "Boot", "packages" )
 				if keyfile.has_key( "Boot", "loader" )
-					config.boot_loader = keyfile.get_string( "Boot", "loader" )
+					parameters.boot_loader = keyfile.get_string( "Boot", "loader" )
 		except
 			return false
 

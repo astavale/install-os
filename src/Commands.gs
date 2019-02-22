@@ -18,9 +18,9 @@
  */
 
 uses
-	ScriptCommands
+	Base
 	Gee
-	Configuration
+	ScriptCommands
 
 class CommandBuilderList
 

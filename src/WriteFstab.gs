@@ -17,18 +17,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-def write_fstab( config:Configuration.Config,
+def write_fstab( parameters:Base.Parameters,
 				filesystem:RootFilesystem
 				):bool
-	if config.device.root_uuid == ""
+	if parameters.device.root_uuid == ""
 		message( "/etc/fstab not written because root filesystem UUID is blank" )
 		return true
 	try
 		_template_resource:Bytes = resources_lookup_data( "/templates/boot/fstab.mustache", ResourceLookupFlags.NONE )
 		_template:string = (string)_template_resource.get_data()
 		var _hash = new dict of string, string
-		_hash[ "boot_uuid" ] = config.device.boot_uuid
-		_hash[ "root_uuid" ] = config.device.root_uuid
+		_hash[ "boot_uuid" ] = parameters.device.boot_uuid
+		_hash[ "root_uuid" ] = parameters.device.root_uuid
 		_grub_config:string = GMustache.render( _template, _hash )
 		var _file = File.new_for_path( filesystem.path_on_host + "/etc/fstab" )
 		var _output = _file.create( FileCreateFlags.NONE )

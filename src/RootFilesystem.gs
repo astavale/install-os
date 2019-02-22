@@ -44,17 +44,17 @@ class RootFilesystem
 	_output:string = ""
 
 
-	construct( config:Configuration.Config ) raises RootFilesystemSetUpError
-		if config.device.root_is_mountable
+	construct( parameters:Base.Parameters ) raises RootFilesystemSetUpError
+		if parameters.device.root_is_mountable
 			try
 				_root_mount = _create_root_mount_point( )
-				_path_on_host = _mount_root( config.device, _root_mount )
+				_path_on_host = _mount_root( parameters.device, _root_mount )
 			except error:RootFilesystemSetUpError
 				raise error
-		else if config.root_path != ""
-			_path_on_host = config.root_path
+		else if parameters.root_path != ""
+			_path_on_host = parameters.root_path
 		else
-			raise new RootFilesystemSetUpError.HOST_PATH( "File path on host, %s, for target root file system is not usable", config.root_path )
+			raise new RootFilesystemSetUpError.HOST_PATH( "File path on host, %s, for target root file system is not usable", parameters.root_path )
 
 		this._empty_at_start = _check_root_empty()
 		if empty_at_start

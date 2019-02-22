@@ -40,28 +40,28 @@ namespace Devices
 		_output:string = ""
 		_loop_device:string = ""
 
-		construct( config:Configuration.Config ) raises DeviceSetUpError
-			var file = File.new_for_path( config.root_path )
-			if ( /\/$/.match( config.root_path ))
-				msg:string = "Failed: " + config.root_path + " is a directory, image must be created as a file"
+		construct( parameters:Base.Parameters ) raises DeviceSetUpError
+			var file = File.new_for_path( parameters.root_path )
+			if ( /\/$/.match( parameters.root_path ))
+				msg:string = "Failed: " + parameters.root_path + " is a directory, image must be created as a file"
 				message( msg )
 				raise new DeviceSetUpError.FILE_ERROR( msg )
 
 			try
 				if file.query_exists()
-					_set_up_loopback( config.root_path )
+					_set_up_loopback( parameters.root_path )
 					_root_is_mountable = true
 					_boot_is_mountable = true
 				else
-					_create_image( config.root_path, config.image_size )
-					_add_partitions( config.root_path )
-					_set_up_loopback( config.root_path )
+					_create_image( parameters.root_path, parameters.image_size )
+					_add_partitions( parameters.root_path )
+					_set_up_loopback( parameters.root_path )
 					_format_partitions( )
 			except error:DeviceSetUpError
 				raise error
-			if config.boot_device != ""
-				message( "Command line --boot = %s option ignored", config.boot_device )
-			config.boot_device = _loop_device
+			if parameters.boot_device != ""
+				message( "Command line --boot = %s option ignored", parameters.boot_device )
+			parameters.boot_device = _loop_device
 
 
 		def _create_image( device_string:string, filesize:string ) raises DeviceSetUpError
