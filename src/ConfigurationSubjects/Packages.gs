@@ -19,7 +19,7 @@
 
 namespace ConfigurationDeclarations
 
-	class PackagesBuilder:Object implements ScriptCommandBuilder
+	class PackagesBuilder:Object implements ConfigurationDeclarationBuilder
 		prop readonly name:string = "packages"
 		prop readonly short_description:string = "Install listed packages"
 		prop readonly long_description:string = """"packages" - install a list of packages

@@ -19,7 +19,7 @@
 
 namespace ConfigurationDeclarations
 
-	class IncludeBuilder:Object implements ScriptCommandBuilder
+	class IncludeBuilder:Object implements ConfigurationDeclarationBuilder
 		prop readonly name:string = "include"
 		prop readonly short_description:string = "Reads another script"
 		prop readonly long_description:string = """"include" - include an additional configuration script

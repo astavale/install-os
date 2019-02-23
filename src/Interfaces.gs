@@ -34,7 +34,7 @@ interface BootLoader:Object
 	def abstract install():bool
 	def abstract create_menu():bool
 
-interface ScriptCommandBuilder:Object
+interface ConfigurationDeclarationBuilder:Object
 	prop abstract readonly name:string
 	prop abstract readonly short_description:string
 	prop abstract readonly long_description:string

@@ -23,18 +23,18 @@ uses
 
 class CommandBuilderList
 
-	_list:TreeMap of string, ScriptCommandBuilder
+	_list:TreeMap of string, ConfigurationDeclarationBuilder
 	_package_manager:PackageManager
 
 	construct( package_manager:PackageManager )
 		_package_manager = package_manager
 
-		var temp = new ArrayList of ScriptCommandBuilder
+		var temp = new ArrayList of ConfigurationDeclarationBuilder
 		// Add commands available to configuration scripts below
 		temp.add( new IncludeBuilder() )
 		temp.add( new PackagesBuilder( _package_manager ) )
 
-		_list = new TreeMap of string, ScriptCommandBuilder
+		_list = new TreeMap of string, ConfigurationDeclarationBuilder
 		for var command in temp
 			_list.set( command.name, command )
 
@@ -48,7 +48,7 @@ class CommandBuilderList
 			var iterator = _list.map_iterator()
 			while iterator.has_next()
 				iterator.next()
-				script_command:ScriptCommandBuilder = iterator.get_value()
+				script_command:ConfigurationDeclarationBuilder = iterator.get_value()
 				if !iterator.has_next()
 					eol = ""
 				message += "  %-25s%-s%s".printf( script_command.name,
@@ -60,7 +60,7 @@ class CommandBuilderList
 		return message
 
 
-	def get_builder( command:string ):ScriptCommandBuilder
+	def get_builder( command:string ):ConfigurationDeclarationBuilder
 		return _list.get( command )
 
 

@@ -79,7 +79,7 @@ class Script
 						)
 				script_without_includes.add_all( include_result )
 			else
-				command_builder:ScriptCommandBuilder = this.commands.get_builder( element.get_object().get_members().first().data )
+				command_builder:ConfigurationDeclarationBuilder = this.commands.get_builder( element.get_object().get_members().first().data )
 				data:Json.Node = element.get_object().get_member( command_builder.name )
 				try
 					data_variant:Variant = Json.gvariant_deserialize( data, null )
