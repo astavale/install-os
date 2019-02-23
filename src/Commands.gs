@@ -18,7 +18,6 @@
  */
 
 uses
-	Base
 	Gee
 	ScriptCommands
 
@@ -52,7 +51,7 @@ class CommandBuilderList
 				script_command:ScriptCommandBuilder = iterator.get_value()
 				if !iterator.has_next()
 					eol = ""
-				message += "  %-25s%-s%s".printf( script_command.name, 
+				message += "  %-25s%-s%s".printf( script_command.name,
 											script_command.short_description,
 											eol
 											)
