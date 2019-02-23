@@ -17,7 +17,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace ScriptCommands
+namespace ConfigurationDeclarations
 
 	class IncludeBuilder:Object implements ScriptCommandBuilder
 		prop readonly name:string = "include"
@@ -35,10 +35,10 @@ An example:
 		construct()
 			pass
 
-		def get_command_with_data( data:Variant ):ScriptCommand
+		def get_declaration( data:Variant ):ConfigurationDeclaration
 			return new Include( data )
 
-	class Include:Object implements ScriptCommand
+	class Include:Object implements ConfigurationDeclaration
 
 		_data:Variant
 		_filename:string = ""
@@ -48,7 +48,7 @@ An example:
 			_data = data
 
 
-		def validate():bool
+		def check():bool
 			result:bool = false
 			if _data.is_of_type( VariantType.STRING )
 				_filename = _data.get_string()
@@ -58,11 +58,11 @@ An example:
 			return result
 
 
-		def run():bool
-			if not validate()
+		def apply():bool
+			if not check()
 				return false
 			var parser = new Json.Parser
-			try 
+			try
 				parser.load_from_file( _filename )
 			except error:Error
 				message( "Unable to load JSON file %s: %s", _filename, error.message )

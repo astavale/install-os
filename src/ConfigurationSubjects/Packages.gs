@@ -17,7 +17,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace ScriptCommands
+namespace ConfigurationDeclarations
 
 	class PackagesBuilder:Object implements ScriptCommandBuilder
 		prop readonly name:string = "packages"
@@ -40,10 +40,10 @@ An example:
 		construct( package_manager:PackageManager )
 			_package_manager = package_manager
 
-		def get_command_with_data( data:Variant ):ScriptCommand
+		def get_declaration( data:Variant ):ConfigurationDeclaration
 			return new Packages( data, _package_manager )
 
-	class Packages:Object implements ScriptCommand
+	class Packages:Object implements ConfigurationDeclaration
 
 		_package_list:Variant
 		_package_manager:PackageManager
@@ -55,7 +55,7 @@ An example:
 			_package_manager = package_manager
 
 
-		def validate():bool
+		def check():bool
 			if not _package_list.is_of_type( VariantType.ARRAY )
 				return false
 			var iterator = _package_list.iterator()
@@ -71,7 +71,7 @@ An example:
 			return result
 
 
-		def run():bool
+		def apply():bool
 			var iterator = _package_list.iterator()
 			value:Variant? = iterator.next_value()
 			result:bool = false

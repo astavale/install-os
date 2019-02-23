@@ -19,7 +19,7 @@
 
 uses
 	Gee
-	ScriptCommands
+	ConfigurationDeclarations
 
 class CommandBuilderList
 

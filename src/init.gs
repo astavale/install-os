@@ -47,7 +47,7 @@ init
 	var scripts = new List of Script()
 	for script_path in parameters.script_paths
 		var script = new Script( script_path, commands )
-		if not script.validate() do return
+		if not script.check() do return
 		scripts.append( script )
 
 	if root_filesystem.empty_at_start
@@ -56,7 +56,7 @@ init
 		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.path_on_host )
 
 	for script in scripts
-		if not script.run() do return
+		if not script.apply() do return
 
 
 def install_base( parameters:Base.Parameters,

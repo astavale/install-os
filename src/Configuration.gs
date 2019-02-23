@@ -18,13 +18,13 @@
  */
 
 uses
-	ScriptCommands
+	ConfigurationDeclarations
 	Gee
 
 class Script
 
 	script_path:private string = ""
-	script:private ArrayList of ScriptCommand = new ArrayList of ScriptCommand()
+	script:private ArrayList of ConfigurationDeclaration = new ArrayList of ConfigurationDeclaration()
 	commands:private CommandBuilderList
 
 
@@ -49,21 +49,21 @@ class Script
 		return true
 
 
-	def private _load_script( script_path:string ):ArrayList of ScriptCommand
+	def private _load_script( script_path:string ):ArrayList of ConfigurationDeclaration
 		command_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
-		command:Include = (Include)command_builder.get_command_with_data(
+		declaration:Include = (Include)command_builder.get_declaration(
 											new Variant.string( script_path )
 											)
-		command.validate()
-		loaded:bool = command.run()
+		declaration.check()
+		loaded:bool = declaration.apply()
 		if !loaded
 			message( "Failed to load script %s", script_path )
-			return new ArrayList of ScriptCommand
-		return _expand_includes( command.get_script().get_elements() )
+			return new ArrayList of ConfigurationDeclaration
+		return _expand_includes( declaration.get_script().get_elements() )
 
 
-	def private _expand_includes( elements:GLib.List of unowned Json.Node ):ArrayList of ScriptCommand
-		var script_without_includes = new ArrayList of ScriptCommand
+	def private _expand_includes( elements:GLib.List of unowned Json.Node ):ArrayList of ConfigurationDeclaration
+		var script_without_includes = new ArrayList of ConfigurationDeclaration
 		include_builder:IncludeBuilder = (IncludeBuilder)this.commands.get_builder( "include" )
 		for var element in elements
 			if not (element.get_node_type() == Json.NodeType.OBJECT)
@@ -74,7 +74,7 @@ class Script
 				message( "There should only be one member for each object in the script" )
 				return script_without_includes
 			if object.has_member( include_builder.name )
-				include_result:ArrayList of ScriptCommand = _load_script(
+				include_result:ArrayList of ConfigurationDeclaration = _load_script(
 						object.get_string_member( include_builder.name )
 						)
 				script_without_includes.add_all( include_result )
@@ -83,31 +83,31 @@ class Script
 				data:Json.Node = element.get_object().get_member( command_builder.name )
 				try
 					data_variant:Variant = Json.gvariant_deserialize( data, null )
-					var command = command_builder.get_command_with_data ( data_variant )
-					script_without_includes.add( command )
+					var declaration = command_builder.get_declaration ( data_variant )
+					script_without_includes.add( declaration )
 				except
 					pass
 		return script_without_includes
 
 
-	def validate():bool
+	def check():bool
 		result:bool = true
-		for command in script
-			result = command.validate()
+		for declaration in script
+			result = declaration.check()
 			if not result
-				message( "Command '%s' failed to validate data",
-						command.get_type().name()
+				message( "Declaration '%s' failed to validate data",
+						declaration.get_type().name()
 						)
 				break
 		return result
 
 
-	def run():bool
+	def apply():bool
 		result:bool = false
-		for command in script
-			result = command.run()
+		for declaration in script
+			result = declaration.apply()
 			if not result
-				message( "Command '%s' failed to run", command.get_type().name() )
+				message( "Declaration '%s' failed to apply", declaration.get_type().name() )
 				break
 		return result
 

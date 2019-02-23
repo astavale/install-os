@@ -38,8 +38,8 @@ interface ScriptCommandBuilder:Object
 	prop abstract readonly name:string
 	prop abstract readonly short_description:string
 	prop abstract readonly long_description:string
-	def abstract get_command_with_data( data:Variant ):ScriptCommand
+	def abstract get_declaration( data:Variant ):ConfigurationDeclaration
 
-interface ScriptCommand:Object
-	def abstract validate():bool
-	def abstract run():bool
+interface ConfigurationDeclaration:Object
+	def abstract check():bool
+	def abstract apply():bool
