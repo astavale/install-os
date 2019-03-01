@@ -55,7 +55,7 @@ class CommandLineInterface
 
 	_args:unowned array of string
 
-	construct( args:array of string, commands:CommandBuilderList )
+	construct( args:array of string, commands:ConfigurationSubjectList )
 		_args = args
 		if not this.parse_options() do return
 		this.parse_command()

@@ -25,10 +25,10 @@ class Script
 
 	script_path:private string = ""
 	script:private ArrayList of ConfigurationDeclaration = new ArrayList of ConfigurationDeclaration()
-	commands:private CommandBuilderList
+	commands:private ConfigurationSubjectList
 
 
-	construct( script_path:string, commands:CommandBuilderList )
+	construct( script_path:string, commands:ConfigurationSubjectList )
 		if script_path == "" do return
 		this.script_path = script_path
 		this.commands = commands

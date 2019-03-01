@@ -21,7 +21,7 @@ uses
 	Gee
 	ConfigurationDeclarations
 
-class CommandBuilderList
+class ConfigurationSubjectList
 
 	_list:TreeMap of string, ConfigurationDeclarationBuilder
 	_package_manager:PackageManager
@@ -30,13 +30,14 @@ class CommandBuilderList
 		_package_manager = package_manager
 
 		var temp = new ArrayList of ConfigurationDeclarationBuilder
+
 		// Add commands available to configuration scripts below
 		temp.add( new IncludeBuilder() )
 		temp.add( new PackagesBuilder( _package_manager ) )
 
 		_list = new TreeMap of string, ConfigurationDeclarationBuilder
-		for var command in temp
-			_list.set( command.name, command )
+		for var subject in temp
+			_list.set( subject.name, (owned)subject )
 
 
 	def get_help( command:string = "" ):string

@@ -21,7 +21,7 @@ init
 	Intl.setlocale()
 	Logging.set_up()
 
-	var cli = new CommandLineInterface( args.copy(), new CommandBuilderList( new PackageManagers.NoPackageManager()))
+	var cli = new CommandLineInterface( args.copy(), new ConfigurationSubjectList( new PackageManagers.NoPackageManager()))
 	if cli.command != CommandLineInterface.Command.INSTALL do return
 
 	var parameters = new Base.Parameters()
@@ -42,7 +42,7 @@ init
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( parameters, root_filesystem, out package_manager ) do return
-	var commands = new CommandBuilderList( package_manager )
+	var commands = new ConfigurationSubjectList( package_manager )
 
 	var scripts = new List of Script()
 	for script_path in parameters.script_paths
