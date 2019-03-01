@@ -7,8 +7,8 @@ subdir( 'ConfigurationSubjects' )
 sources += files(
     'AutoRelabel.gs',
     'BaseParameters.gs',
-    'Commands.gs',
     'Configuration.gs',
+    'ConfigurationSubjectList.gs',
     'GMustache.gs',
     'init.gs',
     'InstallKernel.gs',
