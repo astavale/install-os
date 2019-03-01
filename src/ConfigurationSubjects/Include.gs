@@ -21,8 +21,8 @@ namespace ConfigurationDeclarations
 
 	class IncludeBuilder:Object implements ConfigurationDeclarationBuilder
 		prop readonly name:string = "include"
-		prop readonly short_description:string = "Reads another script"
-		prop readonly long_description:string = """"include" - include an additional configuration script
+		prop readonly title:string = "Reads another script"
+		prop readonly description:string = """"include" - include an additional configuration script
 
 The additional script's filename is relative to the main script's file path.
 The include command allows scripts to be split and re-used.

@@ -36,8 +36,8 @@ interface BootLoader:Object
 
 interface ConfigurationDeclarationBuilder:Object
 	prop abstract readonly name:string
-	prop abstract readonly short_description:string
-	prop abstract readonly long_description:string
+	prop abstract readonly title:string
+	prop abstract readonly description:string
 	def abstract get_declaration( data:Variant ):ConfigurationDeclaration
 
 interface ConfigurationDeclaration:Object

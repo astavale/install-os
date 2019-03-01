@@ -42,7 +42,7 @@ class CommandBuilderList
 	def get_help( command:string = "" ):string
 		message:string = ""
 		if _list.has_key( command )
-			message = _list.get( command ).long_description
+			message = _list.get( command ).description
 		else if command == ""
 			eol:string = "\n"
 			var iterator = _list.map_iterator()
@@ -52,7 +52,7 @@ class CommandBuilderList
 				if !iterator.has_next()
 					eol = ""
 				message += "  %-25s%-s%s".printf( script_command.name,
-											script_command.short_description,
+											script_command.description,
 											eol
 											)
 		else
