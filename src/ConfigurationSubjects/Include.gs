@@ -86,5 +86,5 @@ An example:
 			return true
 
 
-		def get_script():Json.Array
+		def get_parsed_configuration():Json.Array
 			return _script

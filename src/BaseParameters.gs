@@ -39,7 +39,7 @@ namespace Base
 		boot_kernel_named:string = ""
 		boot_initrd_named:string = ""
 
-		script_paths:List of string = new List of string()
+		configuration_paths:List of string = new List of string()
 
 		def parse_file( base_file:string ):bool
 

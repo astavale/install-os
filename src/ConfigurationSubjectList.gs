@@ -53,7 +53,7 @@ class ConfigurationSubjectList
 				if !iterator.has_next()
 					eol = ""
 				message += "  %-25s%-s%s".printf( script_command.name,
-											script_command.description,
+											script_command.title,
 											eol
 											)
 		else

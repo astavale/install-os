@@ -28,7 +28,7 @@ init
 	if cli.base_file != ""
 		if not parameters.parse_file( cli.base_file ) do return
 	if cli.root_path != "" do parameters.root_path = cli.root_path
-	parameters.script_paths.concat( cli.script_paths.copy_deep(strdup) )
+	parameters.configuration_paths.concat( cli.configuration_paths.copy_deep(strdup) )
 	if cli.boot_device != "" do parameters.boot_device = cli.boot_device
 	if cli.image_size != "" do parameters.image_size = cli.image_size
 
@@ -42,21 +42,21 @@ init
 		return
 	package_manager:PackageManager
 	if not PackageManagers.use_package_manager( parameters, root_filesystem, out package_manager ) do return
-	var commands = new ConfigurationSubjectList( package_manager )
+	var subjects = new ConfigurationSubjectList( package_manager )
 
-	var scripts = new List of Script()
-	for script_path in parameters.script_paths
-		var script = new Script( script_path, commands )
-		if not script.check() do return
-		scripts.append( script )
+	var configurations = new List of Configuration()
+	for path in parameters.configuration_paths
+		var configuration = new Configuration( path, subjects )
+		if not configuration.check() do return
+		configurations.append( configuration )
 
 	if root_filesystem.empty_at_start
 		if not install_base( parameters, root_filesystem, package_manager ) do return
 	else
 		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.path_on_host )
 
-	for script in scripts
-		if not script.apply() do return
+	for configuration in configurations
+		if not configuration.apply() do return
 
 
 def install_base( parameters:Base.Parameters,

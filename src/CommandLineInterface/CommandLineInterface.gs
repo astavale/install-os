@@ -31,7 +31,7 @@ class CommandLineInterface
 	prop readonly command:Command = Command.NONE
 	prop readonly base_file:string = ""
 	prop readonly root_path:string = ""
-	prop readonly script_paths:List of string = new List of string()
+	prop readonly configuration_paths:List of string = new List of string()
 	prop readonly boot_device:string = ""
 	prop readonly image_size:string = ""
 
@@ -147,7 +147,7 @@ Use '%s --help' to see command line syntax""", _args[ 0 ]
 
 		position:int = 4
 		while position < _args.length
-			_script_paths.append( _args[ position ] )
+			_configuration_paths.append( _args[ position ] )
 			position++
 
 
