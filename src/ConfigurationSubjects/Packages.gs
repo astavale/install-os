@@ -24,11 +24,11 @@ namespace ConfigurationDeclarations
 		prop readonly title:string = "Install listed packages"
 		prop readonly description:string = """"packages" - install a list of packages
 
-The package manager specified in the base configuration file is used to install
-the packages.
+The packages are installed using the package manager specified in the base
+configuration file.
 
 An example:
-{ "script" : [
+{ "configuration" : [
   { "packages" : [
       "vala",
       "vala-devel"

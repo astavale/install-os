@@ -50,8 +50,8 @@ class Configuration
 
 
 	def private _load_configuration( configuration_path:string ):ArrayList of ConfigurationDeclaration
-		declaration_builder:IncludeBuilder = (IncludeBuilder)this.subjects.get_builder( "include" )
-		declaration:Include = (Include)declaration_builder.get_declaration(
+		declaration_builder:ConfigurationBuilder = (ConfigurationBuilder)this.subjects.get_builder( "configuration" )
+		declaration:ConfigurationDeclarations.Configuration = (ConfigurationDeclarations.Configuration)declaration_builder.get_declaration(
 											new Variant.string( configuration_path )
 											)
 		declaration.check()
@@ -59,35 +59,35 @@ class Configuration
 		if !loaded
 			message( "Failed to load configuration %s", configuration_path )
 			return new ArrayList of ConfigurationDeclaration
-		return _expand_includes( declaration.get_parsed_configuration().get_elements() )
+		return _expand_configurations( declaration.get_parsed_configuration().get_elements() )
 
 
-	def private _expand_includes( elements:GLib.List of unowned Json.Node ):ArrayList of ConfigurationDeclaration
-		var configuration_without_includes = new ArrayList of ConfigurationDeclaration
-		include_builder:IncludeBuilder = (IncludeBuilder)this.subjects.get_builder( "include" )
+	def private _expand_configurations( elements:GLib.List of unowned Json.Node ):ArrayList of ConfigurationDeclaration
+		var flattened_configuration = new ArrayList of ConfigurationDeclaration
+		configuration_builder:ConfigurationBuilder = (ConfigurationBuilder)this.subjects.get_builder( "configuration" )
 		for var element in elements
 			if not (element.get_node_type() == Json.NodeType.OBJECT)
-				message( "Element of script array is not an object" )
-				return configuration_without_includes
+				message( "Element of configuration array is not an object" )
+				return flattened_configuration
 			object:Json.Object = element.get_object()
 			if object.get_size() != 1
-				message( "There should only be one member for each object in the script" )
-				return configuration_without_includes
-			if object.has_member( include_builder.name )
-				include_result:ArrayList of ConfigurationDeclaration = _load_configuration(
-						object.get_string_member( include_builder.name )
+				message( "There should only be one member for each object in the configuration" )
+				return flattened_configuration
+			if object.has_member( configuration_builder.name )
+				configuration_result:ArrayList of ConfigurationDeclaration = _load_configuration(
+						object.get_string_member( configuration_builder.name )
 						)
-				configuration_without_includes.add_all( include_result )
+				flattened_configuration.add_all( configuration_result )
 			else
 				declaration_builder:ConfigurationDeclarationBuilder = this.subjects.get_builder( element.get_object().get_members().first().data )
 				data:Json.Node = element.get_object().get_member( declaration_builder.name )
 				try
 					data_variant:Variant = Json.gvariant_deserialize( data, null )
 					var declaration = declaration_builder.get_declaration ( data_variant )
-					configuration_without_includes.add( declaration )
+					flattened_configuration.add( declaration )
 				except
 					pass
-		return configuration_without_includes
+		return flattened_configuration
 
 
 	def check():bool

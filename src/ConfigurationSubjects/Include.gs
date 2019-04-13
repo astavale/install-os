@@ -19,30 +19,30 @@
 
 namespace ConfigurationDeclarations
 
-	class IncludeBuilder:Object implements ConfigurationDeclarationBuilder
-		prop readonly name:string = "include"
+	class ConfigurationBuilder:Object implements ConfigurationDeclarationBuilder
+		prop readonly name:string = "configuration"
 		prop readonly title:string = "Reads another script"
-		prop readonly description:string = """"include" - include an additional configuration script
+		prop readonly description:string = """"configuration" - include an additional configuration file
 
-The additional script's filename is relative to the main script's file path.
-The include command allows scripts to be split and re-used.
+The additional configuration's filename is relative to the main configuration's file path.
+The configuration declaration allows configurations to be split and re-used.
 
 An example:
-{ "script" : [
-  { "include" : "server/monitoring.json" }
+{ "configuration" : [
+  { "configuration" : "server/monitoring.json" }
 ]}"""
 
 		construct()
 			pass
 
 		def get_declaration( data:Variant ):ConfigurationDeclaration
-			return new Include( data )
+			return new Configuration( data )
 
-	class Include:Object implements ConfigurationDeclaration
+	class Configuration:Object implements ConfigurationDeclaration
 
 		_data:Variant
 		_filename:string = ""
-		_script:Json.Array = new Json.Array()
+		_configuration:Json.Array = new Json.Array()
 
 		construct( data:Variant )
 			_data = data
@@ -75,16 +75,16 @@ An example:
 				message( "Root node is not an object in %s", _filename )
 				return false
 			var root_object = root.get_object()
-			if not root_object.has_member( "script" )
-				message( "Root node does not contain a \"script\" in %s", _filename )
+			if not root_object.has_member( "configuration" )
+				message( "Root node does not contain a \"configuration\" in %s", _filename )
 				return false
-			var script_array = root_object.get_member( "script" )
-			if not (script_array.get_node_type() == Json.NodeType.ARRAY)
-				message( "\"script\" in %s does not contain an array", _filename )
+			var configuration_array = root_object.get_member( "configuration" )
+			if not (configuration_array.get_node_type() == Json.NodeType.ARRAY)
+				message( "\"configuration\" in %s does not contain an array", _filename )
 				return false
-			_script = script_array.get_array().ref()
+			_configuration = configuration_array.get_array().ref()
 			return true
 
 
 		def get_parsed_configuration():Json.Array
-			return _script
+			return _configuration

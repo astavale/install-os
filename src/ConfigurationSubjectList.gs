@@ -32,7 +32,7 @@ class ConfigurationSubjectList
 		var temp = new ArrayList of ConfigurationDeclarationBuilder
 
 		// Add commands available to configuration scripts below
-		temp.add( new IncludeBuilder() )
+		temp.add( new ConfigurationBuilder() )
 		temp.add( new PackagesBuilder( _package_manager ) )
 
 		_list = new TreeMap of string, ConfigurationDeclarationBuilder
