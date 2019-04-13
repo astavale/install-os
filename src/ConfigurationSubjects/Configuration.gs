@@ -54,7 +54,7 @@ An example:
 				_filename = _data.get_string()
 				result = true
 			if result == false
-				message( "Include command failed to validate" )
+				message( "Configuration declaration failed check" )
 			return result
 
 
