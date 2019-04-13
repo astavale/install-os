@@ -1,5 +1,5 @@
 sources += files(
-    'Include.gs',
+    'Configuration.gs',
     'Packages.gs',
     'SetRootPassword.gs',
 )
