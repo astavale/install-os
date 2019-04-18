@@ -50,13 +50,32 @@ init
 		if not configuration.check() do return
 		configurations.append( configuration )
 
+	var loop = new MainLoop()
+
+	quit:SourceFunc = def()
+		loop.quit()
+		return Source.REMOVE
+
+	setup_install.begin( parameters, root_filesystem, configurations, package_manager, quit )
+	loop.run()
+
+
+def async setup_install( parameters:Base.Parameters,
+						root_filesystem:RootFilesystem,
+						configurations:List of (Configuration),
+						package_manager:PackageManager,
+						quit:SourceFunc )
+	Timeout.add( 0, setup_install.callback )
+	yield
 	if root_filesystem.empty_at_start
 		if not install_base( parameters, root_filesystem, package_manager ) do return
 	else
 		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.path_on_host )
 
 	for configuration in configurations
-		if not configuration.apply() do return
+		if not configuration.apply() do quit()
+
+	quit()
 
 
 def install_base( parameters:Base.Parameters,
