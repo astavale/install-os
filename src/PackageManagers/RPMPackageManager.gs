@@ -109,7 +109,7 @@ namespace PackageManagers
 				for var package in package_list
 					_package_list += package + " "
 				message( "Installing RPM packages: " + _package_list )
-				Process.spawn_command_line_sync( 
+				Process.spawn_command_line_sync(
 					"yum install --assumeyes --installroot " + _filesystem.path_on_host + " --setopt=reposdir=" + _filesystem.path_on_host + "/etc/yum.repos.d/ --releasever " + _version + " " + _package_list,
 					out _output,
 					out _error,

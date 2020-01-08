@@ -1,16 +1,16 @@
 [Repository]
+location=https://download.fedoraproject.org/pub/fedora/linux/releases/29/Everything/x86_64/os/
 format=rpm
 distribution=fedora
-uri=https://download.fedoraproject.org/pub/fedora/linux/releases/29/Everything/x86_64/os/
-package=fedora-release
-key=RPM-GPG-KEY-fedora-29-primary
+configuration_package=fedora-release
+public_key_location=RPM-GPG-KEY-fedora-29-primary
 
 [Target]
 architecture=x86_64
 version=29
 
 [Root]
-packages=@core;nano;less;passwd;net-tools
+packages=@core;nano;less;passwd
 
 [Kernel]
 
