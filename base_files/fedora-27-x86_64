@@ -1,13 +1,13 @@
+[OS]
+id=fedora
+version_id=27
+architecture=x86_64
+
 [Repository]
 location=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/27/Everything/x86_64/os/
 format=rpm
-distribution=fedora
 configuration_package=fedora-release
 public_key_location=RPM-GPG-KEY-fedora-27-primary
-
-[Target]
-architecture=x86_64
-version=27
 
 [Root]
 packages=@core;nano;less;passwd

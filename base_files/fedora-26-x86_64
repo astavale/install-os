@@ -1,13 +1,13 @@
+[OS]
+id=fedora
+version_id=26
+architecture=x86_64
+
 [Repository]
 location=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/26/Everything/x86_64/os/
 format=rpm
-distribution=fedora
 configuration_package=fedora-release
 public_key_location=RPM-GPG-KEY-fedora-26-primary
-
-[Target]
-architecture=x86_64
-version=26
 
 [Root]
 packages=@core;nano;less;passwd
