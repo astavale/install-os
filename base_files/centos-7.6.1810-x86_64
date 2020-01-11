@@ -5,7 +5,7 @@ architecture=x86_64
 
 [Repository]
 location=http://mirror.centos.org/centos-7/7.6.1810/os/x86_64/
-format=rpm
+package_manager=rpm
 configuration_package=centos-release
 public_key_location=RPM-GPG-KEY-CentOS-7
 

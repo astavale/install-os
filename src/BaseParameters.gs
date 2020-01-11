@@ -57,10 +57,10 @@ namespace Base
 						this.target_architecture = keyfile.get_string( "OS", "architecture" )
 
 				if keyfile.has_group( "Repository" )
-					if keyfile.has_key( "Repository", "format" )
-						this.repository_format = keyfile.get_string( "Repository", "format" )
 					if keyfile.has_key( "Repository", "location" )
 						this.repository_uri = keyfile.get_string( "Repository", "location" )
+					if keyfile.has_key( "Repository", "package_manager" )
+						this.repository_format = keyfile.get_string( "Repository", "package_manager" )
 					if keyfile.has_key( "Repository", "configuration_package" )
 						this.repository_package = keyfile.get_string( "Repository", "configuration_package" )
 					if keyfile.has_key( "Repository", "public_key_location" )
