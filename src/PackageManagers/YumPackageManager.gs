@@ -19,7 +19,7 @@
 
 namespace PackageManagers
 
-	class RPMPackageManager:Object implements PackageManager
+	class YumPackageManager:Object implements PackageManager
 
 		_filesystem:RootFilesystem
 		_distribution:string = ""

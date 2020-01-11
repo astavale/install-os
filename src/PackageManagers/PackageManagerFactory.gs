@@ -30,8 +30,8 @@ namespace PackageManagers
 		package_manager = new NoPackageManager()
 		try
 			case parameters.repository_format
-				when "rpm"
-					package_manager = new RPMPackageManager( filesystem,
+				when "yum"
+					package_manager = new YumPackageManager( filesystem,
 														parameters.repository_distribution,
 														parameters.target_version,
 														parameters.target_architecture,

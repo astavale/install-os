@@ -5,7 +5,7 @@ architecture=x86_64
 
 [Repository]
 location=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/25/Everything/x86_64/os/
-package_manager=rpm
+package_manager=yum
 configuration_package=fedora-release
 public_key_location=RPM-GPG-KEY-fedora-25-primary
 
