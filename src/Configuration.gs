@@ -21,6 +21,11 @@ uses
 	ConfigurationDeclarations
 	Gee
 
+exception ConfigurationCheckError
+	FILE
+	JSON
+	DECLARATION
+
 class Configuration
 
 	configuration_path:private string = ""
@@ -28,28 +33,26 @@ class Configuration
 	subjects:private ConfigurationSubjectList
 
 
-	construct( configuration_path:string, subjects:ConfigurationSubjectList )
+	construct( configuration_path:string, subjects:ConfigurationSubjectList ) raises ConfigurationCheckError
 		if configuration_path == "" do return
 		this.configuration_path = configuration_path
 		this.subjects = subjects
 		this.load()
 
 
-	def private load():bool
+	def private load() raises ConfigurationCheckError
 		var file = File.new_for_path( this.configuration_path )
 		if not file.query_exists()
-			message( "Configuration, %s, does not exist", this.configuration_path )
-			return false
+			raise new ConfigurationCheckError.FILE( "Configuration, %s, does not exist", this.configuration_path )
 		original_cwd:string = Environment.get_current_dir()
 		Environment.set_current_dir( Path.get_dirname( this.configuration_path ) )
 		var temp_configuration = _load_configuration( Path.get_basename( this.configuration_path ) )
 		configuration.add_all( temp_configuration )
 		Environment.set_current_dir( original_cwd )
 		message( "Configuration %s loaded", this.configuration_path )
-		return true
 
 
-	def private _load_configuration( configuration_path:string ):ArrayList of ConfigurationDeclaration
+	def private _load_configuration( configuration_path:string ):ArrayList of ConfigurationDeclaration raises ConfigurationCheckError
 		declaration_builder:ConfigurationBuilder = (ConfigurationBuilder)this.subjects.get_builder( "configuration" )
 		declaration:ConfigurationDeclarations.Configuration = (ConfigurationDeclarations.Configuration)declaration_builder.get_declaration(
 											new Variant.string( configuration_path )
@@ -62,7 +65,7 @@ class Configuration
 		return _expand_configurations( declaration.get_parsed_configuration().get_elements() )
 
 
-	def private _expand_configurations( elements:GLib.List of unowned Json.Node ):ArrayList of ConfigurationDeclaration
+	def private _expand_configurations( elements:GLib.List of unowned Json.Node ):ArrayList of ConfigurationDeclaration raises ConfigurationCheckError
 		var flattened_configuration = new ArrayList of ConfigurationDeclaration
 		configuration_builder:ConfigurationBuilder = (ConfigurationBuilder)this.subjects.get_builder( "configuration" )
 		for var element in elements

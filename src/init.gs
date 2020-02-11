@@ -46,9 +46,13 @@ init
 
 	var configurations = new List of Configuration()
 	for path in parameters.configuration_paths
-		var configuration = new Configuration( path, subjects )
-		if not configuration.check() do return
-		configurations.append( configuration )
+		try
+			var configuration = new Configuration( path, subjects )
+			if not configuration.check() do return
+			configurations.append( configuration )
+		except error:ConfigurationCheckError
+			message( error.message )
+			return
 
 	var loop = new MainLoop()
 

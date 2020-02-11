@@ -61,7 +61,10 @@ class ConfigurationSubjectList
 		return message
 
 
-	def get_builder( command:string ):ConfigurationDeclarationBuilder
+	def get_builder( command:string ):ConfigurationDeclarationBuilder raises ConfigurationCheckError
+		var result = _list.get( command )
+		if result == null
+			raise new ConfigurationCheckError.DECLARATION( @"No handler for configuration declaration \"$(command)\"" )
 		return _list.get( command )
 
 
