@@ -80,21 +80,3 @@ def async setup_install( parameters:Base.Parameters,
 		if not configuration.apply() do quit()
 
 	quit()
-
-
-def install_base( parameters:Base.Parameters,
-				filesystem:RootFilesystem,
-				package_manager:PackageManager
-				):bool
-	if not install_root( parameters.root_packages, package_manager ) do return false
-	kernel_package:array of string = { "kernel", "--disableplugin=presto" }
-	if not install_kernel( kernel_package, package_manager, parameters, filesystem ) do return false
-
-	boot_loader:BootLoader = new BootLoaders.NoBootLoader()
-	if not BootLoaders.use_boot_loader( parameters, filesystem, package_manager, ref boot_loader ) do return false
-	if not boot_loader.install() do return false
-	if not boot_loader.create_menu() do return false
-	if not write_fstab( parameters, filesystem ) do return false
-	if not selinux_autorelabel( filesystem ) do return false
-	if not set_root_password( filesystem ) do return false
-	return true

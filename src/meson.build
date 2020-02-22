@@ -11,6 +11,7 @@ sources += files(
     'ConfigurationSubjectList.gs',
     'GMustache.gs',
     'init.gs',
+    'InstallBase.gs',
     'InstallKernel.gs',
     'InstallRoot.gs',
     'Interfaces.gs',
