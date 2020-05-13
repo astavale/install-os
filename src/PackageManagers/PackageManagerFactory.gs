@@ -19,8 +19,17 @@
 
 namespace PackageManagers
 
+
 	exception PackageManagerSetUpError
 		FILE_ERROR
+		UNSUPPORTED_CONFIGURATION_METHOD
+
+
+	enum ConfiguredBy
+		NOTHING
+		FILE
+		PACKAGE
+
 
 	def use_package_manager( parameters:Base.Parameters,
 							filesystem:RootFilesystem,
@@ -28,16 +37,11 @@ namespace PackageManagers
 							):bool
 		_outcome:bool = false
 		package_manager = new NoPackageManager()
+
 		try
-			case parameters.repository_format
+			case parameters.repository_package_manager
 				when "yum"
-					package_manager = new YumPackageManager( filesystem,
-														parameters.repository_distribution,
-														parameters.target_version,
-														parameters.target_architecture,
-														parameters.repository_uri,
-														parameters.repository_package,
-														parameters.repository_key )
+					package_manager = new YumPackageManager( filesystem, parameters.os_id, parameters.os_version_id, parameters.os_architecture, parameters.repository_base_location )
 					_outcome = true
 		except
 			return false

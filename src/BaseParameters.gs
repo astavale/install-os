@@ -24,13 +24,15 @@ namespace Base
 		device:Device = new Devices.NoDevice()
 		image_size:string = ""
 
-		repository_format:string = ""
-		repository_distribution:string = ""
-		repository_uri:string = ""
-		repository_package:string = ""
-		repository_key:string = ""
-		target_version:string = ""
-		target_architecture:string = ""
+		os_id:string = ""
+		os_version_id:string = ""
+		os_architecture:string = ""
+
+		repository_base_location:string = ""
+		repository_package_manager:string = ""
+		repository_configured_by:string = ""
+		repository_configuration_source_location:string = ""
+		repository_public_key_location:string = ""
 
 		root_packages:array of string = { null }
 		boot_packages:array of string = { null }
@@ -50,21 +52,23 @@ namespace Base
 
 				if keyfile.has_group( "OS" )
 					if keyfile.has_key( "OS", "id" )
-						this.repository_distribution = keyfile.get_string( "OS", "id" )
+						this.os_id = keyfile.get_string( "OS", "id" )
 					if keyfile.has_key( "OS", "version_id" )
-						this.target_version = keyfile.get_string( "OS", "version_id" )
+						this.os_version_id = keyfile.get_string( "OS", "version_id" )
 					if keyfile.has_key( "OS", "architecture" )
-						this.target_architecture = keyfile.get_string( "OS", "architecture" )
+						this.os_architecture = keyfile.get_string( "OS", "architecture" )
 
 				if keyfile.has_group( "Repository" )
-					if keyfile.has_key( "Repository", "location" )
-						this.repository_uri = keyfile.get_string( "Repository", "location" )
 					if keyfile.has_key( "Repository", "package_manager" )
-						this.repository_format = keyfile.get_string( "Repository", "package_manager" )
-					if keyfile.has_key( "Repository", "configuration_package" )
-						this.repository_package = keyfile.get_string( "Repository", "configuration_package" )
+						this.repository_package_manager = keyfile.get_string( "Repository", "package_manager" )
+					if keyfile.has_key( "Repository", "location" )
+						this.repository_base_location = keyfile.get_string( "Repository", "location" )
+					if keyfile.has_key( "Repository", "configured_by" )
+						this.repository_configured_by = keyfile.get_string( "Repository", "configured_by" )
+					if keyfile.has_key( "Repository", "configuration_source_location" )
+						this.repository_configuration_source_location = keyfile.get_string( "Repository", "configuration_source_location" )
 					if keyfile.has_key( "Repository", "public_key_location" )
-						this.repository_key = keyfile.get_string( "Repository", "public_key_location" )
+						this.repository_public_key_location = keyfile.get_string( "Repository", "public_key_location" )
 
 				if keyfile.has_group( "Root" )
 					if keyfile.has_key( "Root", "packages" )

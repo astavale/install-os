@@ -17,9 +17,15 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-def install_root( package_list:array of string, package_manager:PackageManager ):bool
+def install_root( package_manager:PackageManager, configured_by:PackageManagers.ConfiguredBy, configuration_source_location:string, public_key_location:string, package_list:array of string ):bool
 	result:bool = false
 	message( "Installing root filesystem..." )
+	try
+		package_manager.install_repository_configuration( configured_by, configuration_source_location )
+		package_manager.install_repository_public_key( public_key_location )
+	except error:PackageManagers.PackageManagerSetUpError
+		message( @"...failed. $(error.message)" )
+		return false
 	result = package_manager.install_packages( package_list )
 	if result
 		message( "...done. Root filesystem install complete" )

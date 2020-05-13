@@ -27,18 +27,24 @@ interface Device:Object
 	prop abstract readonly root_is_mountable:bool
 	prop abstract other_partitions:array of string
 
+
 interface PackageManager:Object
 	def abstract install_packages( package_list:array of string ):bool
+	def abstract install_repository_configuration( type:PackageManagers.ConfiguredBy, configuration_location:string ) raises PackageManagers.PackageManagerSetUpError
+	def abstract install_repository_public_key( location:string ) raises PackageManagers.PackageManagerSetUpError
+
 
 interface BootLoader:Object
 	def abstract install():bool
 	def abstract create_menu():bool
+
 
 interface ConfigurationDeclarationBuilder:Object
 	prop abstract readonly name:string
 	prop abstract readonly title:string
 	prop abstract readonly description:string
 	def abstract get_declaration( data:Variant ):ConfigurationDeclaration
+
 
 interface ConfigurationDeclaration:Object
 	def abstract check():bool

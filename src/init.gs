@@ -72,7 +72,7 @@ def async setup_install( parameters:Base.Parameters,
 	Timeout.add( 0, setup_install.callback )
 	yield
 	if root_filesystem.empty_at_start
-		if not install_base( parameters, root_filesystem, package_manager ) do return
+		if not install_base( parameters, root_filesystem, package_manager ) do quit()
 	else
 		message( "Root filesystem at %s not empty at start of install. Install of base skipped.", root_filesystem.path_on_host )
 

@@ -4,13 +4,14 @@ version_id=27
 architecture=x86_64
 
 [Repository]
-location=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/27/Everything/x86_64/os/
 package_manager=yum
-configuration_package=fedora-release
-public_key_location=RPM-GPG-KEY-fedora-27-primary
+location=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/27/Everything/x86_64/os/
+configured_by=PACKAGE
+configuration_source_location=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/27/Everything/x86_64/os/Packages/f/fedora-release-27-1.noarch.rpm
+public_key_location=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-27-primary
 
 [Root]
-packages=@core;nano;less;passwd
+packages=@core;nano
 
 [Kernel]
 

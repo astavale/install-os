@@ -21,8 +21,15 @@ def install_base( parameters:Base.Parameters,
 				filesystem:RootFilesystem,
 				package_manager:PackageManager
 				):bool
-	if not install_root( parameters.root_packages, package_manager ) do return false
-	kernel_package:array of string = { "kernel", "--disableplugin=presto" }
+
+	interim:EnumValue? = ((EnumClass)typeof(PackageManagers.ConfiguredBy).class_ref()).get_value_by_name( @"PACKAGE_MANAGERS_CONFIGURED_BY_$(parameters.repository_configured_by)" )
+	if interim == null
+		message( @"configured_by base parameter is '$(parameters.repository_configured_by)' and is not a value in PackageManagers.ConfiguredBy" )
+		return false
+	configured_by:PackageManagers.ConfiguredBy = (PackageManagers.ConfiguredBy)interim.value
+
+	if not install_root( package_manager, configured_by, parameters.repository_configuration_source_location, parameters.repository_public_key_location, parameters.root_packages ) do return false
+	kernel_package:array of string = { "kernel" }
 	if not install_kernel( kernel_package, package_manager, parameters, filesystem ) do return false
 
 	boot_loader:BootLoader = new BootLoaders.NoBootLoader()

@@ -25,9 +25,7 @@ namespace PackageManagers
 		_distribution:string = ""
 		_version:string = ""
 		_architecture:string = ""
-		_repo_uri:string = ""
-		_repo_package:string = ""
-		_repo_key:string = ""
+		_repo_base_uri:string = ""
 		_status:int = 1
 		_output:string = ""
 		_error:string = ""
@@ -36,23 +34,17 @@ namespace PackageManagers
 					distribution:string,
 					version:string,
 					architecture:string,
-					uri:string,
-					package:string,
-					key:string
+					uri:string
 					) raises PackageManagerSetUpError
 			_filesystem = filesystem
 			_distribution = distribution
 			_version = version
 			_architecture = architecture
-			_repo_uri = uri
-			_repo_package = package
-			_repo_key = key
+			_repo_base_uri = uri
 			try
 				this.create_db()
 			except error:PackageManagerSetUpError
 				raise error
-			this.install_repo_package()
-			this.import_key()
 
 
 		def private create_db() raises PackageManagerSetUpError
@@ -71,13 +63,18 @@ namespace PackageManagers
 				raise new PackageManagerSetUpError.FILE_ERROR( "Unable to use RPM database" )
 
 
-		def private install_repo_package() raises PackageManagerSetUpError
+		def install_repository_configuration( by:ConfiguredBy, uri:string ) raises PackageManagerSetUpError
+			if by != PACKAGE
+				raise new PackageManagerSetUpError.UNSUPPORTED_CONFIGURATION_METHOD( "YumPackageManager only supports configuration by PACKAGE" )
+			var command = @"yum install --assumeyes"
+			command += @" --installroot $(_filesystem.path_on_host)"
+			command += @" --setopt=reposdir=$(_filesystem.path_on_host)/etc/yum.repos.d/"
+			command += @" --repofrompath=install-os,$(_repo_base_uri)"
+			command += @" --releasever $(_version)"
+			command += @" $(uri)"
+			message( command )
 			try
-				Process.spawn_command_line_sync(
-					"yum install --assumeyes --installroot " + _filesystem.path_on_host + " --setopt=reposdir=" + _filesystem.path_on_host + "/etc/yum.repos.d/ --repofrompath=install-os," + _repo_uri + " --releasever " + _version + " " + _repo_package,
-					out _output,
-					out _error,
-					out _status )
+				Process.spawn_command_line_sync( command, out _output, out _error, out _status )
 			except
 				pass
 			if _status == 0
@@ -87,13 +84,18 @@ namespace PackageManagers
 				raise new PackageManagerSetUpError.FILE_ERROR( "Unable to install RPM repo files package" )
 
 
-		def private import_key() raises PackageManagerSetUpError
+		def install_repository_public_key( uri:string ) raises PackageManagerSetUpError
+			var command = @"rpm --root $(_filesystem.path_on_host)"
+			if Uri.parse_scheme( uri ) == "file"
+				try
+					command += @" --import $(_filesystem.path_on_host)$(Filename.from_uri(uri))"
+				except error:ConvertError
+					raise new PackageManagerSetUpError.FILE_ERROR ( @"$(error.message)" )
+			else
+				command += @" --import $(uri)"
+			message( command )
 			try
-				Process.spawn_command_line_sync(
-					"rpm --root " + _filesystem.path_on_host + " --import " + _filesystem.path_on_host + "/etc/pki/rpm-gpg/" + _repo_key,
-					out _output,
-					out _error,
-					out _status )
+				Process.spawn_command_line_sync( command, out _output, out _error, out _status )
 			except
 				pass
 			if _status == 0
@@ -104,21 +106,22 @@ namespace PackageManagers
 
 
 		def install_packages( package_list:array of string ):bool
-			_package_list:string = ""
 			try
+				var command_base = @"yum install --assumeyes"
+				command_base += @" --installroot $(_filesystem.path_on_host)"
+				command_base += @" --setopt=reposdir=$(_filesystem.path_on_host)/etc/yum.repos.d/"
+				command_base += @" --releasever $(_version)"
+				command:string
 				for var package in package_list
-					_package_list += package + " "
-				message( "Installing RPM packages: " + _package_list )
-				Process.spawn_command_line_sync(
-					"yum install --assumeyes --installroot " + _filesystem.path_on_host + " --setopt=reposdir=" + _filesystem.path_on_host + "/etc/yum.repos.d/ --releasever " + _version + " " + _package_list,
-					out _output,
-					out _error,
-					out _status )
+					command = @"$(command_base) $(package)"
+					message( @"Installing RPM package: $(package)" )
+					message( @"$(command)" )
+					Process.spawn_command_line_sync( command, out _output, out _error, out _status )
+					if _status == 0
+						message( "...done. RPM package " + package + " installed\n" + _output + _error )
+					else
+						message( "Unable to install package: " + package + "\n" + _error )
+						return false
 			except
 				pass
-			if _status == 0
-				message( "...done. RPM packages " + _package_list + " installed\n" + _output + _error )
-			else
-				message( "Unable to install packages: " + _package_list + "\n" + _error )
-				return false
 			return true

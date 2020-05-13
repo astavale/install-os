@@ -24,3 +24,9 @@ namespace PackageManagers
 		def install_packages( package_list:array of string ):bool
 			message( "A NoPackageManager instance cannot install packages" )
 			return false
+
+		def install_repository_configuration( by:ConfiguredBy, url:string ) raises PackageManagerSetUpError
+			pass
+
+		def install_repository_public_key( url:string ) raises PackageManagerSetUpError
+			pass

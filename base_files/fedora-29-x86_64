@@ -4,10 +4,11 @@ version_id=29
 architecture=x86_64
 
 [Repository]
-location=https://download.fedoraproject.org/pub/fedora/linux/releases/29/Everything/x86_64/os/
 package_manager=yum
-configuration_package=fedora-release
-public_key_location=RPM-GPG-KEY-fedora-29-primary
+location=https://download.fedoraproject.org/pub/fedora/linux/releases/29/Everything/x86_64/os/
+configured_by=PACKAGE
+configuration_source_location=http://ftp.tudelft.nl/download.fedora.redhat.com/linux/releases/29/Everything/x86_64/os/Packages/f/fedora-release-29-1.noarch.rpm
+public_key_location=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-29-primary
 
 [Root]
 packages=@core;nano;less;passwd
