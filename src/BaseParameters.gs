@@ -35,6 +35,7 @@ namespace Base
 		repository_public_key_location:string = ""
 
 		root_packages:array of string = { null }
+		kernel_packages:array of string = { null }
 		boot_packages:array of string = { null }
 		boot_loader:string = ""
 		boot_device:string = ""
@@ -42,6 +43,7 @@ namespace Base
 		boot_initrd_named:string = ""
 
 		configuration_paths:List of string = new List of string()
+
 
 		def parse_file( base_file:string ):bool
 
@@ -73,6 +75,10 @@ namespace Base
 				if keyfile.has_group( "Root" )
 					if keyfile.has_key( "Root", "packages" )
 						this.root_packages = keyfile.get_string_list( "Root", "packages" )
+
+				if keyfile.has_group( "Kernel" )
+					if keyfile.has_key( "Kernel", "packages" )
+						this.kernel_packages = keyfile.get_string_list( "Kernel", "packages" )
 
 				if keyfile.has_group( "Boot" )
 					if keyfile.has_key( "Boot", "packages" )

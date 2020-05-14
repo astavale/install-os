@@ -17,18 +17,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-def install_kernel( package_list:array of string,
-					package_manager:PackageManager,
+def install_kernel( package_manager:PackageManager,
 					parameters:Base.Parameters,
 					filesystem:RootFilesystem
 					):bool
 	result:bool = false
 	message( "Installing kernel..." )
-	result = package_manager.install_packages( package_list )
+	result = package_manager.install_packages( parameters.kernel_packages )
 	if result
 		message( "...done. Kernel install complete" )
 	else
 		message( "...failed. Install of kernel failed" )
+		return false
 
 	_boot:Dir
 	try

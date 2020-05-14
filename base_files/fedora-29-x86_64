@@ -14,6 +14,7 @@ public_key_location=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-29-primary
 packages=@core;nano;less;passwd
 
 [Kernel]
+packages=kernel
 
 [Boot]
 packages=grub2;

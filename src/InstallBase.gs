@@ -29,8 +29,7 @@ def install_base( parameters:Base.Parameters,
 	configured_by:PackageManagers.ConfiguredBy = (PackageManagers.ConfiguredBy)interim.value
 
 	if not install_root( package_manager, configured_by, parameters.repository_configuration_source_location, parameters.repository_public_key_location, parameters.root_packages ) do return false
-	kernel_package:array of string = { "kernel" }
-	if not install_kernel( kernel_package, package_manager, parameters, filesystem ) do return false
+	if not install_kernel( package_manager, parameters, filesystem ) do return false
 
 	boot_loader:BootLoader = new BootLoaders.NoBootLoader()
 	if not BootLoaders.use_boot_loader( parameters, filesystem, package_manager, ref boot_loader ) do return false
