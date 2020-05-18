@@ -98,10 +98,10 @@ class Configuration
 		for declaration in configuration
 			result = declaration.check()
 			if not result
-				message( "Declaration '%s' failed to validate data",
-						declaration.get_type().name()
-						)
+				message( @"Declaration \"$(declaration.get_type().name())\" failed syntax check" )
 				break
+			else
+				message( @"Syntax check of \"$(declaration.get_type().name())\" declaration passed" )
 		return result
 
 

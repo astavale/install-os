@@ -24,7 +24,7 @@ sources = []
 subdir( 'src' )
 
 sources += import( 'gnome' ).compile_resources(
-    'project-resources', 
+    'project-resources',
     'src/resources/resources.gresource.xml',
     source_dir: 'src/resources',
 )

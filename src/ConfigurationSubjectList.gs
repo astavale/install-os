@@ -34,6 +34,7 @@ class ConfigurationSubjectList
 		// Add commands available to configuration scripts below
 		temp.add( new ConfigurationBuilder() )
 		temp.add( new PackagesBuilder( _package_manager ) )
+		temp.add( new RepositoryBuilder( _package_manager ) )
 
 		_list = new TreeMap of string, ConfigurationDeclarationBuilder
 		for var subject in temp
