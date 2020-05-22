@@ -17,5 +17,5 @@ packages=@core;nano
 packages=kernel
 
 [Boot]
-packages=grub2;
+packages=grub2
 loader=grub2-bios
